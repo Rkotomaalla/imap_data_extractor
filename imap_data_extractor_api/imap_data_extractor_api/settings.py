@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+# settings.py
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +38,47 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # ... vos apps existantes
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'auth_ldap',  # Pour OpenLDAP
 ]
+
+# Backend d'authentification : LDAP en premier
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',  # Validation OpenLDAP
+    'django.contrib.auth.backends.ModelBackend',  # Fallback Django
+]
+
+# Configuration OpenLDAP (adaptez à votre serveur)
+import ldap
+from django_auth_ldap.config import LDAPSearch
+
+AUTH_LDAP_SERVER_URI = 'ldap://localhost:389'  # URL de votre OpenLDAP
+AUTH_LDAP_BIND_DN = 'cn=admin,dc=entreprise,dc=local'  # DN de bind (admin LDAP)
+AUTH_LDAP_BIND_PASSWORD = 'admin123'  # Mot de passe bind
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'dc=entreprise,dc=local',  # Base DN pour chercher les users
+    ldap.SCOPE_SUBTREE,  # Scope de recherche
+    '(uid=%(user)s)'  # Filtre : cherche par UID (username)
+)
+# Configuration DRF et JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Durée du token d'accès
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Durée du refresh token
+    'ROTATE_REFRESH_TOKENS': True,                   # Rotation des refresh tokens
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
