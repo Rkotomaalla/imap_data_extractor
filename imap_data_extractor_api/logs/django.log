@@ -1,0 +1,75 @@
+INFO 2025-11-12 21:42:53,243 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-12 21:42:57,006 log Not Found: /api/auth/login/
+INFO 2025-11-12 21:43:24,987 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\urls.py changed, reloading.
+INFO 2025-11-12 21:43:26,246 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 21:47:33,118 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 21:47:50,634 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 21:49:52,055 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 21:50:55,850 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-12 21:50:57,188 autoreload Watching for file changes with StatReloader
+ERROR 2025-11-12 21:51:00,503 log Internal Server Error: /api/auth/login/
+Traceback (most recent call last):
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py", line 63, in login_view
+    user = authenticate(request, username=username, password=password)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\debug.py", line 73, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\contrib\auth\__init__.py", line 70, in authenticate
+    for backend, backend_path in _get_backends(return_tuples=True):
+                                 ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\contrib\auth\__init__.py", line 29, in _get_backends
+    backend = load_backend(backend_path)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\contrib\auth\__init__.py", line 23, in load_backend
+    return import_string(path)()
+           ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\utils\module_loading.py", line 30, in import_string
+    return cached_import(module_path, class_name)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\utils\module_loading.py", line 15, in cached_import
+    module = import_module(module_path)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 762, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\backends.py", line 4, in <module>
+    from .ldap_service import LDAPService
+ModuleNotFoundError: No module named 'authentication.ldap_service'
+INFO 2025-11-12 21:51:27,210 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-12 21:51:27,210 ldap_service Recherche utilisateur: (uid=kiady)
+WARNING 2025-11-12 21:51:27,215 ldap_service Utilisateur non trouvé: kiady
+WARNING 2025-11-12 21:51:27,215 backends Échec authentification LDAP pour: kiady
+WARNING 2025-11-12 21:51:27,462 views Échec de connexion pour: kiady
+WARNING 2025-11-12 21:51:27,462 log Unauthorized: /api/auth/login/
+INFO 2025-11-12 22:03:44,306 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-12 22:03:44,306 ldap_service Recherche utilisateur: (uid=mmartin)
+INFO 2025-11-12 22:03:44,311 ldap_service Utilisateur trouvé: uid=mmartin,ou=users,dc=entreprise,dc=local
+INFO 2025-11-12 22:03:44,365 ldap_service Authentification réussie pour: mmartin
+ERROR 2025-11-12 22:03:44,368 ldap_service Erreur lors de la récupération des rôles: LDAPNoSuchObjectResult - 32 - noSuchObject - None - None - searchResDone - None
+ERROR 2025-11-12 22:03:44,373 backends Erreur lors de la synchronisation utilisateur: Invalid field name(s) for model LDAPUser: 'ldap_dn'.
+WARNING 2025-11-12 22:03:45,060 views Échec de connexion pour: mmartin
+WARNING 2025-11-12 22:03:45,061 log Unauthorized: /api/auth/login/
+INFO 2025-11-13 08:12:47,565 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-13 08:12:49,849 autoreload Watching for file changes with StatReloader
