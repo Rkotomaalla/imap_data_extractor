@@ -188,7 +188,7 @@ def logout_view(request):
                 token.blacklist()
                 logger.info(f"Refresh token blacklisté pour: {username}")
             except Exception as e:
-                logger.warning("Erreur lors du blacklist du refresh token: {e}")
+                logger.warning(f"Erreur lors du blacklist du refresh token: {e}")
                 
         # Déconnexion de la session Django (si utilisée en parallèle)
         logout(request)

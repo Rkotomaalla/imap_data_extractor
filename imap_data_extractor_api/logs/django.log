@@ -606,3 +606,68 @@ INFO 2025-11-13 11:19:59,117 autoreload Watching for file changes with StatReloa
 INFO 2025-11-13 11:19:59,849 views Tentative de déconnexion JWT pour: jdupont
 WARNING 2025-11-13 11:19:59,854 views Erreur lors du blacklist du refresh token: {e}
 INFO 2025-11-13 11:19:59,868 views Déconnexion JWT réussie pour: jdupont
+INFO 2025-11-13 11:20:03,149 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-13 11:20:03,150 ldap_service Recherche utilisateur: (uid=jdupont)
+INFO 2025-11-13 11:20:03,154 ldap_service Utilisateur trouvé: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 11:20:03,184 ldap_service Authentification réussie pour: jdupont
+DEBUG 2025-11-13 11:20:03,185 ldap_service Recherche des rôles pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+DEBUG 2025-11-13 11:20:03,185 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-13 11:20:03,186 ldap_service Filtre: (member=uid=jdupont,ou=users,dc=entreprise,dc=local)
+DEBUG 2025-11-13 11:20:03,186 ldap_service Connexion bound: True
+DEBUG 2025-11-13 11:20:03,189 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-13 11:20:03,193 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 11:20:03,246 backends Utilisateur Django mis à jour: jdupont
+INFO 2025-11-13 11:20:03,265 views Connexion réussie pour: jdupont
+INFO 2025-11-13 11:21:55,322 views Tentative de déconnexion JWT pour: jdupont
+WARNING 2025-11-13 11:21:55,323 views Erreur lors du blacklist du refresh token: {e}
+INFO 2025-11-13 11:21:55,329 views Déconnexion JWT réussie pour: jdupont
+INFO 2025-11-13 14:11:48,529 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-13 14:11:51,299 autoreload Watching for file changes with StatReloader
+INFO 2025-11-13 14:12:13,940 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-13 14:12:15,625 autoreload Watching for file changes with StatReloader
+INFO 2025-11-13 14:12:20,116 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-13 14:12:21,199 autoreload Watching for file changes with StatReloader
+INFO 2025-11-13 14:12:34,803 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-13 14:12:34,803 ldap_service Recherche utilisateur: (uid=jdupont)
+INFO 2025-11-13 14:12:34,805 ldap_service Utilisateur trouvé: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 14:12:34,829 ldap_service Authentification réussie pour: jdupont
+DEBUG 2025-11-13 14:12:34,829 ldap_service Recherche des rôles pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+DEBUG 2025-11-13 14:12:34,829 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-13 14:12:34,829 ldap_service Filtre: (member=uid=jdupont,ou=users,dc=entreprise,dc=local)
+DEBUG 2025-11-13 14:12:34,829 ldap_service Connexion bound: True
+DEBUG 2025-11-13 14:12:34,830 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-13 14:12:34,832 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 14:12:34,957 backends Utilisateur Django mis à jour: jdupont
+INFO 2025-11-13 14:12:34,980 views Connexion réussie pour: jdupont
+WARNING 2025-11-13 14:12:39,429 log Unauthorized: /api/auth/logout/
+INFO 2025-11-13 14:12:53,353 views Tentative de déconnexion JWT pour: jdupont
+WARNING 2025-11-13 14:12:53,354 views Erreur lors du blacklist du refresh token: Token is blacklisted
+INFO 2025-11-13 14:12:53,359 views Déconnexion JWT réussie pour: jdupont
+INFO 2025-11-13 14:13:16,702 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-13 14:13:16,703 ldap_service Recherche utilisateur: (uid=jdupont)
+INFO 2025-11-13 14:13:16,705 ldap_service Utilisateur trouvé: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 14:13:16,747 ldap_service Authentification réussie pour: jdupont
+DEBUG 2025-11-13 14:13:16,747 ldap_service Recherche des rôles pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+DEBUG 2025-11-13 14:13:16,747 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-13 14:13:16,747 ldap_service Filtre: (member=uid=jdupont,ou=users,dc=entreprise,dc=local)
+DEBUG 2025-11-13 14:13:16,747 ldap_service Connexion bound: True
+DEBUG 2025-11-13 14:13:16,748 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-13 14:13:16,750 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 14:13:16,765 backends Utilisateur Django mis à jour: jdupont
+INFO 2025-11-13 14:13:16,777 views Connexion réussie pour: jdupont
+INFO 2025-11-13 14:13:56,788 views Tentative de déconnexion JWT pour: jdupont
+INFO 2025-11-13 14:13:56,799 views Refresh token blacklisté pour: jdupont
+INFO 2025-11-13 14:13:56,803 views Déconnexion JWT réussie pour: jdupont
+INFO 2025-11-13 15:17:28,207 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-13 15:17:28,208 ldap_service Recherche utilisateur: (uid=jdupont)
+INFO 2025-11-13 15:17:28,215 ldap_service Utilisateur trouvé: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 15:17:28,273 ldap_service Authentification réussie pour: jdupont
+DEBUG 2025-11-13 15:17:28,273 ldap_service Recherche des rôles pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+DEBUG 2025-11-13 15:17:28,273 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-13 15:17:28,274 ldap_service Filtre: (member=uid=jdupont,ou=users,dc=entreprise,dc=local)
+DEBUG 2025-11-13 15:17:28,274 ldap_service Connexion bound: True
+DEBUG 2025-11-13 15:17:28,276 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-13 15:17:28,279 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 15:17:28,310 backends Utilisateur Django mis à jour: jdupont
+INFO 2025-11-13 15:17:28,346 views Connexion réussie pour: jdupont
+WARNING 2025-11-13 15:20:01,732 log Unauthorized: /api/auth/logout/
