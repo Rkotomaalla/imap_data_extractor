@@ -2,6 +2,7 @@ import logging
 from ldap3 import Server, Connection, ALL, SUBTREE
 from ldap3.core.exceptions import LDAPException, LDAPBindError
 from ldap3.utils.dn import escape_rdn
+from ldap3.utils.conv import escape_filter_chars
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -82,8 +83,7 @@ class LDAPService:
             user_dn = user_entry.entry_dn
             logger.info(f"Utilisateur trouvé: {user_dn}")
             
-            # 3. Fermer la connexion admin
-            admin_conn.unbind()
+
             # 4. Tenter la connexion avec les credentials utilisateur
             user_conn = Connection(
                 self.server,
@@ -104,8 +104,10 @@ class LDAPService:
                 'full_name': user_entry.cn.value if hasattr(user_entry, 'cn') else '',
             }
              # 6. Récupérer les rôles
-            user_info['roles'] = self.get_user_roles(user_conn, user_dn)
+            user_info['roles'] = self.get_user_roles(admin_conn, user_dn)
             
+            # 3. Fermer la connexion admin
+            admin_conn.unbind()
             user_conn.unbind()
             
             return user_info
@@ -135,24 +137,44 @@ class LDAPService:
             logger.error("Connexion LDAP non active")
             return []
         try:
-            safe_dn = escape_rdn(user_dn)
+            # Échapper le DN pour le filtre LDAP
+            escaped_dn = escape_filter_chars(user_dn)
+
+            logger.debug(f"Recherche des rôles pour: {user_dn}")
+            logger.debug(f"Base: {self.config['ROLE_BASE']}")
+            logger.debug(f"Filtre: (member={escaped_dn})")
+            
+            logger.debug(f"Connexion bound: {conn.bound}")
+            logger.debug(f"Utilisateur connecté: {conn.extend.standard.who_am_i()}")
+            
             success = conn.search(
                 search_base=self.config['ROLE_BASE'],
-                search_filter=f'(member={safe_dn})',
+                search_filter=f'(member={escaped_dn})',
                 search_scope=SUBTREE,
                 attributes=['cn', 'description']
             )
+            logger.debug(f"Recherche des rôles etablies  pour: {user_dn}")
+            
             if not success:
                 logger.debug(f"Aucun rôle trouvé pour: {user_dn}")
                 return []
-            roles = [
-                {
-                    'name': entry.cn.value,
-                    'description': entry.description.value if hasattr(entry, 'description') else ''
-                }
-                for entry in conn.entries if hasattr(entry, 'cn')
-            ]
-            logger.info(f"Trouvé {len(roles)} rôle(s) pour {user_dn}")
+            
+            if len(conn.entries) == 0:
+                logger.info(f"ℹ️ Recherche réussie mais 0 groupe trouvé pour: {user_dn}")
+                return []
+            
+            # Extraire les rôles
+            roles = []
+            for entry in conn.entries:
+                if hasattr(entry, 'cn'):
+                    role = {
+                        'name': entry.cn.value,
+                        'description': entry.description.value if hasattr(entry, 'description') else ''
+                    }
+                    roles.append(role)
+                    logger.debug(f"  ✓ Rôle trouvé: {role['name']} - {role['description']}")
+            
+            logger.info(f"✅ Trouvé {len(roles)} rôle(s) pour {user_dn}")
             return roles
         
         

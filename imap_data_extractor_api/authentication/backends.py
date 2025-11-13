@@ -2,7 +2,7 @@ import logging
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth import get_user_model
 from .services.ldap_service import LDAPService
-
+from django.db import IntegrityError
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
@@ -24,6 +24,7 @@ class LDAPAuthenticationBackend(BaseBackend):
         """
         
         if not username or not password:
+            logger.warning("Username ou password manquant")
             return None
         
         # Authentifier via LDAP
@@ -35,28 +36,37 @@ class LDAPAuthenticationBackend(BaseBackend):
             return None
         # Synchroniser avec Django
         try:
+            # Préparer les données utilisateur
+            user_data = {
+                'email': ldap_user_info.get('email', ''),
+                'first_name': ldap_user_info.get('first_name', ''),
+                'last_name': ldap_user_info.get('last_name', ''),
+            }
+            # Ajouter les champs LDAP seulement s'ils existent dans le modèle
+            if hasattr(User, 'ldap_dn'):
+                user_data['ldap_dn'] = ldap_user_info.get('dn', '')
+            
+            if hasattr(User, 'ldap_roles'):
+                user_data['ldap_roles'] = ldap_user_info.get('roles', [])
+                
+            # Créer ou récupérer l'utilisateur
             user, created = User.objects.get_or_create(
                 username=username,
-                defaults={
-                    'email': ldap_user_info.get('email', ''),
-                    'first_name': ldap_user_info.get('first_name', ''),
-                    'last_name': ldap_user_info.get('last_name', ''),
-                    'ldap_dn': ldap_user_info.get('dn', ''),
-                    'ldap_roles': ldap_user_info.get('roles', []),
-                }
+                defaults=user_data
             )
+            
             if not created:
-                # Mettre à jour les informations
-                user.email = ldap_user_info.get('email', user.email)
-                user.first_name = ldap_user_info.get('first_name', user.first_name)
-                user.last_name = ldap_user_info.get('last_name', user.last_name)
-                user.ldap_dn = ldap_user_info.get('dn', user.ldap_dn)
-                user.ldap_roles = ldap_user_info.get('roles', [])
+                # Mettre à jour les informations existantes
+                for field, value in user_data.items():
+                    setattr(user, field, value)
                 user.save()
             
             logger.info(f"Utilisateur Django {'créé' if created else 'mis à jour'}: {username}")
             return user
-            
+        
+        except IntegrityError as e:
+            logger.error(f"❌ Erreur d'intégrité DB pour {username}: {e}")
+            return None
         except Exception as e:
             logger.error(f"Erreur lors de la synchronisation utilisateur: {e}")
             return None
@@ -68,5 +78,6 @@ class LDAPAuthenticationBackend(BaseBackend):
         try:
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
+            logger.debug(f"Utilisateur {user_id} introuvable")
             return None
     

@@ -1,8 +1,50 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 User = get_user_model()
 
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Serializer JWT personnalisé pour inclure les infos LDAP.
+    """    
+    @classmethod
+    def get_token(cls, user):
+        """
+        Ajoute des claims personnalisés au token.
+        """
+        token  = super().get_token(user)
+        
+         # Claims standards
+        token['username'] = user.username
+        token['email'] = user.email
+        token['first_name'] = user.first_name
+        token['last_name'] = user.last_name
+        
+        # Claims LDAP spécifiques
+        token['ldap_dn'] = user.ldap_dn if hasattr(user, 'ldap_dn') else ''
+        
+        # Rôles LDAP
+        if hasattr(user, 'ldap_roles'):
+            token['roles'] = [role.get('name') for role in user.ldap_roles]
+        else:
+            token['roles'] = []
+        
+        return token
+
+    def validate(self, attrs):
+        """
+         Validation personnalisée avec authentification LDAP.
+        """
+        data =  super().validate(attrs)
+        
+        # Ajouter les informations utilisateur dans la réponse
+        data['user'] = UserSerializer(self.user).data
+        
+        return data
+    
+    
+    
 class LoginSerializer(serializers.Serializer):
     """Serializer pour la requête de login"""
     username = serializers.CharField(
@@ -60,4 +102,7 @@ class LoginResponseSerializer(serializers.Serializer):
     success = serializers.BooleanField()
     message = serializers.CharField()
     user = UserSerializer(required=False)
-    session_id = serializers.CharField(required=False)
+    access = serializers.CharField(help_text="JWT Access Token (15 min)")
+    refresh = serializers.CharField(help_text="JWT Refresh Token (7 jours)")
+    
+    

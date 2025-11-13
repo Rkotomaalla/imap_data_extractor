@@ -50,8 +50,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     
+    # pour les JWT
+    # ...
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',  # Pour le logout
     # Local
     'authentication',
+    
+
+
 ]
 
 # Backend d'authentification : LDAP en premier
@@ -76,6 +83,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',         # Fallback pour admin
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',   
@@ -150,9 +158,26 @@ LOGGING = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Durée du token d'accès
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Durée du refresh token
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Durée du token d'accès
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Durée du refresh token
+    
     'ROTATE_REFRESH_TOKENS': True,                   # Rotation des refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,                    # Blacklist l'ancien refresh token
+
+    # Algorithme de signature
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    
+    # Headers
+    'AUTH_HEADER_TYPES': ('Bearer',),                    # Authorization: Bearer <token>
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    
+    # Claims personnalisés
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    
+    # Informations à inclure dans le token
+    'TOKEN_OBTAIN_SERIALIZER': 'authentication.serializers.CustomTokenObtainPairSerializer',
 }
 
 MIDDLEWARE = [
