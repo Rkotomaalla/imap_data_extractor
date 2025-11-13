@@ -9,24 +9,32 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+# settings.py
+import os
 from pathlib import Path
-
+from datetime import timedelta
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+rvpwf)+2y%4+py334pv(sm7fbl(*qi&^n4cw9ez*i81pc*60c'
+SECRET_KEY = config('SECRET_KEY',default='django-insecure-+rvpwf)+2y%4+py334pv(sm7fbl(*qi&^n4cw9ez*i81pc*60c')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = ['localhost', '127.0.0.1' ]
+
+AUTHENTICATION_BACKENDS = [
+    'authentication.backends.LDAPAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Fallback pour admin Django
+]
 
 # Application definition
 
@@ -37,7 +45,140 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third party
+    'rest_framework',
+    'corsheaders',
+    
+    # pour les JWT
+    # ...
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',  # Pour le logout
+    # Local
+    'authentication',
+    
+
+
 ]
+
+# Backend d'authentification : LDAP en premier
+# AUTHENTICATION_BACKENDS = [
+#     'django_auth_ldap.backend.LDAPBackend',  # Validation OpenLDAP
+#     'django.contrib.auth.backends.ModelBackend',  # Fallback Django
+# ]
+
+# Configuration OpenLDAP (adaptez à votre serveur)
+
+# from django_auth_ldap.config import LDAPSearch
+
+# AUTH_LDAP_SERVER_URI = 'ldap://localhost:389'  # URL de votre OpenLDAP
+# AUTH_LDAP_BIND_DN = 'cn=admin,dc=entreprise,dc=local'  # DN de bind (admin LDAP)
+# AUTH_LDAP_BIND_PASSWORD = 'admin123'  # Mot de passe bind
+# AUTH_LDAP_USER_SEARCH = LDAPSearch(
+#     'dc=entreprise,dc=local',  # Base DN pour chercher les users
+#     ldap.SCOPE_SUBTREE,  # Scope de recherche
+#     '(uid=%(user)s)'  # Filtre : cherche par UID (username)
+# )
+# Configuration DRF et JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',         # Fallback pour admin
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',   
+        # 'rest_framework.permissions.AllowAny',
+    ],
+     'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+}
+
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+AUTH_USER_MODEL = 'authentication.LDAPUser'
+
+# LDAP Configuration
+LDAP_CONFIG = {
+    'SERVER': config('LDAP_SERVER', default='ldap://localhost:389'),
+    'BIND_DN': config('LDAP_BIND_DN', default='cn=admin,dc=entreprise,dc=local'),
+    'BIND_PASSWORD': config('LDAP_BIND_PASSWORD', default='admin123'),
+    'USER_BASE': config('LDAP_USER_BASE', default='ou=users,dc=entreprise,dc=local'),
+    'ROLE_BASE': config('LDAP_ROLE_BASE', default='ou=roles,dc=entreprise,dc=local'),
+    'USER_FILTER': '(uid={username})',
+    'TIMEOUT': 10,
+    'USE_SSL': False,
+}
+
+
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs/django.log',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'authentication': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Durée du token d'accès
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Durée du refresh token
+    
+    'ROTATE_REFRESH_TOKENS': True,                   # Rotation des refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,                    # Blacklist l'ancien refresh token
+
+    # Algorithme de signature
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    
+    # Headers
+    'AUTH_HEADER_TYPES': ('Bearer',),                    # Authorization: Bearer <token>
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    
+    # Claims personnalisés
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    
+    # Informations à inclure dans le token
+    'TOKEN_OBTAIN_SERIALIZER': 'authentication.serializers.CustomTokenObtainPairSerializer',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
