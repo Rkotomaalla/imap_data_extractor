@@ -66,6 +66,7 @@ class LDAPService:
             return None
         
         try:
+            # ON peut modifier si on veut rechercher a partir de l email ou autre
             search_filter= self.config['USER_FILTER'].format(username=safe_username)
             logger.debug(f"Recherche utilisateur: {search_filter}")
             

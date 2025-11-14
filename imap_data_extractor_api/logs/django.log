@@ -671,3 +671,32 @@ DEBUG 2025-11-13 15:17:28,279 ldap_service Recherche des rôles etablies  pour: u
 INFO 2025-11-13 15:17:28,310 backends Utilisateur Django mis à jour: jdupont
 INFO 2025-11-13 15:17:28,346 views Connexion réussie pour: jdupont
 WARNING 2025-11-13 15:20:01,732 log Unauthorized: /api/auth/logout/
+INFO 2025-11-13 15:51:39,509 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\settings.py changed, reloading.
+INFO 2025-11-13 15:57:30,679 autoreload Watching for file changes with StatReloader
+INFO 2025-11-13 16:06:54,386 autoreload Watching for file changes with StatReloader
+ERROR 2025-11-13 16:07:03,452 log Internal Server Error: /api/auth/login
+Traceback (most recent call last):
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\utils\deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\middleware\common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 10.200.222.36:8000/api/auth/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+INFO 2025-11-13 16:07:18,589 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-13 16:07:18,589 ldap_service Recherche utilisateur: (uid=jdupont)
+INFO 2025-11-13 16:07:18,595 ldap_service Utilisateur trouvé: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 16:07:18,625 ldap_service Authentification réussie pour: jdupont
+DEBUG 2025-11-13 16:07:18,626 ldap_service Recherche des rôles pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+DEBUG 2025-11-13 16:07:18,626 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-13 16:07:18,626 ldap_service Filtre: (member=uid=jdupont,ou=users,dc=entreprise,dc=local)
+DEBUG 2025-11-13 16:07:18,626 ldap_service Connexion bound: True
+DEBUG 2025-11-13 16:07:18,628 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-13 16:07:18,632 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-13 16:07:18,792 backends Utilisateur Django mis à jour: jdupont
+INFO 2025-11-13 16:07:18,835 views Connexion réussie pour: jdupont
