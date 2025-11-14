@@ -42,50 +42,57 @@ class LDAPService:
             logger.error(f"Erreur LDAP lors de la connexion admin: {e}")
             return None
         
-    def authenticate_user(self,username,password):
+        
+    def authenticate_user(self,email,password):
         """
-        Authentifie un utilisateur via LDAP.
+        Authentifie un utilisateur via LDAP en utilisant son EMAIL.
         
         Args:
-            username: Nom d'utilisateur
+            email: Adresse email de l'utilisateur
             password: Mot de passe
             
         Returns:
             dict: Informations utilisateur si authentifié, None sinon
         """
-        if not username or not password:
-            logger.warning("Nom d'utilisateur ou mot de passe vide.")
+        if not email or not password:
+            logger.warning("Email ou mot de passe vide.")
             return None
         
-        # Échapper le username pour éviter l'injection LDAP
-        safe_username = escape_rdn(username)
+        # Échapper l'email pour éviter l'injection LDAP
+        email=email.strip().lower()
+        safe_email = escape_filter_chars(email)
         
-    # 1. Connexion admin pour rechercher l'utilisateur
         admin_conn = self.get_admin_connection()
         if not admin_conn:
             return None
         
         try:
-            # ON peut modifier si on veut rechercher a partir de l email ou autre
-            search_filter= self.config['USER_FILTER'].format(username=safe_username)
-            logger.debug(f"Recherche utilisateur: {search_filter}")
+            search_filter=f'(mail={safe_email})'
+            logger.debug(f"Recherche utilisateur par email: {search_filter}")
             
-            success= admin_conn.search(
+            success = admin_conn.search(
                 search_base=self.config['USER_BASE'],
                 search_filter=search_filter,
                 search_scope=SUBTREE,
                 attributes=['uid', 'cn', 'mail', 'givenName', 'sn']
             )
+            
             if not success or len(admin_conn.entries) == 0:
-                logger.warning(f"Utilisateur non trouvé: {username}")
+                logger.warning(f"⚠️ Utilisateur non trouvé avec l'email: {email}")
                 admin_conn.unbind()
                 return None
+            
+            # Vérifier qu'il n'y a qu'un seul utilisateur avec cet email
+            if len(admin_conn.entries) > 1:
+                logger.error(f"❌ Plusieurs utilisateurs trouvés avec l'email: {email}")
+                admin_conn.unbind()
+                return None
+            
             user_entry = admin_conn.entries[0]
             user_dn = user_entry.entry_dn
             logger.info(f"Utilisateur trouvé: {user_dn}")
             
-
-            # 4. Tenter la connexion avec les credentials utilisateur
+             # 4. Tenter la connexion avec les credentials utilisateur
             user_conn = Connection(
                 self.server,
                 user=user_dn,
@@ -93,17 +100,17 @@ class LDAPService:
                 auto_bind=True,
                 raise_exceptions=True
             )
-            logger.info(f"Authentification réussie pour: {username}")
-            
-             # 5. Extraire les informations utilisateur
+            logger.info(f"Authentification réussie pour: {email}")
+              # 5. Extraire les informations utilisateur
             user_info = {
-                'username': user_entry.uid.value if hasattr(user_entry, 'uid') else username,
+                'username': user_entry.uid.value if hasattr(user_entry, 'uid') else None,
                 'dn': user_dn,
-                'email': user_entry.mail.value if hasattr(user_entry, 'mail') else None,
+                'email': user_entry.mail.value if hasattr(user_entry, 'mail') else email,
                 'first_name': user_entry.givenName.value if hasattr(user_entry, 'givenName') else '',
                 'last_name': user_entry.sn.value if hasattr(user_entry, 'sn') else '',
                 'full_name': user_entry.cn.value if hasattr(user_entry, 'cn') else '',
             }
+            
              # 6. Récupérer les rôles
             user_info['roles'] = self.get_user_roles(admin_conn, user_dn)
             
@@ -113,7 +120,7 @@ class LDAPService:
             
             return user_info
         except LDAPBindError:
-            logger.warning(f"Mot de passe incorrect pour: {username}")
+            logger.warning(f"Mot de passe incorrect pour: {email}")
             return None
         except LDAPException as e:
             logger.error(f"Erreur LDAP lors de l'authentification: {e}")
@@ -121,7 +128,6 @@ class LDAPService:
         finally:
             if admin_conn.bound:
                 admin_conn.unbind()
-                
                 
     def get_user_roles(self,conn, user_dn):
         """
