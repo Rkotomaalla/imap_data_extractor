@@ -18,12 +18,22 @@ class LDAPUser(AbstractUser):
         verbose_name="Distinguished Name LDAP",
         help_text="DN complet de l'utilisateur dans LDAP"
     )
+    # Ajout du role indice 0 
+    ldap_role = models.CharField(    
+        max_length=255,
+        unique=True,
+        blank=True,
+        null=True,
+        verbose_name="Role LDAP",
+        help_text="Le role d un utilisateur dans ldap"
+    )
+    
     
     ldap_roles = models.JSONField(
         default=list,
         blank=True,
         verbose_name="Rôles LDAP",
-        help_text="Liste des rôles récupérés depuis LDAP"
+        help_text="role récupérés depuis LDAP"
     )
     
     ldap_cn=models.CharField(        

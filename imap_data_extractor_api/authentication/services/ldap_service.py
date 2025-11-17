@@ -108,7 +108,7 @@ class LDAPService:
                 'email': user_entry.mail.value if hasattr(user_entry, 'mail') else email,
                 'first_name': user_entry.givenName.value if hasattr(user_entry, 'givenName') else '',
                 'last_name': user_entry.sn.value if hasattr(user_entry, 'sn') else '',
-                'full_name': user_entry.cn.value if hasattr(user_entry, 'cn') else '',
+                'full_name': user_entry.cn.value if hasattr(user_entry, 'cn') else '',  
             }
             
              # 6. Récupérer les rôles

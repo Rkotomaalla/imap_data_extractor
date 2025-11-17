@@ -102,6 +102,11 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'date_joined', 'last_ldap_sync']
 
+# fonction de get Role[0]
+    def get_role(self,obj):
+        """Retourne le rôle LDAP indice 0"""
+        return obj.ldap_role if hasattr(obj, 'ldap_role') else ''
+    
     def get_roles(self, obj):
         """Retourne les rôles LDAP"""
         return obj.ldap_roles if hasattr(obj, 'ldap_roles') else []
