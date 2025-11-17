@@ -700,3 +700,101 @@ DEBUG 2025-11-13 16:07:18,628 ldap_service Utilisateur connecté: dn:cn=admin,dc=
 DEBUG 2025-11-13 16:07:18,632 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
 INFO 2025-11-13 16:07:18,792 backends Utilisateur Django mis à jour: jdupont
 INFO 2025-11-13 16:07:18,835 views Connexion réussie pour: jdupont
+INFO 2025-11-14 11:32:26,310 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-14 11:33:15,315 log Forbidden: /api/auth/login/
+WARNING 2025-11-14 11:33:20,828 log Unauthorized: /api/auth/logout/
+ERROR 2025-11-14 11:33:40,873 ldap_service Erreur LDAP lors de la connexion admin: ('unable to open socket', [(LDAPSocketOpenError('socket connection error while opening: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'), ('::1', 389, 0, 0)), (LDAPSocketOpenError('socket connection error while opening: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'), ('127.0.0.1', 389))])
+WARNING 2025-11-14 11:33:40,874 backends Échec authentification LDAP pour: jdupont@entreprise.local
+WARNING 2025-11-14 11:33:40,874 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-14 11:33:40,875 log Unauthorized: /api/auth/login/
+INFO 2025-11-14 11:34:20,795 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-14 11:34:20,797 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-14 11:34:20,806 ldap_service Utilisateur trouvé: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-14 11:34:20,848 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-14 11:34:20,849 ldap_service Recherche des rôles pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+DEBUG 2025-11-14 11:34:20,849 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-14 11:34:20,849 ldap_service Filtre: (member=uid=jdupont,ou=users,dc=entreprise,dc=local)
+DEBUG 2025-11-14 11:34:20,850 ldap_service Connexion bound: True
+DEBUG 2025-11-14 11:34:20,853 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-14 11:34:20,856 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=users,dc=entreprise,dc=local
+INFO 2025-11-14 11:34:21,333 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-14 11:34:21,366 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-14 11:34:57,380 views Tentative de déconnexion JWT pour: jdupont
+INFO 2025-11-14 11:34:57,391 views Refresh token blacklisté pour: jdupont
+INFO 2025-11-14 11:34:57,400 views Déconnexion JWT réussie pour: jdupont
+INFO 2025-11-17 08:52:56,955 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 08:54:42,741 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 08:54:42,742 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 08:54:42,744 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 08:54:42,790 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 08:54:42,790 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:54:42,791 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:54:42,791 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 08:54:42,791 ldap_service Connexion bound: True
+DEBUG 2025-11-17 08:54:42,793 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:54:42,795 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:54:42,796 ldap_service Aucun rôle trouvé pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+ERROR 2025-11-17 08:54:43,441 log Internal Server Error: /user/login/
+Traceback (most recent call last):
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py", line 85, in login_view
+    user = authenticate(request, email=email, password=password)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\debug.py", line 73, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\contrib\auth\__init__.py", line 79, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\backends.py", line 34, in authenticate
+    ldap_user_info = ldap_service.authenticate_user(email, password)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py", line 118, in authenticate_user
+    user_info['department'] =  self.get_user_department(admin_conn,user_dn)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LDAPService' object has no attribute 'get_user_department'
+INFO 2025-11-17 08:55:04,307 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-17 08:55:05,798 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 08:55:06,584 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 08:55:06,586 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 08:55:06,591 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 08:55:06,640 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 08:55:06,641 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:55:06,641 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:55:06,642 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 08:55:06,642 ldap_service Connexion bound: True
+DEBUG 2025-11-17 08:55:06,645 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:55:06,648 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:55:06,649 ldap_service Aucun rôle trouvé pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 08:55:06,666 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-17 08:55:06,728 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-17 08:57:17,096 views Tentative de déconnexion JWT pour: jdupont
+WARNING 2025-11-17 08:57:17,099 views Erreur lors du blacklist du refresh token: Token is blacklisted
+INFO 2025-11-17 08:57:17,105 views Déconnexion JWT réussie pour: jdupont
+INFO 2025-11-17 08:57:20,700 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 08:57:20,700 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 08:57:20,704 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 08:57:20,768 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 08:57:20,769 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:57:20,769 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:57:20,770 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 08:57:20,770 ldap_service Connexion bound: True
+DEBUG 2025-11-17 08:57:20,772 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-17 08:57:20,776 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 08:57:20,878 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-17 08:57:20,903 views Connexion réussie pour: jdupont@entreprise.local

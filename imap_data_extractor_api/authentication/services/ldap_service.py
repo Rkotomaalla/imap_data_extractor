@@ -114,6 +114,8 @@ class LDAPService:
              # 6. Récupérer les rôles
             user_info['roles'] = self.get_user_roles(admin_conn, user_dn)
             
+            
+            # user_info['department'] =  self.get_user_department(admin_conn,user_dn)
             # 3. Fermer la connexion admin
             admin_conn.unbind()
             user_conn.unbind()
