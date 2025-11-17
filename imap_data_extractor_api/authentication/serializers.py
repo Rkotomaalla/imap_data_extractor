@@ -47,11 +47,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     
 class LoginSerializer(serializers.Serializer):
     """Serializer pour la requête de login"""
-    username = serializers.CharField(
-        max_length=150,
+    email = serializers.EmailField(
         required=True,
-        help_text="Nom d'utilisateur LDAP"
+        help_text="Adresse email de l'utilisateur LDAP"
     )
+    # username = serializers.CharField(
+    #     max_length=150,
+    #     required=True,
+    #     help_text="Nom d'utilisateur LDAP"
+    # )
     password = serializers.CharField(
         max_length=128,
         required=True,
@@ -60,11 +64,17 @@ class LoginSerializer(serializers.Serializer):
         help_text="Mot de passe LDAP"
     )
     
-    def validate_username(self, value):
-        """Validation du username"""
-        if not value.strip():
-            raise serializers.ValidationError("Le username ne peut pas être vide")
-        return value.strip()
+    def validate_email(self, value):
+        """Validation par Email"""
+        if not value or not value.strip():
+            raise serializers.ValidationError("L'email ne peut pas être vide")
+        # Normaliser l'email (minuscules)
+        return value.strip().lower()
+    # def validate_username(self, value):
+    #     """Validation du username"""
+    #     if not value.strip():
+    #         raise serializers.ValidationError("Le username ne peut pas être vide")
+    #     return value.strip()
     
     def validate_password(self, value):
         """Validation du password"""

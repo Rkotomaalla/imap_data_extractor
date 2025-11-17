@@ -10,7 +10,7 @@ class LDAPAuthenticationBackend(BaseBackend):
     """
     Backend d'authentification personnalisé utilisant LDAP.
     """
-    def authenticate(self, request, username=None, password=None, **kwargs):
+    def authenticate(self, request,email=None,password=None, **kwargs):
         """
         Authentifie un utilisateur via LDAP et synchronise avec Django.
         
@@ -23,16 +23,18 @@ class LDAPAuthenticationBackend(BaseBackend):
             User: Instance utilisateur Django ou None
         """
         
-        if not username or not password:
+        ldap_service = LDAPService()
+        
+        if not email or not password:
             logger.warning("Username ou password manquant")
             return None
         
         # Authentifier via LDAP
         ldap_service = LDAPService()
-        ldap_user_info = ldap_service.authenticate_user(username, password)
+        ldap_user_info = ldap_service.authenticate_user(email, password)
         
         if not ldap_user_info:
-            logger.warning(f"Échec authentification LDAP pour: {username}")
+            logger.warning(f"Échec authentification LDAP pour: {email}")
             return None
         # Synchroniser avec Django
         try:
@@ -51,7 +53,7 @@ class LDAPAuthenticationBackend(BaseBackend):
                 
             # Créer ou récupérer l'utilisateur
             user, created = User.objects.get_or_create(
-                username=username,
+                username=ldap_user_info['username'],
                 defaults=user_data
             )
             
@@ -61,11 +63,11 @@ class LDAPAuthenticationBackend(BaseBackend):
                     setattr(user, field, value)
                 user.save()
             
-            logger.info(f"Utilisateur Django {'créé' if created else 'mis à jour'}: {username}")
+            logger.info(f"Utilisateur Django {'créé' if created else 'mis à jour'}: {email}")
             return user
         
         except IntegrityError as e:
-            logger.error(f"❌ Erreur d'intégrité DB pour {username}: {e}")
+            logger.error(f"❌ Erreur d'intégrité DB pour {email}: {e}")
             return None
         except Exception as e:
             logger.error(f"Erreur lors de la synchronisation utilisateur: {e}")

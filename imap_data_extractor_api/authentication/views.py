@@ -78,21 +78,21 @@ def login_view(request):
                 'message': 'Données invalides',
                 'errors': serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
-        username = serializer.validated_data['username']
+        email = serializer.validated_data['email']
         password = serializer.validated_data['password']
         
         # Authentification via LDAP (utilise votre LDAPAuthenticationBackend)
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         if user is None:
-            logger.warning(f"Échec de connexion pour: {username}")
+            logger.warning(f"Échec de connexion pour: {email}")
             return Response({
                 'success': False,
                 'message': 'Identifiants incorrects'
             }, status=status.HTTP_401_UNAUTHORIZED)
         
         if not user.is_active:
-            logger.warning(f"Compte désactivé: {username}")
+            logger.warning(f"Compte désactivé: {email}")
             return Response({
                 'success': False,
                 'message': 'Compte désactivé'
@@ -115,7 +115,7 @@ def login_view(request):
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
         
-        logger.info(f"Connexion réussie pour: {username}")
+        logger.info(f"Connexion réussie pour: {email}")
     
         return Response({
         'success': True,

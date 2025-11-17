@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY',default='django-insecure-+rvpwf)+2y%4+py334pv(s
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1' ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.200.222.36']
 
 AUTHENTICATION_BACKENDS = [
     'authentication.backends.LDAPAuthenticationBackend',
@@ -112,7 +112,7 @@ LDAP_CONFIG = {
     'SERVER': config('LDAP_SERVER', default='ldap://localhost:389'),
     'BIND_DN': config('LDAP_BIND_DN', default='cn=admin,dc=entreprise,dc=local'),
     'BIND_PASSWORD': config('LDAP_BIND_PASSWORD', default='admin123'),
-    'USER_BASE': config('LDAP_USER_BASE', default='ou=users,dc=entreprise,dc=local'),
+    'USER_BASE': config('LDAP_USER_BASE', default='ou=departements,dc=entreprise,dc=local'),
     'ROLE_BASE': config('LDAP_ROLE_BASE', default='ou=roles,dc=entreprise,dc=local'),
     'USER_FILTER': '(uid={username})',
     'TIMEOUT': 10,
