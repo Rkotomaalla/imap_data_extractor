@@ -112,8 +112,8 @@ class LDAPService:
             }
             
              # 6. Récupérer les rôles
-            user_info['roles'] = self.get_user_roles(admin_conn, user_dn)
-            
+            roles = self.get_user_roles(admin_conn, user_dn)
+            user_info['role'] = roles[0]['name'] if roles else '' 
             
             # user_info['department'] =  self.get_user_department(admin_conn,user_dn)
             # 3. Fermer la connexion admin
@@ -162,7 +162,7 @@ class LDAPService:
                 search_scope=SUBTREE,
                 attributes=['cn', 'description']
             )
-            logger.debug(f"Recherche des rôles etablies  pour: {user_dn}")
+            # logger.debug(f"Recherche des rôles etablies  pour: {user_dn}")
             
             if not success:
                 logger.debug(f"Aucun rôle trouvé pour: {user_dn}")
@@ -181,9 +181,9 @@ class LDAPService:
                         'description': entry.description.value if hasattr(entry, 'description') else ''
                     }
                     roles.append(role)
-                    logger.debug(f"  ✓ Rôle trouvé: {role['name']} - {role['description']}")
+                    # logger.debug(f"  ✓ Rôle trouvé: {role['name']} - {role['description']}")
             
-            logger.info(f"✅ Trouvé {len(roles)} rôle(s) pour {user_dn}")
+            # logger.info(f"✅ Trouvé {len(roles)} rôle(s) pour {user_dn}")
             return roles
         
         

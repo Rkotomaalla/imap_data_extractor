@@ -25,10 +25,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['ldap_dn'] = user.ldap_dn if hasattr(user, 'ldap_dn') else ''
         
         # Rôles LDAP
-        if hasattr(user, 'ldap_roles'):
-            token['roles'] = [role.get('name') for role in user.ldap_roles]
+        if hasattr(user, 'ldap_role'):
+            token['role'] = user.ldap_role
         else:
-            token['roles'] = []
+            token['role'] = ''
         
         return token
 
@@ -84,7 +84,7 @@ class LoginSerializer(serializers.Serializer):
     
 class UserSerializer(serializers.ModelSerializer):
     """Serializer pour les informations utilisateur"""
-    roles = serializers.SerializerMethodField()
+    role =  serializers.SerializerMethodField()
     
     class Meta:
         model = User
@@ -95,16 +95,17 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'ldap_dn',
-            'roles',
+            'role',
             'last_ldap_sync',
             'date_joined',
             'is_active'
         ]
         read_only_fields = ['id', 'date_joined', 'last_ldap_sync']
 
-    def get_roles(self, obj):
-        """Retourne les rôles LDAP"""
-        return obj.ldap_roles if hasattr(obj, 'ldap_roles') else []
+# fonction de get Role[0]
+    def get_role(self,obj):
+        """Retourne le rôle LDAP indice 0"""
+        return obj.ldap_role if hasattr(obj, 'ldap_role') else ''
 
 
 class LoginResponseSerializer(serializers.Serializer):

@@ -47,10 +47,8 @@ class LDAPAuthenticationBackend(BaseBackend):
             # Ajouter les champs LDAP seulement s'ils existent dans le modèle
             if hasattr(User, 'ldap_dn'):
                 user_data['ldap_dn'] = ldap_user_info.get('dn', '')
-            
-            if hasattr(User, 'ldap_roles'):
-                user_data['ldap_roles'] = ldap_user_info.get('roles', [])
-                
+            if hasattr(User,'ldap_role'):
+                user_data['ldap_role']=ldap_user_info.get('role','')
             # Créer ou récupérer l'utilisateur
             user, created = User.objects.get_or_create(
                 username=ldap_user_info['username'],

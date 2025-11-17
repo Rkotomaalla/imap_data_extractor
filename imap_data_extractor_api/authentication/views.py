@@ -12,7 +12,7 @@ from .serializers import LoginSerializer, UserSerializer, LoginResponseSerialize
 from .services.ldap_service import LDAPService
 from rest_framework_simplejwt.tokens import RefreshToken
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)    
 
 
 @api_view(['POST'])
@@ -40,7 +40,7 @@ def login_view(request):
                 "first_name": "Jean",
                 "last_name": "Dupont",
                 "ldap_dn": "uid=jdupont,ou=users,dc=entreprise,dc=local",
-                "roles": [{"name": "admin", "description": "Administrateurs"}],
+                "role": "employe",
                 "last_ldap_sync": "2025-11-13T10:30:00Z",
                 "date_joined": "2025-11-13T09:00:00Z",
                 "is_active": true
@@ -109,8 +109,8 @@ def login_view(request):
         refresh['ldap_dn'] = user.ldap_dn if hasattr(user, 'ldap_dn') else ''
         
         # Rôles LDAP
-        if hasattr(user, 'ldap_roles'):
-            refresh['roles'] = [role.get('name') for role in user.ldap_roles]
+        if hasattr(user, 'ldap_role'):
+            refresh['role'] = user.ldap_role
         
         access_token = str(refresh.access_token)
         refresh_token = str(refresh)
