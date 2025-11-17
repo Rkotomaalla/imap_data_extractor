@@ -1169,3 +1169,46 @@ INFO 2025-11-17 13:52:57,062 autoreload D:\etudes\Stage L3\web-imap-data-extrect
 INFO 2025-11-17 13:52:58,659 autoreload Watching for file changes with StatReloader
 INFO 2025-11-17 13:53:01,000 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
 INFO 2025-11-17 13:53:01,917 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:53:55,299 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-17 13:53:56,947 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:55:10,673 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:55:11,985 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:55:39,028 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:55:40,068 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:55:42,509 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:55:43,622 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:55:45,799 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:55:47,115 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:55:51,871 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:55:53,259 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:56:06,807 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:56:07,822 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:56:22,669 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 13:56:23,933 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:57:26,989 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-17 13:57:28,110 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:57:40,672 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-17 13:57:42,461 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:58:30,359 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-17 13:58:31,851 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:58:34,085 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-17 13:58:35,023 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:58:45,992 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-17 13:58:47,234 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:58:57,580 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-17 13:58:58,938 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 13:59:03,585 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-17 13:59:05,196 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 14:00:22,380 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 14:00:22,382 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 14:00:22,387 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 14:00:22,447 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 14:00:22,447 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 14:00:22,448 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 14:00:22,448 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 14:00:22,448 ldap_service Connexion bound: True
+DEBUG 2025-11-17 14:00:22,450 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+INFO 2025-11-17 14:00:22,464 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-17 14:00:22,503 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-17 14:02:03,332 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
+INFO 2025-11-17 14:02:04,785 autoreload Watching for file changes with StatReloader

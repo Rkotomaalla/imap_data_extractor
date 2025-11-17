@@ -28,14 +28,7 @@ class LDAPUser(AbstractUser):
         help_text="Le role d un utilisateur dans ldap"
     )
     
-    
-    ldap_roles = models.JSONField(
-        default=list,
-        blank=True,
-        verbose_name="Rôles LDAP",
-        help_text="role récupérés depuis LDAP"
-    )
-    
+
     ldap_cn=models.CharField(        
         max_length=255,
         unique=True,
