@@ -798,3 +798,42 @@ DEBUG 2025-11-17 08:57:20,772 ldap_service Utilisateur connecté: dn:cn=admin,dc=
 DEBUG 2025-11-17 08:57:20,776 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
 INFO 2025-11-17 08:57:20,878 backends Utilisateur Django mis à jour: jdupont@entreprise.local
 INFO 2025-11-17 08:57:20,903 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-17 11:15:18,036 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-17 11:15:24,655 log Forbidden: /user/login/
+INFO 2025-11-17 11:15:31,777 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 11:15:31,778 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 11:15:31,784 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 11:15:31,825 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 11:15:31,825 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:15:31,826 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:15:31,826 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 11:15:31,827 ldap_service Connexion bound: True
+DEBUG 2025-11-17 11:15:31,828 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:15:31,833 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 11:15:32,239 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-17 11:15:32,307 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-17 11:24:28,817 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 11:24:28,819 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 11:24:28,823 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 11:24:28,847 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 11:24:28,848 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:24:28,848 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:24:28,851 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 11:24:28,851 ldap_service Connexion bound: True
+DEBUG 2025-11-17 11:24:28,853 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:24:28,857 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 11:24:28,921 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-17 11:24:28,948 views Connexion réussie pour: jdupont@entreprise.local
+WARNING 2025-11-17 11:28:00,408 log Forbidden: /user/login/
+INFO 2025-11-17 11:28:05,169 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-17 11:28:05,170 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-17 11:28:05,173 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 11:28:05,237 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-17 11:28:05,237 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:28:05,238 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:28:05,238 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-17 11:28:05,239 ldap_service Connexion bound: True
+DEBUG 2025-11-17 11:28:05,242 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-17 11:28:05,244 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-17 11:28:05,278 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-17 11:28:05,299 views Connexion réussie pour: jdupont@entreprise.local
