@@ -61,6 +61,6 @@ class LDAPUser(AbstractUser):
     
     def has_ldap_role(self, role_name):
         """Vérifie si l'utilisateur a un rôle spécifique"""
-        if not self.ldap_roles:
+        if not self.ldap_role:
             return False
         return any(role.get('name') == role_name for role in self.ldap_roles)

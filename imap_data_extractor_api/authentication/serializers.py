@@ -85,7 +85,7 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     """Serializer pour les informations utilisateur"""
     roles = serializers.SerializerMethodField()
-    
+    role =  serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = [
@@ -95,6 +95,7 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'ldap_dn',
+            'role',
             'roles',
             'last_ldap_sync',
             'date_joined',
