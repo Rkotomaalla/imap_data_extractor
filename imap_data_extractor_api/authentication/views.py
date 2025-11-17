@@ -12,7 +12,7 @@ from .serializers import LoginSerializer, UserSerializer, LoginResponseSerialize
 from .services.ldap_service import LDAPService
 from rest_framework_simplejwt.tokens import RefreshToken
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)    
 
 
 @api_view(['POST'])

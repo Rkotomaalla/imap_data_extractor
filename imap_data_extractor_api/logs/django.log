@@ -837,3 +837,7 @@ DEBUG 2025-11-17 11:28:05,242 ldap_service Utilisateur connecté: dn:cn=admin,dc=
 DEBUG 2025-11-17 11:28:05,244 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
 INFO 2025-11-17 11:28:05,278 backends Utilisateur Django mis à jour: jdupont@entreprise.local
 INFO 2025-11-17 11:28:05,299 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-17 11:33:45,475 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
+INFO 2025-11-17 11:33:46,897 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 11:34:36,842 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\settings.py changed, reloading.
+INFO 2025-11-17 11:34:38,004 autoreload Watching for file changes with StatReloader
