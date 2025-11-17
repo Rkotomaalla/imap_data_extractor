@@ -146,21 +146,32 @@ class LDAPService:
             logger.error("Connexion LDAP non active")
             return []
         try:
-            # Échapper le DN pour le filtre LDAP
-            escaped_dn = escape_filter_chars(user_dn)
-
-            logger.debug(f"Recherche des rôles pour: {user_dn}")
-            logger.debug(f"Base: {self.config['ROLE_BASE']}")
-            logger.debug(f"Filtre: (member={escaped_dn})")
+             
+            uid = None
+            for part in user_dn.split(','):
+                if part.strip().lower().startswith('uid='):
+                    uid = part.split('=', 1)[1].strip()
+                    break
+                
+            if not uid:
+                logger.error(f"❌ Impossible d'extraire le uid depuis: {user_dn}")
+                return []
             
+            # Échapper le DN pour le filtre LDAP
+            escaped_uid= escape_filter_chars(uid)
+
+            logger.debug(f"Recherche des rôles pour uid: {uid}")
+            logger.debug(f" Base: {self.config['ROLE_BASE']}")
+            # logger.debug(f"🔎 Filtre: (&(objectClass=posixGroup)(memberUid={escaped_uid}))")
             logger.debug(f"Connexion bound: {conn.bound}")
-            logger.debug(f"Utilisateur connecté: {conn.extend.standard.who_am_i()}")
+            logger.debug(f" Utilisateur connecté: {conn.extend.standard.who_am_i()}")
+    
             
             success = conn.search(
                 search_base=self.config['ROLE_BASE'],
-                search_filter=f'(member={escaped_dn})',
+                search_filter=f'(memberUid={escaped_uid})',
                 search_scope=SUBTREE,
-                attributes=['cn', 'description']
+                attributes=['cn', 'description', 'gidNumber']
             )
             # logger.debug(f"Recherche des rôles etablies  pour: {user_dn}")
             
