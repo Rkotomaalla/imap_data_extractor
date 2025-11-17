@@ -21,7 +21,7 @@ class LDAPUser(AbstractUser):
     # Ajout du role indice 0 
     ldap_role = models.CharField(    
         max_length=255,
-        unique=True,
+        # unique=True,
         blank=True,
         null=True,
         verbose_name="Role LDAP",
