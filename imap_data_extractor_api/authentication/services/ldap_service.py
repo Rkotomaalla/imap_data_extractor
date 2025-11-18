@@ -4,7 +4,7 @@ from ldap3.core.exceptions import LDAPException, LDAPBindError
 from ldap3.utils.dn import escape_rdn
 from ldap3.utils.conv import escape_filter_chars
 from django.conf import settings
-
+from connexion.service import Service
 logger = logging.getLogger(__name__)
 
 class LDAPService:
@@ -16,33 +16,7 @@ class LDAPService:
             self.config['SERVER'],
             get_info=ALL,
             connect_timeout=self.config['TIMEOUT']
-        )
-    
-    def get_admin_connection(self):
-        """
-        Crée une connexion LDAP avec les credentials admin.
-        
-        Returns:
-            Connection: Connexion LDAP ou None en cas d'erreur
-        """
-        try:
-            conn = Connection (
-                self.server,
-                user=self.config['BIND_DN'],
-                password=self.config['BIND_PASSWORD'],
-                auto_bind=True,
-                raise_exceptions=True
-            )
-            logger.info("Connexion LDAP admin réussie.")
-            return conn
-        except LDAPBindError as e:
-            logger.error(f"Échec de la connexion LDAP admin: {e}")
-            return None
-        except LDAPException as e:
-            logger.error(f"Erreur LDAP lors de la connexion admin: {e}")
-            return None
-        
-        
+        )    
     def authenticate_user(self,email,password):
         """
         Authentifie un utilisateur via LDAP en utilisant son EMAIL.
@@ -62,7 +36,9 @@ class LDAPService:
         email=email.strip().lower()
         safe_email = escape_filter_chars(email)
         
-        admin_conn = self.get_admin_connection()
+        ldap_service = Service()
+        admin_conn = ldap_service.get_admin_connection()
+        
         if not admin_conn:
             return None
         

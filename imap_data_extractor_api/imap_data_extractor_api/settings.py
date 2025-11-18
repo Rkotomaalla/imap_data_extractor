@@ -115,6 +115,7 @@ LDAP_CONFIG = {
     'BIND_DN': config('LDAP_BIND_DN', default='cn=admin,dc=entreprise,dc=local'),
     'BIND_PASSWORD': config('LDAP_BIND_PASSWORD', default='admin123'),
     'USER_BASE': config('LDAP_USER_BASE', default='ou=departements,dc=entreprise,dc=local'),
+    'DEPARTMENT_BASE': config('LDAP_DEPARTMENT_BASE', default='ou=departements,dc=entreprise,dc=local'),
     'ROLE_BASE': config('LDAP_ROLE_BASE', default='ou=roles,dc=entreprise,dc=local'),
     'USER_FILTER': '(uid={username})',
     'TIMEOUT': 10,
