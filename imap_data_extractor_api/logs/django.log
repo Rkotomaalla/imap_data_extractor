@@ -1,2 +1,120 @@
 INFO 2025-11-18 10:04:15,724 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\settings.py changed, reloading.
 INFO 2025-11-18 10:15:20,745 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 10:16:35,493 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-18 10:16:36,474 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 10:19:21,302 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 10:19:29,951 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:29,951 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:29,954 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:29,968 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:29,968 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:29,968 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:29,969 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:29,970 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:29,973 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:29,974 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:29,975 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:38,091 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:38,091 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:38,094 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:38,115 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:38,116 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:38,116 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:38,116 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:38,118 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:38,122 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:38,122 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:38,123 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:38,694 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:38,694 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:38,695 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:38,724 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:38,724 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:38,724 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:38,724 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:38,725 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:38,728 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:38,728 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:38,729 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:38,858 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:38,859 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:38,860 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:38,901 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:38,902 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:38,902 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:38,902 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:38,903 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:38,906 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:38,907 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:38,907 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:39,025 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:39,026 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:39,028 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:39,056 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:39,057 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:39,057 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:39,057 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:39,059 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:39,063 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:39,064 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:39,064 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:39,231 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:39,232 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:39,235 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:39,270 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:39,271 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:39,271 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:39,271 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:39,272 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:39,275 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:39,275 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:39,276 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:39,361 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:39,361 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:39,363 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:39,401 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:39,401 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:39,401 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:39,401 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:39,402 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:39,405 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:39,405 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:39,405 log Unauthorized: /user/login/
+INFO 2025-11-18 10:19:39,551 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:19:39,552 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:19:39,554 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:19:39,580 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:19:39,580 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:19:39,580 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:19:39,580 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:19:39,581 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+ERROR 2025-11-18 10:19:39,584 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
+WARNING 2025-11-18 10:19:39,585 views Échec de connexion pour: jdupont@entreprise.local
+WARNING 2025-11-18 10:19:39,585 log Unauthorized: /user/login/
+INFO 2025-11-18 10:20:49,739 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 10:20:52,521 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:20:52,522 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 10:20:52,526 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:20:52,575 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 10:20:52,576 ldap_service Recherche des rôles pour uid: jdupont
+DEBUG 2025-11-18 10:20:52,576 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:20:52,576 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:20:52,578 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+INFO 2025-11-18 10:20:52,589 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-18 10:20:52,630 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-18 10:21:19,081 ldap_service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 10:21:19,082 ldap_service Recherche utilisateur par email: (mail=asophie@entreprise.local)
+INFO 2025-11-18 10:21:19,085 ldap_service Utilisateur trouvé: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 10:21:19,128 ldap_service Authentification réussie pour: asophie@entreprise.local
+DEBUG 2025-11-18 10:21:19,128 ldap_service Recherche des rôles pour uid: asophie
+DEBUG 2025-11-18 10:21:19,128 ldap_service  Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 10:21:19,128 ldap_service Connexion bound: True
+DEBUG 2025-11-18 10:21:19,130 ldap_service  Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+INFO 2025-11-18 10:21:19,145 backends Utilisateur Django créé: asophie@entreprise.local
+INFO 2025-11-18 10:21:19,168 views Connexion réussie pour: asophie@entreprise.local
+INFO 2025-11-18 10:21:27,048 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-18 10:21:27,988 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 10:22:26,812 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-18 10:22:27,763 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 10:25:13,912 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\urls.py changed, reloading.
+INFO 2025-11-18 10:25:17,115 autoreload Watching for file changes with StatReloader
