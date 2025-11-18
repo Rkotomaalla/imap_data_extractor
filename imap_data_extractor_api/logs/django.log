@@ -837,265 +837,16 @@ DEBUG 2025-11-17 11:28:05,242 ldap_service Utilisateur connecté: dn:cn=admin,dc=
 DEBUG 2025-11-17 11:28:05,244 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
 INFO 2025-11-17 11:28:05,278 backends Utilisateur Django mis à jour: jdupont@entreprise.local
 INFO 2025-11-17 11:28:05,299 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 11:33:45,475 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
-INFO 2025-11-17 11:33:46,897 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:34:36,842 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\settings.py changed, reloading.
-INFO 2025-11-17 11:34:38,004 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:40:33,451 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:40:34,593 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:40:45,525 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:40:46,585 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:40:48,930 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:40:50,220 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:40:52,377 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:40:53,310 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:41:14,569 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:41:15,658 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:41:29,511 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:41:30,895 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:41:33,105 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:41:34,816 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:41:47,439 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:41:48,843 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:41:50,987 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:41:52,744 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:42:12,420 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:42:13,900 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:42:27,524 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 11:42:27,525 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 11:42:27,531 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 11:42:27,568 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 11:42:27,569 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:42:27,570 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:42:27,570 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 11:42:27,571 ldap_service Connexion bound: True
-DEBUG 2025-11-17 11:42:27,573 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:42:27,577 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 11:44:17,264 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\backends.py changed, reloading.
-INFO 2025-11-17 11:44:18,181 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:44:59,733 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 11:45:00,840 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:45:16,803 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 11:45:16,803 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 11:45:16,805 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 11:45:16,833 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 11:45:16,834 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:45:16,834 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:45:16,834 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 11:45:16,835 ldap_service Connexion bound: True
-DEBUG 2025-11-17 11:45:16,836 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:45:16,838 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 11:45:17,661 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 11:45:17,661 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 11:45:17,663 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 11:45:17,705 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 11:45:17,705 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:45:17,705 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:45:17,705 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 11:45:17,705 ldap_service Connexion bound: True
-DEBUG 2025-11-17 11:45:17,707 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 11:45:17,709 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 11:46:46,829 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 11:46:48,252 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:47:07,336 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 11:47:08,359 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:51:28,683 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 11:51:30,069 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 11:51:49,501 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 11:51:50,730 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:17:47,623 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
-INFO 2025-11-17 13:17:50,610 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:17:53,106 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
-INFO 2025-11-17 13:17:54,584 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:18:18,324 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
-INFO 2025-11-17 13:18:19,695 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:20:34,169 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:20:35,704 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:20:46,920 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:20:48,316 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:21:22,393 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:21:23,378 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:21:31,574 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:21:31,575 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:21:31,581 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:21:31,624 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:21:31,625 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:21:31,626 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:21:31,626 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:21:31,627 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:21:31,629 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:21:31,633 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-ERROR 2025-11-17 13:21:32,081 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:21:32,082 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:21:32,083 log Unauthorized: /user/login/
-INFO 2025-11-17 13:21:39,546 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:21:39,547 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:21:39,551 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:21:39,614 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:21:39,615 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:21:39,615 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:21:39,615 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:21:39,616 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:21:39,619 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:21:39,623 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-ERROR 2025-11-17 13:21:39,654 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:21:39,655 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:21:39,655 log Unauthorized: /user/login/
-INFO 2025-11-17 13:27:16,454 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:27:43,745 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:27:44,710 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:27:48,764 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:27:48,765 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:27:48,767 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:27:48,810 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:27:48,812 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-ERROR 2025-11-17 13:27:48,827 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:27:48,828 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:27:48,828 log Unauthorized: /user/login/
-INFO 2025-11-17 13:28:11,579 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:28:12,873 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:28:17,896 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:28:17,896 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:28:17,899 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:28:17,929 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:28:17,932 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-ERROR 2025-11-17 13:28:17,947 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:28:17,947 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:28:17,948 log Unauthorized: /user/login/
-INFO 2025-11-17 13:28:50,162 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:28:51,857 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:28:52,952 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:28:52,953 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:28:52,958 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:28:52,996 ldap_service Authentification réussie pour: jdupont@entreprise.local
-ERROR 2025-11-17 13:28:53,038 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:28:53,038 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:28:53,039 log Unauthorized: /user/login/
-INFO 2025-11-17 13:29:01,663 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:29:03,113 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:29:03,713 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:29:03,714 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:29:03,718 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:29:03,748 ldap_service Authentification réussie pour: jdupont@entreprise.local
-ERROR 2025-11-17 13:29:03,754 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:29:03,755 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:29:03,755 log Unauthorized: /user/login/
-INFO 2025-11-17 13:29:18,254 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:29:19,413 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:29:23,854 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:29:24,961 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:29:27,535 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:29:27,536 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:29:27,539 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:29:27,573 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:29:27,574 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:29:27,574 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:29:27,574 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:29:27,574 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:29:27,577 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-ERROR 2025-11-17 13:29:27,600 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:29:27,601 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:29:27,602 log Unauthorized: /user/login/
-INFO 2025-11-17 13:29:40,052 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:29:41,322 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:29:42,355 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:29:42,356 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:29:42,358 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:29:42,387 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:29:42,387 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:29:42,387 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:29:42,387 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-ERROR 2025-11-17 13:29:42,408 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:29:42,408 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:29:42,409 log Unauthorized: /user/login/
-INFO 2025-11-17 13:29:54,569 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:29:55,717 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:29:56,497 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:29:56,497 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:29:56,499 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:29:56,534 ldap_service Authentification réussie pour: jdupont@entreprise.local
-ERROR 2025-11-17 13:29:56,549 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:29:56,550 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:29:56,550 log Unauthorized: /user/login/
-INFO 2025-11-17 13:30:08,515 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:30:09,764 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:30:13,025 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:30:13,026 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:30:13,030 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:30:13,098 ldap_service Authentification réussie pour: jdupont@entreprise.local
-ERROR 2025-11-17 13:30:13,109 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:30:13,111 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:30:13,113 log Unauthorized: /user/login/
-INFO 2025-11-17 13:30:54,576 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:30:55,732 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:30:56,652 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:30:56,653 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:30:56,658 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:30:56,707 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:30:56,708 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:30:56,708 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:30:56,708 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:30:56,708 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:30:56,710 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-ERROR 2025-11-17 13:30:56,717 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:30:56,719 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:30:56,722 log Unauthorized: /user/login/
-INFO 2025-11-17 13:31:04,986 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:31:04,986 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:31:04,987 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:31:05,017 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:31:05,018 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:31:05,018 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:31:05,018 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:31:05,018 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:31:05,019 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-ERROR 2025-11-17 13:31:05,022 backends Erreur lors de la synchronisation utilisateur: no such column: auth_ldap_user.ldap_role
-WARNING 2025-11-17 13:31:05,022 views Échec de connexion pour: jdupont@entreprise.local
-WARNING 2025-11-17 13:31:05,023 log Unauthorized: /user/login/
-INFO 2025-11-17 13:32:28,658 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:32:31,508 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:32:31,508 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:32:31,511 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:32:31,524 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:32:31,525 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:32:31,525 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:32:31,525 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:32:31,526 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:32:31,527 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 13:32:31,536 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 13:32:31,566 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 13:32:59,726 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:33:00,883 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:33:30,067 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:33:31,204 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:33:43,205 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:33:43,206 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:33:43,207 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:33:43,251 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:33:43,251 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:33:43,251 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:33:43,252 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:33:43,252 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:33:43,254 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 13:33:43,264 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 13:33:43,291 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 13:35:14,725 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:35:15,815 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:35:18,055 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:35:18,965 autoreload Watching for file changes with StatReloader
-WARNING 2025-11-17 13:35:21,502 log Forbidden: /user/login/
-INFO 2025-11-17 13:35:27,115 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:35:27,116 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:35:27,117 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:35:27,139 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:35:27,140 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:35:27,140 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:35:27,140 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:35:27,140 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:35:27,141 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 13:35:27,149 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 13:35:27,168 views Connexion réussie pour: jdupont@entreprise.local
-ERROR 2025-11-17 13:35:27,259 log Internal Server Error: /user/login/
+INFO 2025-11-18 05:08:19,108 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:11:01,797 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\urls.py changed, reloading.
+INFO 2025-11-18 05:11:02,794 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:13:08,804 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:13:09,678 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:13:24,673 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:13:25,945 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:14:05,655 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\urls.py changed, reloading.
+INFO 2025-11-18 05:14:07,122 autoreload Watching for file changes with StatReloader
+ERROR 2025-11-18 05:14:11,381 log Internal Server Error: /user/login/
 Traceback (most recent call last):
   File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
@@ -1117,332 +868,69 @@ Traceback (most recent call last):
     response = handler(request, *args, **kwargs)
   File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
     return func(*args, **kwargs)
-  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py", line 123, in login_view
-    'user': UserSerializer(user).data,
-            ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 555, in data
-    ret = super().data
-          ^^^^^^^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 253, in data
-    self._data = self.to_representation(self.instance)
-                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
-    for field in fields:
-                 ^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
-    for field in self.fields.values():
-                 ^^^^^^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\utils\functional.py", line 47, in __get__
-    res = instance.__dict__[self.name] = self.func(instance)
-                                         ~~~~~~~~~^^^^^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
-    for key, value in self.get_fields().items():
-                      ~~~~~~~~~~~~~~~^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 1076, in get_fields
-    field_class, field_kwargs = self.build_field(
-                                ~~~~~~~~~~~~~~~~^
-        source, info, model, depth
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
-    return self.build_unknown_field(field_name, model_class)
-           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\serializers.py", line 1340, in build_unknown_field
-    raise ImproperlyConfigured(
-    ...<2 lines>...
-    )
-django.core.exceptions.ImproperlyConfigured: Field name `role` is not valid for model `LDAPUser`.
-INFO 2025-11-17 13:48:39,371 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:48:41,457 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 13:48:41,457 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 13:48:41,460 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 13:48:41,495 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 13:48:41,496 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:48:41,496 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 13:48:41,496 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 13:48:41,496 ldap_service Connexion bound: True
-DEBUG 2025-11-17 13:48:41,498 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 13:48:41,594 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 13:48:41,677 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 13:52:57,062 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
-INFO 2025-11-17 13:52:58,659 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:53:01,000 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
-INFO 2025-11-17 13:53:01,917 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:53:55,299 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
-INFO 2025-11-17 13:53:56,947 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:55:10,673 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:55:11,985 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:55:39,028 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:55:40,068 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:55:42,509 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:55:43,622 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:55:45,799 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:55:47,115 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:55:51,871 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:55:53,259 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:56:06,807 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:56:07,822 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:56:22,669 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 13:56:23,933 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:57:26,989 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:57:28,110 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:57:40,672 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 13:57:42,461 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:58:30,359 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
-INFO 2025-11-17 13:58:31,851 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:58:34,085 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
-INFO 2025-11-17 13:58:35,023 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:58:45,992 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
-INFO 2025-11-17 13:58:47,234 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:58:57,580 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
-INFO 2025-11-17 13:58:58,938 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 13:59:03,585 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py changed, reloading.
-INFO 2025-11-17 13:59:05,196 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:00:22,380 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:00:22,382 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 14:00:22,387 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:00:22,447 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 14:00:22,447 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:00:22,448 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:00:22,448 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:00:22,448 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:00:22,450 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 14:00:22,464 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 14:00:22,503 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 14:02:03,332 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\serializers.py changed, reloading.
-INFO 2025-11-17 14:02:04,785 autoreload Watching for file changes with StatReloader
-WARNING 2025-11-17 14:15:59,052 log Forbidden: /user/login/
-INFO 2025-11-17 14:16:07,411 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:16:07,412 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 14:16:07,416 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:16:07,443 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 14:16:07,444 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:16:07,445 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:16:07,445 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:16:07,445 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:16:07,447 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 14:16:07,464 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 14:16:07,498 views Connexion réussie pour: jdupont@entreprise.local
-WARNING 2025-11-17 14:16:45,888 log Forbidden: /user/login/
-INFO 2025-11-17 14:16:53,426 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:16:53,426 ldap_service Recherche utilisateur par email: (mail=asophie@entreprise.local)
-INFO 2025-11-17 14:16:53,428 ldap_service Utilisateur trouvé: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:16:53,479 ldap_service Authentification réussie pour: asophie@entreprise.local
-DEBUG 2025-11-17 14:16:53,479 ldap_service Recherche des rôles pour: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:16:53,480 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:16:53,480 ldap_service Filtre: (member=uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:16:53,480 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:16:53,482 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:16:53,484 ldap_service Aucun rôle trouvé pour: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-WARNING 2025-11-17 14:16:53,775 views Échec de connexion pour: asophie@entreprise.local
-WARNING 2025-11-17 14:16:53,777 log Unauthorized: /user/login/
-INFO 2025-11-17 14:18:11,822 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:18:14,646 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:18:14,646 ldap_service Recherche utilisateur par email: (mail=asophie@entreprise.local)
-INFO 2025-11-17 14:18:14,648 ldap_service Utilisateur trouvé: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:18:14,671 ldap_service Authentification réussie pour: asophie@entreprise.local
-DEBUG 2025-11-17 14:18:14,671 ldap_service Recherche des rôles pour: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:18:14,672 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:18:14,672 ldap_service Filtre: (member=uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:18:14,672 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:18:14,673 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:18:14,674 ldap_service Aucun rôle trouvé pour: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:18:14,680 backends Utilisateur Django créé: asophie@entreprise.local
-INFO 2025-11-17 14:18:14,700 views Connexion réussie pour: asophie@entreprise.local
-INFO 2025-11-17 14:35:20,096 autoreload Watching for file changes with StatReloader
-WARNING 2025-11-17 14:35:22,426 log Forbidden: /user/login/
-WARNING 2025-11-17 14:35:34,484 log Forbidden: /user/login/
-INFO 2025-11-17 14:35:43,214 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:35:43,215 ldap_service Recherche utilisateur par email: (mail=asophie@entreprise.local)
-INFO 2025-11-17 14:35:43,219 ldap_service Utilisateur trouvé: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:35:43,273 ldap_service Authentification réussie pour: asophie@entreprise.local
-DEBUG 2025-11-17 14:35:43,274 ldap_service Recherche des rôles pour: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:35:43,274 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:35:43,274 ldap_service Filtre: (member=uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:35:43,275 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:35:43,278 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:35:43,282 ldap_service Aucun rôle trouvé pour: uid=asophie,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:35:43,295 backends Utilisateur Django mis à jour: asophie@entreprise.local
-INFO 2025-11-17 14:35:43,351 views Connexion réussie pour: asophie@entreprise.local
-INFO 2025-11-17 14:36:17,699 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:36:17,700 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 14:36:17,704 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:36:17,752 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 14:36:17,752 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:36:17,753 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:36:17,753 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:36:17,753 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:36:17,755 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-INFO 2025-11-17 14:36:17,767 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 14:36:17,793 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 14:36:40,559 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:36:40,560 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 14:36:40,564 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:36:40,604 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 14:36:40,609 ldap_service Recherche des rôles pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:36:40,609 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:36:40,613 ldap_service Filtre: (member=uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:36:40,613 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:36:40,617 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:36:40,622 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-WARNING 2025-11-17 14:36:40,662 views Échec de connexion pour: btoky@entreprise.local
-WARNING 2025-11-17 14:36:40,662 log Unauthorized: /user/login/
-INFO 2025-11-17 14:45:14,110 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:45:21,005 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:45:21,006 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 14:45:21,010 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:45:21,066 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 14:45:21,068 ldap_service Recherche des rôles pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:45:21,068 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:45:21,069 ldap_service Filtre: (member=uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:45:21,069 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:45:21,072 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:45:21,076 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-WARNING 2025-11-17 14:45:21,115 views Échec de connexion pour: btoky@entreprise.local
-WARNING 2025-11-17 14:45:21,117 log Unauthorized: /user/login/
-INFO 2025-11-17 14:45:40,987 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:45:44,103 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:45:44,103 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 14:45:44,106 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:45:44,157 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 14:45:44,157 ldap_service Recherche des rôles pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:45:44,157 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:45:44,157 ldap_service Filtre: (member=uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:45:44,158 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:45:44,159 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:45:44,160 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:45:44,167 backends Utilisateur Django créé: btoky@entreprise.local
-INFO 2025-11-17 14:45:44,188 views Connexion réussie pour: btoky@entreprise.local
-WARNING 2025-11-17 14:52:20,654 log Forbidden: /user/login/
-INFO 2025-11-17 14:52:27,380 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 14:52:27,380 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 14:52:27,384 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:52:27,439 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 14:52:27,440 ldap_service Recherche des rôles pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:52:27,440 ldap_service Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:52:27,441 ldap_service Filtre: (member=uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local)
-DEBUG 2025-11-17 14:52:27,441 ldap_service Connexion bound: True
-DEBUG 2025-11-17 14:52:27,444 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
-DEBUG 2025-11-17 14:52:27,448 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 14:52:27,457 backends Utilisateur Django mis à jour: btoky@entreprise.local
-INFO 2025-11-17 14:52:27,470 views Connexion réussie pour: btoky@entreprise.local
-INFO 2025-11-17 14:57:46,572 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 14:57:48,195 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:58:16,348 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 14:58:17,673 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:58:29,893 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 14:58:31,430 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:58:38,662 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 14:58:40,115 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:59:41,100 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 14:59:42,685 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 14:59:46,691 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 14:59:48,303 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:00:09,076 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:00:10,691 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:00:18,810 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:00:20,528 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:00:47,019 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:00:47,019 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 15:00:47,022 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:00:47,062 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 15:00:47,095 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:00:47,102 backends Utilisateur Django mis à jour: btoky@entreprise.local
-INFO 2025-11-17 15:00:47,124 views Connexion réussie pour: btoky@entreprise.local
-INFO 2025-11-17 15:01:23,329 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:01:25,012 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:01:32,983 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:01:32,984 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 15:01:32,989 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:01:33,046 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 15:01:33,157 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:01:33,177 backends Utilisateur Django mis à jour: btoky@entreprise.local
-INFO 2025-11-17 15:01:33,222 views Connexion réussie pour: btoky@entreprise.local
-INFO 2025-11-17 15:02:03,859 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:02:05,511 autoreload Watching for file changes with StatReloader
-WARNING 2025-11-17 15:02:44,098 log Forbidden: /user/login/
-INFO 2025-11-17 15:02:51,160 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:02:51,160 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 15:02:51,161 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:02:51,191 ldap_service Authentification réussie pour: btoky@entreprise.local
-DEBUG 2025-11-17 15:02:51,207 ldap_service Aucun rôle trouvé pour: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:02:51,213 backends Utilisateur Django mis à jour: btoky@entreprise.local
-INFO 2025-11-17 15:02:51,233 views Connexion réussie pour: btoky@entreprise.local
-INFO 2025-11-17 15:03:06,475 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:03:08,176 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:03:11,706 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:03:13,097 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:04:09,303 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:04:10,275 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:04:19,795 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:04:19,795 ldap_service Recherche utilisateur par email: (mail=btoky@entreprise.local)
-INFO 2025-11-17 15:04:19,799 ldap_service Utilisateur trouvé: uid=btoky,ou=rh,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:04:19,854 ldap_service Authentification réussie pour: btoky@entreprise.local
-INFO 2025-11-17 15:04:19,929 backends Utilisateur Django mis à jour: btoky@entreprise.local
-INFO 2025-11-17 15:04:19,978 views Connexion réussie pour: btoky@entreprise.local
-INFO 2025-11-17 15:04:49,984 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:04:49,984 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:04:49,988 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:04:50,047 ldap_service Authentification réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:04:50,100 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:04:50,117 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:05,983 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:06:07,828 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:06:16,597 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:06:16,597 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:06:16,602 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:06:16,681 ldap_service Authentification réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:16,693 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:16,726 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:36,234 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:06:37,653 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:06:43,442 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:06:43,442 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:06:43,444 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:06:43,475 ldap_service Authentification réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:43,491 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:43,513 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:48,608 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:06:50,049 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:06:58,690 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:06:58,691 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:06:58,698 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:06:58,750 ldap_service Authentification réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:58,768 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:06:58,820 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:07:32,842 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:07:33,383 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:07:44,060 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:07:44,060 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:07:44,063 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:07:44,102 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 15:07:44,102 ldap_service Recherche des rôles pour uid: jdupont
-INFO 2025-11-17 15:07:44,113 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:07:44,133 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:08:00,366 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:08:01,848 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:08:07,793 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:08:07,793 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:08:07,797 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:08:07,866 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 15:08:07,867 ldap_service Recherche des rôles pour uid: jdupont
-DEBUG 2025-11-17 15:08:07,867 ldap_service  Base: ou=roles,dc=entreprise,dc=local
-INFO 2025-11-17 15:08:07,886 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:08:07,938 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:08:25,026 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:08:26,094 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:08:28,009 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:08:28,486 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:09:37,865 autoreload Watching for file changes with StatReloader
-INFO 2025-11-17 15:09:43,572 ldap_service Connexion LDAP admin réussie.
-DEBUG 2025-11-17 15:09:43,573 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
-INFO 2025-11-17 15:09:43,576 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
-INFO 2025-11-17 15:09:43,603 ldap_service Authentification réussie pour: jdupont@entreprise.local
-DEBUG 2025-11-17 15:09:43,603 ldap_service Recherche des rôles pour uid: jdupont
-DEBUG 2025-11-17 15:09:43,604 ldap_service  Base: ou=roles,dc=entreprise,dc=local
-DEBUG 2025-11-17 15:09:43,604 ldap_service Connexion bound: True
-INFO 2025-11-17 15:09:43,613 backends Utilisateur Django mis à jour: jdupont@entreprise.local
-INFO 2025-11-17 15:09:43,637 views Connexion réussie pour: jdupont@entreprise.local
-INFO 2025-11-17 15:10:02,987 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
-INFO 2025-11-17 15:10:03,629 autoreload Watching for file changes with StatReloader
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py", line 85, in login_view
+    user = authenticate(request, email=email, password=password)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\debug.py", line 73, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\contrib\auth\__init__.py", line 79, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\backends.py", line 34, in authenticate
+    ldap_user_info = ldap_service.authenticate_user(email, password)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py", line 40, in authenticate_user
+    admin_conn = ldap_service.get_admin_connection()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LDAPService' object has no attribute 'get_admin_connection'
+INFO 2025-11-18 05:15:22,936 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:15:24,337 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:15:50,083 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:15:51,128 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:15:52,868 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:15:53,661 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:16:01,855 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:16:02,352 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:16:07,801 service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 05:16:07,801 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 05:16:07,806 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 05:16:07,844 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 05:16:07,844 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,845 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,845 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-18 05:16:07,846 ldap_service Connexion bound: True
+DEBUG 2025-11-18 05:16:07,848 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,851 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,851 ldap_service Aucun rôle trouvé pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 05:16:07,864 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-18 05:16:07,899 views Connexion réussie pour: jdupont@entreprise.local
+ERROR 2025-11-18 05:18:29,864 views Erreur lors de la récupération des départements: 'LDAPService' object has no attribute 'get_all_departments'
+ERROR 2025-11-18 05:18:29,865 log Internal Server Error: /departments/
+INFO 2025-11-18 05:19:31,755 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:19:32,753 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:19:34,881 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:21:25,977 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:21:27,369 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:21:38,134 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:21:39,686 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:21:41,044 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:22:04,628 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:22:06,016 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:22:18,134 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:22:19,696 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:22:20,350 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:23:42,027 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:23:43,159 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:23:46,974 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:23:48,307 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:23:49,045 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:23:53,832 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:23:54,938 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:24:54,840 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:25:05,547 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:25:06,631 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:25:07,496 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:25:11,959 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:25:13,092 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:26:14,991 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:26:16,358 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:26:19,185 service Connexion LDAP admin réussie.
+INFO 2025-11-18 09:34:08,688 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-18 09:34:15,800 autoreload Watching for file changes with StatReloader
