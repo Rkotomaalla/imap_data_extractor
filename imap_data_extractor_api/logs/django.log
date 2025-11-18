@@ -932,3 +932,7 @@ INFO 2025-11-18 05:25:13,092 autoreload Watching for file changes with StatReloa
 INFO 2025-11-18 05:26:14,991 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
 INFO 2025-11-18 05:26:16,358 autoreload Watching for file changes with StatReloader
 INFO 2025-11-18 05:26:19,185 service Connexion LDAP admin réussie.
+INFO 2025-11-18 09:34:08,688 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-18 09:34:15,800 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 09:39:22,163 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\models.py changed, reloading.
+INFO 2025-11-18 09:39:25,580 autoreload Watching for file changes with StatReloader
