@@ -837,3 +837,98 @@ DEBUG 2025-11-17 11:28:05,242 ldap_service Utilisateur connecté: dn:cn=admin,dc=
 DEBUG 2025-11-17 11:28:05,244 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
 INFO 2025-11-17 11:28:05,278 backends Utilisateur Django mis à jour: jdupont@entreprise.local
 INFO 2025-11-17 11:28:05,299 views Connexion réussie pour: jdupont@entreprise.local
+INFO 2025-11-18 05:08:19,108 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:11:01,797 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\imap_data_extractor_api\urls.py changed, reloading.
+INFO 2025-11-18 05:11:02,794 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:13:08,804 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:13:09,678 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:13:24,673 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:13:25,945 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:14:05,655 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\urls.py changed, reloading.
+INFO 2025-11-18 05:14:07,122 autoreload Watching for file changes with StatReloader
+ERROR 2025-11-18 05:14:11,381 log Internal Server Error: /user/login/
+Traceback (most recent call last):
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\views.py", line 85, in login_view
+    user = authenticate(request, email=email, password=password)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\views\decorators\debug.py", line 73, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\KIADY\AppData\Local\Programs\Python\Python314\Lib\site-packages\django\contrib\auth\__init__.py", line 79, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\backends.py", line 34, in authenticate
+    ldap_user_info = ldap_service.authenticate_user(email, password)
+  File "D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py", line 40, in authenticate_user
+    admin_conn = ldap_service.get_admin_connection()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LDAPService' object has no attribute 'get_admin_connection'
+INFO 2025-11-18 05:15:22,936 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:15:24,337 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:15:50,083 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:15:51,128 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:15:52,868 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:15:53,661 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:16:01,855 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\authentication\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:16:02,352 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:16:07,801 service Connexion LDAP admin réussie.
+DEBUG 2025-11-18 05:16:07,801 ldap_service Recherche utilisateur par email: (mail=jdupont@entreprise.local)
+INFO 2025-11-18 05:16:07,806 ldap_service Utilisateur trouvé: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 05:16:07,844 ldap_service Authentification réussie pour: jdupont@entreprise.local
+DEBUG 2025-11-18 05:16:07,844 ldap_service Recherche des rôles pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,845 ldap_service Base: ou=roles,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,845 ldap_service Filtre: (member=uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local)
+DEBUG 2025-11-18 05:16:07,846 ldap_service Connexion bound: True
+DEBUG 2025-11-18 05:16:07,848 ldap_service Utilisateur connecté: dn:cn=admin,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,851 ldap_service Recherche des rôles etablies  pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+DEBUG 2025-11-18 05:16:07,851 ldap_service Aucun rôle trouvé pour: uid=jdupont,ou=informatique,ou=departements,dc=entreprise,dc=local
+INFO 2025-11-18 05:16:07,864 backends Utilisateur Django mis à jour: jdupont@entreprise.local
+INFO 2025-11-18 05:16:07,899 views Connexion réussie pour: jdupont@entreprise.local
+ERROR 2025-11-18 05:18:29,864 views Erreur lors de la récupération des départements: 'LDAPService' object has no attribute 'get_all_departments'
+ERROR 2025-11-18 05:18:29,865 log Internal Server Error: /departments/
+INFO 2025-11-18 05:19:31,755 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:19:32,753 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:19:34,881 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:21:25,977 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:21:27,369 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:21:38,134 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:21:39,686 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:21:41,044 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:22:04,628 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:22:06,016 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:22:18,134 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:22:19,696 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:22:20,350 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:23:42,027 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:23:43,159 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:23:46,974 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:23:48,307 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:23:49,045 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:23:53,832 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\views.py changed, reloading.
+INFO 2025-11-18 05:23:54,938 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:24:54,840 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:25:05,547 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:25:06,631 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:25:07,496 service Connexion LDAP admin réussie.
+INFO 2025-11-18 05:25:11,959 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:25:13,092 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:26:14,991 autoreload D:\etudes\Stage L3\web-imap-data-extrector-api\rest-api\imap_data_extractor\imap_data_extractor_api\departments\services\ldap_service.py changed, reloading.
+INFO 2025-11-18 05:26:16,358 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 05:26:19,185 service Connexion LDAP admin réussie.
