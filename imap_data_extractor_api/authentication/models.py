@@ -18,19 +18,22 @@ class LDAPUser(AbstractUser):
         verbose_name="Distinguished Name LDAP",
         help_text="DN complet de l'utilisateur dans LDAP"
     )
-    
-    ldap_roles = models.JSONField(
-        default=list,
+    # Ajout du role indice 0 imap_data_extractor_api/logs/django.log    
+    ldap_role = models.CharField(    
+        max_length=255,
+        # unique=True,
         blank=True,
-        verbose_name="Rôles LDAP",
-        help_text="Liste des rôles récupérés depuis LDAP"
+        null=True,
+        verbose_name="Role LDAP",
+        help_text="Le role d un utilisateur dans ldap"
     )
     
+
     ldap_cn=models.CharField(        
         max_length=255,
         unique=True,
         blank=True,
-        null=True,
+        null=True,  
         verbose_name="Distinguished Name LDAP"
     )
     
@@ -51,6 +54,6 @@ class LDAPUser(AbstractUser):
     
     def has_ldap_role(self, role_name):
         """Vérifie si l'utilisateur a un rôle spécifique"""
-        if not self.ldap_roles:
+        if not self.ldap_role:
             return False
         return any(role.get('name') == role_name for role in self.ldap_roles)
