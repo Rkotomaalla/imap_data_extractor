@@ -4,5 +4,5 @@ __pycache__/
 *.pyc
 
 # Logs
-imap_data_extractor_api/logs/
-*.log
+logs/
+*.log   
