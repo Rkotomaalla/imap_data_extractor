@@ -18,7 +18,7 @@ class LDAPUser(AbstractUser):
         verbose_name="Distinguished Name LDAP",
         help_text="DN complet de l'utilisateur dans LDAP"
     )
-    # Ajout du role indice 0 
+    # Ajout du role indice 0 imap_data_extractor_api/logs/django.log    
     ldap_role = models.CharField(    
         max_length=255,
         # unique=True,
@@ -33,7 +33,7 @@ class LDAPUser(AbstractUser):
         max_length=255,
         unique=True,
         blank=True,
-        null=True,
+        null=True,  
         verbose_name="Distinguished Name LDAP"
     )
     
