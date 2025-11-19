@@ -1,11 +1,11 @@
-from ldap3 import Server, Connection, ALL, SUBTREE, MODIFY_REPLACE
-from ldap3.core.exceptions import LDAPException, LDAPBindError, LDAPEntryAlreadyExistsResult
+from ldap3 import Server, Connection, ALL, SUBTREE, MODIFY_ADD
+from ldap3.core.exceptions import LDAPException, LDAPBindError, LDAPEntryAlreadyExistsResult,LDAPAttributeOrValueExistsResult
 from ldap3.utils.hashed import hashed
 import hashlib
 from django.conf import settings
 from connexion.service import Service
-from passlib.hash import sha256_crypt  # ou bcrypt, argon2, etc.
-import os
+# from passlib.hash import sha256_crypt  # ou bcrypt, argon2, etc.
+# import os
 import logging
 logger = logging.getLogger(__name__)
 
@@ -16,6 +16,7 @@ class UserService:
         self.ldap_base_dn=self.config['BASE_DN']
         self.ldap_bind_dn=self.config['BIND_DN']
         self.ldap_bind_password =self.config['BIND_PASSWORD']
+        self.ldap_role_base=self.config['ROLE_BASE']
         self.use_ssl=self.config['USE_SSL']
         self.ldap_department_base=self.config['DEPARTMENT_BASE']
         self.server = None
@@ -63,8 +64,8 @@ class UserService:
     #     """
     #     return hashed(hashlib.sha1, password, salt=16)
     
-    def _hash_password(self, password):
-        return sha256_crypt.hash(password)
+    # def _hash_password(self, password):
+    #     return sha256_crypt.hash(password)
 
     def set_username(self,first_name,last_name):
         """
@@ -94,7 +95,6 @@ class UserService:
             
             user_dn = f"uid={username},ou={user_data['departement']},{self.ldap_department_base}"
             
-            logger.info(f"Vérification de l'existence de l'utilisateur avec email:EOOOOOO")
             
             # Générer uidNumber
             uid_number = self._get_next_uid_number()
@@ -115,7 +115,6 @@ class UserService:
                 'homeDirectory': f"/home/{username}",
                 'loginShell': '/bin/bash'
             }
-            print("DEBUG ATTRIBUTES =", attributes)
             # Ajouter l'utilisateur avec ldap3
             success = self.connection.add(user_dn, attributes=attributes)
             
@@ -145,7 +144,39 @@ class UserService:
             raise Exception(f"Erreur inattendue: {str(e)}")
         
         
+    
+    def set_user_role_posix_group(self,user):
+        """
+            fonction qui ajoute l utilsateur dans soit admin soit utilisateur
+        """
+        self._connect()
+        # print("DEBUG ROLE =", user.role)
+        group_dn = f"cn={user['role']},{self.ldap_role_base}"
+        user_dn = f"uid={user['username']},ou={user['departement']},{self.ldap_department_base}"
         
+        # On ajoute les deux attributs en même temps (posix + groupOfNames)
+        changes = {
+            'memberUid': [(MODIFY_ADD, [user['username']])],
+        }
+        try:
+            result = self.connection.modify(group_dn, changes)
+            if result:
+                return True
+            else:
+                print(f"Échec LDAP : {self.connection.result}")
+                return False
+
+        except LDAPAttributeOrValueExistsResult:
+            # Déjà membre → c'est OK, on retourne True ou False selon ton besoin
+            return False  # ou True si tu considères "déjà présent" comme succès
+
+        except LDAPException as e:
+            print(f"Erreur LDAP : {e}")
+            return False
+
+        finally:
+            self.connection.unbind()  # toujours fermer la connexion proprement
+       
        
     def _get_next_uid_number(self):
         """

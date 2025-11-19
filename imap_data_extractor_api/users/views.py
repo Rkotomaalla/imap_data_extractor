@@ -43,6 +43,11 @@ class UserLdapCreateView(APIView):
         try: 
             # # Appeler le service LDAP pour créer l'utilisateur
             result = user_service.add_user(serializer.validated_data)
+            if not user_service.set_user_role_posix_group(result):
+                return Response({
+                        'success': False,
+                        'message': 'Erreur lors de l\'attribution du rôle à l\'utilisateur'
+                }, status=409)  # 409 Conflict
             return Response({
                 'success': True,
                 'message': 'Utilisateur créé avec succès',
