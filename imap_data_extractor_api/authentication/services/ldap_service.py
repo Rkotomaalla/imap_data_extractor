@@ -17,6 +17,7 @@ class LDAPService:
             get_info=ALL,
             connect_timeout=self.config['TIMEOUT']
         )    
+        
     def authenticate_user(self,email,password):
         """
         Authentifie un utilisateur via LDAP en utilisant son EMAIL.
@@ -36,8 +37,8 @@ class LDAPService:
         email=email.strip().lower()
         safe_email = escape_filter_chars(email)
         
-        ldap_service = Service()
-        admin_conn = ldap_service.get_admin_connection()
+        conn_service = Service()
+        admin_conn = conn_service.get_admin_connection()
         
         if not admin_conn:
             return None

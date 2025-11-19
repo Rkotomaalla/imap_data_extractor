@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',  # Pour le logout
     # Local
     'authentication',
-    
+    'departments',
+    'users'
     
 
 
@@ -112,6 +113,7 @@ AUTH_USER_MODEL = 'authentication.LDAPUser'
 # LDAP Configuration
 LDAP_CONFIG = {
     'SERVER': config('LDAP_SERVER', default='ldap://localhost:389'),
+    'BASE_DN': config('LDAP_BASE_DN', default='dc=entreprise,dc=local'),
     'BIND_DN': config('LDAP_BIND_DN', default='cn=admin,dc=entreprise,dc=local'),
     'BIND_PASSWORD': config('LDAP_BIND_PASSWORD', default='admin123'),
     'USER_BASE': config('LDAP_USER_BASE', default='ou=departements,dc=entreprise,dc=local'),
@@ -161,7 +163,7 @@ LOGGING = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Durée du token d'accès
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Durée du token d'accès
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Durée du refresh token
     
     'ROTATE_REFRESH_TOKENS': True,                   # Rotation des refresh tokens
