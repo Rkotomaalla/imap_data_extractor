@@ -82,3 +82,71 @@ class UserSerializer(serializers.Serializer):
     def validate_email(self, value):
         """Validation spécifique de l'email"""
         return value.lower()
+    
+    
+    
+class UserUpdateSerializer(serializers.Serializer):
+    
+    email = serializers.EmailField(
+        allow_null=True,
+        required=False,
+    )
+    
+    current_password = serializers.CharField(
+        allow_null=True,
+        write_only=True,
+        required=False,
+        style={'input_type': 'password'},
+    )
+    new_password = serializers.CharField(
+        allow_null=True,
+        write_only=True,
+        min_length=8,
+        required=False,
+        style={'input_type': 'password'},
+        error_messages={
+            'required': 'Le mot de passe est obligatoire',
+            'min_length': 'Le mot de passe doit contenir au moins 8 caractères'
+        }
+    )
+    
+    confirm_password = serializers.CharField(
+        allow_null=True,
+        write_only=True,
+        required=False,
+        style={'input_type': 'password'},
+    )
+    
+    role = serializers.ChoiceField(
+        allow_null=True,
+        choices=['admin', 'user', 'manager', 'guest'],
+        required=False,
+    )
+    
+    departement = serializers.CharField(
+        allow_null=True,
+        max_length=100,
+        required=False,
+    )
+    
+    def  validate(self,data):
+        """Validation globale des données"""
+        # Si un mot de passe est fourni, vérifier qu'il correspond à la confirmation
+        if 'new_password' in data:
+            if 'current_password' not in data or not data['current_password']:
+                raise serializers.ValidationError({
+                    'Current password': 'Le mot de passe actuel est obligatoire'
+                })
+            if data['new_password'] != data['confirm_password']:
+                raise serializers.ValidationError({
+                    'confirm_password': 'Les mots de passe ne correspondent pas'
+                })
+        
+        # Supprimer confirm_password avant de retourner les données
+        data.pop('confirm_password', None)
+        
+        return data
+    
+    def validate_email(self, value):
+        """Validation spécifique de l'email"""
+        return value.lower() if value else value

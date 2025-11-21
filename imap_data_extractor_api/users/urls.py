@@ -1,8 +1,10 @@
 from django.urls import path
 from .views import(
-    UserLdapCreateView
+    UserLdapView,
+    UserLdapDetailView,
 )
 
 urlpatterns = [
-    path('', UserLdapCreateView.as_view(), name='user-ldap-create'),
+    path('', UserLdapView.as_view(), name='user-ldap-create'),
+    path('<int:user_id>',UserLdapDetailView.as_view(), name='user-ldap-detail'),
 ]
