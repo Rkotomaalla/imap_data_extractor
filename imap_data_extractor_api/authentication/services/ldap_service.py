@@ -193,3 +193,5 @@ class LDAPService:
             conn.unbind()
             return True
         return False
+    
+ldap_Service =  LDAPService()
