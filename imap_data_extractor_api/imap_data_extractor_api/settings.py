@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     # Third party
     'rest_framework',
     'corsheaders',
-    
+    'imap_data_extractor_api',
     # pour les JWT
     # ...
     'rest_framework_simplejwt',
@@ -57,10 +57,9 @@ INSTALLED_APPS = [
     # Local
     'authentication',
     'departments',
-    'users'
-    
-
-
+    'users',
+    'bots',
+    'bot_filter'
 ]
 
 # Backend d'authentification : LDAP en premier
@@ -105,6 +104,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://localhost:3000",
 #     "http://127.0.0.1:3000",
 # ]
+MONGODB_SETTINGS = {
+    'host': config('MONGO_HOST', default='localhost'),
+    'port': int(config('MONGO_PORT', default=27017)),
+    'db_name': config('MONGO_DB_NAME', default='imap_data_extractor_db'),
+    'username': config('MONGO_USERNAME', default=''),
+    'password': config('MONGO_PASSWORD', default=''),
+}
 
 CORS_ALLOW_CREDENTIALS = True
 

@@ -27,7 +27,7 @@ class UserLdapView(APIView):
     permission_classes_by_method = {
     'GET': [IsAuthenticated()],
     'POST': [IsAuthenticated(), IsAdmin()],
-    'PUT': [IsAuthenticated(), IsAdmin()],
+    'PUT': [IsAuthenticated()],
     'DELETE': [IsAuthenticated(), IsAdmin()],
     }
 
@@ -113,10 +113,9 @@ class UserLdapDetailView(APIView):
     permission_classes_by_method = {
     'GET': [IsAuthenticated()],
     'POST': [IsAuthenticated(), IsAdmin()],
-    'PUT': [IsAuthenticated(), IsAdmin()],
+    'PUT': [IsAuthenticated()],
     'DELETE': [IsAuthenticated(), IsAdmin()],
     }
-
     def get_permissions(self):
         return self.permission_classes_by_method.get(
             self.request.method,
@@ -193,8 +192,9 @@ class UserLdapDetailView(APIView):
             
             
         try: 
-            # # Appeler le service LDAP pour créer l'utilisateur
-            result = user_service.update_user(serializer.validated_data,user_id,True)
+
+            is_admin = (request.user.ldap_role == "admin")
+            result = user_service.update_user(serializer.validated_data,user_id,is_admin)
             
             return Response({
                 'success': True,
