@@ -9,6 +9,13 @@ class LDAPUser(AbstractUser):
     Modèle utilisateur synchronisé avec LDAP.
     Stocke les informations en cache de la session LDAP.
     """
+    uid_number =  models.IntegerField(
+        blank=True,
+        null=True,
+        verbose_name="UID number LDAP",
+        help_text="UID de l'utilisateur dans LDAP",
+        
+    )
     
     ldap_dn = models.CharField(
         max_length=255,

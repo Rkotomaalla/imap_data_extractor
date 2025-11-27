@@ -43,6 +43,7 @@ class LDAPAuthenticationBackend(BaseBackend):
                 'email': ldap_user_info.get('email', ''),
                 'first_name': ldap_user_info.get('first_name', ''),
                 'last_name': ldap_user_info.get('last_name', ''),
+                'uid_number' : ldap_user_info.get('uidNumber','')
             }
             # Ajouter les champs LDAP seulement s'ils existent dans le modèle
             if hasattr(User, 'ldap_dn'):

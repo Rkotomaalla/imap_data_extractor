@@ -107,7 +107,7 @@ def login_view(request):
         refresh['username'] = user.username
         refresh['email'] = user.email
         refresh['ldap_dn'] = user.ldap_dn if hasattr(user, 'ldap_dn') else ''
-        
+        refresh['uid_number'] = user.uid_number 
         # Rôles LDAP
         if hasattr(user, 'ldap_role'):
             refresh['role'] = user.ldap_role

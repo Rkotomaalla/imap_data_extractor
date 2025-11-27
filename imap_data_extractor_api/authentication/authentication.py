@@ -33,7 +33,6 @@ class CustomJWTAuthentication(JWTAuthentication):
         email = validated_token.get('email', '')
         role = validated_token.get('role', 'user')
         username = validated_token.get('username', '')
-        
         user = SimpleNamespace(
             id=user_id,
             email=email,

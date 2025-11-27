@@ -1,8 +1,10 @@
-from django.urls import path
+from django.urls import path , include
+from rest_framework.routers import DefaultRouter
 from .views import(
-    BotsView
+    BotViewSet
 )
-
+router = DefaultRouter()
+router.register(r'', BotViewSet, basename='bot')
 urlpatterns = [
-    path('', BotsView.as_view(), name='bots_view'),
+    path('', include(router.urls)),
 ]
