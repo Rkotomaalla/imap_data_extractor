@@ -5,3 +5,5 @@ ldap3==2.9.1
 django-cors-headers==4.3.1
 python-decouple==3.8
 passlib[argon2]>=1.7.4
+pymongo>=4.6.0
+dnspython>=2.4.0

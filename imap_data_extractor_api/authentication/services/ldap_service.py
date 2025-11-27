@@ -51,9 +51,8 @@ class LDAPService:
                 search_base=self.config['USER_BASE'],
                 search_filter=search_filter,
                 search_scope=SUBTREE,
-                attributes=['uid', 'cn', 'mail', 'givenName', 'sn']
+                attributes=['uid', 'cn', 'mail', 'givenName', 'sn','uidNumber']
             )
-            
             if not success or len(admin_conn.entries) == 0:
                 logger.warning(f"⚠️ Utilisateur non trouvé avec l'email: {email}")
                 admin_conn.unbind()
@@ -86,6 +85,7 @@ class LDAPService:
                 'first_name': user_entry.givenName.value if hasattr(user_entry, 'givenName') else '',
                 'last_name': user_entry.sn.value if hasattr(user_entry, 'sn') else '',
                 'full_name': user_entry.cn.value if hasattr(user_entry, 'cn') else '',
+                'uidNumber': user_entry.uidNumber.value if hasattr(user_entry, 'uidNumber') else '',
             }
             
              # 6. Récupérer les rôles

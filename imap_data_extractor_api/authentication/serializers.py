@@ -20,7 +20,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
-        
+        token['uid_number'] = user.uid_number
         # Claims LDAP spécifiques
         token['ldap_dn'] = user.ldap_dn if hasattr(user, 'ldap_dn') else ''
         

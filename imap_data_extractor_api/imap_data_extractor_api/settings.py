@@ -14,6 +14,21 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
+
+import pymongo
+from pymongo import MongoClient
+
+# Connexion MongoDb via pimongo
+MONGO_URI = 'mongodb://localhost:27017/'
+MONGO_CLIENT = MongoClient(MONGO_URI)
+MONGO_DB = MONGO_CLIENT.get_database('imap_data_extractor_db')
+
+MONGO_COLLECTIONS = {
+    'bots' : MONGO_DB.get_collection('bot'),
+    'fields' : MONGO_DB.get_collection('field'),
+    'operators' : MONGO_DB.get_collection('operator')
+}  
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,7 +64,7 @@ INSTALLED_APPS = [
     # Third party
     'rest_framework',
     'corsheaders',
-    
+    'imap_data_extractor_api',
     # pour les JWT
     # ...
     'rest_framework_simplejwt',
@@ -57,10 +72,9 @@ INSTALLED_APPS = [
     # Local
     'authentication',
     'departments',
-    'users'
-    
-
-
+    'users',
+    'bots',
+    'bot_filter'
 ]
 
 # Backend d'authentification : LDAP en premier
@@ -97,6 +111,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -105,6 +122,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://localhost:3000",
 #     "http://127.0.0.1:3000",
 # ]
+MONGODB_SETTINGS = {
+    'host': config('MONGO_HOST', default='localhost'),
+    'port': int(config('MONGO_PORT', default=27017)),
+    'db_name': config('MONGO_DB_NAME', default='imap_data_extractor_db'),
+    'username': config('MONGO_USERNAME', default=''),
+    'password': config('MONGO_PASSWORD', default=''),
+}
 
 CORS_ALLOW_CREDENTIALS = True
 
