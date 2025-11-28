@@ -110,9 +110,9 @@ class BotViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         """GET /api/bots/{id}/ - Récupère un bot spécifique (vérifie ownership)"""
         try:
-            object_id = parse_object_id(pk)
+            # object_id = parse_object_id(pk)
             bot = self.collection.find_one({
-                'id': object_id,
+                'bot_id': int(pk),
                 'assigned_user_id': request.user.uid_number  # ← Sécurité : vérifie l'ownership
             })
             
