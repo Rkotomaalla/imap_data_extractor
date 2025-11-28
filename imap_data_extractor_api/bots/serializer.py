@@ -20,7 +20,7 @@ class BotSerializer(serializers.Serializer):
     filter = FilterSerializer(required=True)
     created_date=serializers.DateTimeField(read_only=True)
     killed_date=serializers.DateTimeField(read_only=True)
-    
+    assigned_user_id=serializers.IntegerField(read_only=True)
     def validate_name(self, value):
         if not value.strip():
             raise serializers.ValidationError("Le nom ne peut pas être vide")
