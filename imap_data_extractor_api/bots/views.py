@@ -112,7 +112,7 @@ class BotViewSet(viewsets.ViewSet):
         try:
             object_id = parse_object_id(pk)
             bot = self.collection.find_one({
-                '_id': object_id,
+                'id': object_id,
                 'assigned_user_id': request.user.uid_number  # ← Sécurité : vérifie l'ownership
             })
             

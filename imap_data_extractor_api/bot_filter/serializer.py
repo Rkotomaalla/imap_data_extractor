@@ -65,6 +65,34 @@ class FilterSerializer(serializers.Serializer):
 
     
         
+class FieldSerializer(serializers.Serializer):
+    """Field"""
+    field_id = serializers.IntegerField(read_only=True)
+    id = serializers.CharField(read_only = True)
+    name = serializers.CharField(max_length = 200 , required = True)    
+    
+    def validate_name(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Le nom ne peut pas être vide")
+        return value.strip()
+    
+    
+class OperatorSerializer(serializers.Serializer):
+    """Operator"""
+    operator_id = serializers.IntegerField(read_only=True)
+    id = serializers.CharField(read_only = True)
+    field_id = serializers.IntegerField(min_value = 1 , required = True)
+    name = serializers.CharField(max_length = 200 , required = True)    
+    
+    def validate_name(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Le nom ne peut pas être vide")
+        return value.strip()
+    def validate_field_id(self, value):
+        if not value:
+            raise serializers.ValidationError("L id du Field  ne peut pas être vide")
+        return value
+            
 # ==========================================================================================================================================================================================================================================================
     
 # class BotRuleSerializer(serializers.ModelSerializer):

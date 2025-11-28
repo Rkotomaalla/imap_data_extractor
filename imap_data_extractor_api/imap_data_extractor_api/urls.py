@@ -26,4 +26,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     
     path('bots/', include('bots.urls')),
+    
+    path('fields/', include('bot_filter.urls')),
+        
 ]
