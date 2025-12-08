@@ -130,3 +130,48 @@ class BotViewSet(viewsets.ViewSet):
                 {'error': f'Erreur: {str(e)}'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+            
+    def partial_update(self,request,pk=None):
+        """PATCH  /bots/{id} => modiffier un Bot"""
+        try:
+            bot =  self.collection.find_one({
+                'bot_id': int(pk),
+            })
+            if not bot:
+                return Response(
+                    {'error': 'Bot non trouvé'}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            # Eto ny ownerShip
+            if str(bot.get('assigned_user_id')) != str(request.user.uid_number):
+                return Response(
+                {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                status=status.HTTP_403_FORBIDDEN
+                )
+                
+            # Serializer avec partial=True pour permettre update partiel
+            serializer = BotSerializer(bot, data=request.data, partial=True)
+            if serializer.is_valid():
+                validated_data = serializer.validated_data
+                # Mettre à jour uniquement les champs envoyés
+                updated_bot = {**bot, **validated_data}
+
+                # Sauvegarde dans MongoDB
+                self.collection.update_one(
+                    {'_id': bot['_id']},
+                    {'$set': updated_bot}
+                )
+
+                # Recharger le document pour la réponse
+                updated_bot = self.collection.find_one({'_id': bot['_id']})
+                updated_bot = serialize_mongo_doc(updated_bot)
+
+                response_serializer = BotSerializer(updated_bot)
+                return Response(response_serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response(
+                 {'error': f'Erreur: {str(e)}'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
