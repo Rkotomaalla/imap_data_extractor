@@ -12,4 +12,3 @@ imap_data_extractor_api/logs/*.log
 __pycache__/
 *.pyc
 >>>>>>> origin/imap_data_extractor_api
-*.sqlite3
