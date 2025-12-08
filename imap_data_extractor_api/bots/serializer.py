@@ -10,21 +10,40 @@ from django.conf import settings
 class BotSerializer(serializers.Serializer):
     bot_id = serializers.IntegerField(read_only=True)
     id = serializers.CharField(read_only = True)
-    name = serializers.CharField(max_length = 200 , required = True)    
+    name = serializers.CharField(max_length = 200 , required = False)    
     status = serializers.IntegerField(min_value=0, max_value =  2 , default= 0)
     description = serializers.CharField(
         max_length = 1000,
         allow_blank= True, 
         required = False,
     ) 
-    filter = FilterSerializer(required=True)
+    filter = FilterSerializer(required=False)
     created_date=serializers.DateTimeField(read_only=True)
     killed_date=serializers.DateTimeField(read_only=True)
     assigned_user_id=serializers.IntegerField(read_only=True)
+    
+    
+    def validate(self, attrs):
+        # Si c'est une création
+        if self.instance is None:
+            required_on_create = ["name", "filter"]
+            missing = [field for field in required_on_create if field not in attrs or attrs[field] in [None, ""]]
+            if missing:
+                raise serializers.ValidationError(
+                    {field: "Ce champ est requis lors de la création." for field in missing}
+                )
+
+        # Validation supplémentaire pour name si présent
+        if "name" in attrs and not attrs["name"].strip():
+            raise serializers.ValidationError({"name": "Le nom ne peut pas être vide"})
+
+        return attrs
+
     def validate_name(self, value):
-        if not value.strip():
+        if value is not None and not value.strip():
             raise serializers.ValidationError("Le nom ne peut pas être vide")
-        return value.strip()
+        return value.strip() if value else value
+
     
     def validate_status(self, value):
         """Valide le statut (0=inactif, 1=actif, 2=pause)"""
