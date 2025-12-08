@@ -57,8 +57,7 @@ class FieldViewSet(viewsets.ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
-    @action(detail = True , methods = ['get'])
-    def operator(self, request, pk=None):
+    def retrieve(self, request, pk=None):
         """
         Récupère tous les operators liés à un Field donné
         URL: /api/field/{pk}/operator/

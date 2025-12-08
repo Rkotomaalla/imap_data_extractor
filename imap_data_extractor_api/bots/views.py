@@ -115,7 +115,7 @@ class BotViewSet(viewsets.ViewSet):
                 'bot_id': int(pk),
                 'assigned_user_id': request.user.uid_number  # ← Sécurité : vérifie l'ownership
             })
-            
+            print(bot)
             if not bot:
                 return Response(
                     {'error': 'Bot non trouvé ou accès refusé'}, 

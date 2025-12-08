@@ -16,7 +16,7 @@ class RuleSerializer(serializers.Serializer):
         """valid si le field_existe Vraiment"""
         # Vefirication dans mongoDb
         field_collection = settings.MONGO_COLLECTIONS.get('fields', settings.MONGO_DB['field'])
-        field_exists = field_collection.find_one({'id_field': value})
+        field_exists = field_collection.find_one({"field_id": int(value)})
         if not field_exists: 
             raise serializers.ValidationError(f"field_id {value} n'existe pas")
         return value
@@ -25,8 +25,7 @@ class RuleSerializer(serializers.Serializer):
     def validate_operator_id(self,value):
         """Verification si l operator existe vraiment"""
         operator_collection = settings.MONGO_COLLECTIONS.get('operators', settings.MONGO_DB['operator'])
-        operator_exists = operator_collection.find_one({'id_operator' : value})
-        
+        operator_exists = operator_collection.find_one({'operator_id' : int(value)})
         if not operator_exists:
             raise serializers.ValidationError(f"operator_id {value} n'existe pas") 
         return value
@@ -39,8 +38,8 @@ class RuleSerializer(serializers.Serializer):
         operator_collection = settings.MONGO_COLLECTIONS.get('operators', settings.MONGO_DB['operator'])
         
         operator_doc = operator_collection.find_one({
-            'id_operator': operator_id,
-            'field': field_id
+            'operator_id': operator_id,
+            'field_id': field_id
         })
         
         if not operator_doc:
