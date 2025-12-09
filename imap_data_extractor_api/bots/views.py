@@ -15,6 +15,9 @@ from datetime import datetime
 from .utils import serialize_mongo_doc, parse_object_id
 
 
+from .service import generate_bot_token
+from rest_framework.decorators import action
+
 logger = logging.getLogger(__name__)
 # # Create your views here.
 # class BotsView(APIView):
@@ -175,3 +178,27 @@ class BotViewSet(viewsets.ViewSet):
                  {'error': f'Erreur: {str(e)}'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+            
+            
+
+    @action(detail=True, methods=['get'], url_path="token")
+    def getToken(self ,request, pk=None):
+        try:
+            """
+            urls Specifique : "/bots/<id>/token/"
+            """
+            bot = self.collection.find_one({
+                'bot_id': int(pk),
+                # 'assigned_user_id': request.user.uid_number  #sans veriication owner ship pour le test l'ownership
+            })
+            bot = serialize_mongo_doc(bot)
+            serializer = BotSerializer(bot)
+            id_bot = serializer.data.get('id')
+            token = generate_bot_token(id_bot)
+            return Response(
+                {"token": token},
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)            

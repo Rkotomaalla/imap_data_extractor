@@ -7,17 +7,31 @@ from rest_framework.response import Response
 
 from datetime import datetime
 from .utils import get_next_sequence_value, serialize_mongo_doc
-
+from bots.permissions import IsBot
 # Create your views here.
 logger=logging.getLogger(__name__)
 
 class MailViewSet(viewsets.ViewSet):
     """ViewSet Crud des email avec pymongo"""
+    permission_classes = [IsBot]
     # Creation des permission des Bots
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.collection = settings.MONGO_COLLECTIONS['mails']
         
+    # def get_permissions(self):
+    #     if self.action == 'create':  # Seulement pour create()
+    #         return [IsBot()]
+    #     return super().get_permissions()  # Autres actions gardent les permissions globales
+    # def get_permissions(self):
+    #     print(f"==================================================\nEto Tsika zao\n==================================================\n")     
+    #     # self.action est défini par DRF (create, list, retrieve, ...)
+    #     if getattr(self, 'action', None) == 'create':
+    #         return [IsBot()]   # Seule la méthode create() exige IsBot
+    #     # Pour les autres actions, tu peux retourner d'autres permissions ou []:
+    #     from rest_framework.permissions import IsAuthenticated
+    #     return [IsAuthenticated()]
+    
     def create(self,request):
         serializers=MailSerializer(data=request.data)
          
