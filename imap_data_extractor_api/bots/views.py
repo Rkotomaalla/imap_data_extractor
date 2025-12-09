@@ -181,24 +181,50 @@ class BotViewSet(viewsets.ViewSet):
             
             
 
-    @action(detail=True, methods=['get'], url_path="token")
-    def getToken(self ,request, pk=None):
+    @action(detail=True, methods=['get'], url_path="token", permission_classes=[IsAuthenticated])
+    def getToken(self, request, pk=None):
+        """
+        URLs Spécifique : GET /bots/<id>/token/
+        Génère un token JWT pour le bot spécifié
+        """
         try:
-            """
-            urls Specifique : "/bots/<id>/token/"
-            """
+            # Récupérer le bot depuis MongoDB
             bot = self.collection.find_one({
                 'bot_id': int(pk),
-                # 'assigned_user_id': request.user.uid_number  #sans veriication owner ship pour le test l'ownership
+                # 'assigned_user_id': request.user.uid_number  # Décommentez si nécessaire
             })
+            
+            if not bot:
+                logger.warning(f"Bot non trouvé : bot_id={pk}")
+                return Response(
+                    {'error': f'Bot avec id {pk} non trouvé'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            # Sérialiser le bot
             bot = serialize_mongo_doc(bot)
             serializer = BotSerializer(bot)
-            id_bot = serializer.data.get('id')
-            token = generate_bot_token(id_bot)
+            bot_data = serializer.data
+            
+            # Générer le token
+            bot_id = bot_data.get('bot_id')  # ou 'id' selon votre modèle
+            token = generate_bot_token(bot_id)
+            
+            logger.info(f"✅ Token généré pour bot_id={bot_id}")
+            
             return Response(
-                {"token": token},
+                {
+                    "access": token,
+                    "bot_id": bot_id,
+                    "bot_name": bot_data.get('name', 'N/A'),
+                    "expires_in": "30 days"
+                },
                 status=status.HTTP_200_OK
             )
 
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)            
+            logger.error(f"❌ Erreur lors de la génération du token: {str(e)}")
+            return Response(
+                {"error": f"Erreur lors de la génération du token: {str(e)}"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

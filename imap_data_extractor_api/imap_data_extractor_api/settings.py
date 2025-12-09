@@ -101,6 +101,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',         # Fallback pour admin
+        'bots.authentication.BotJWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',   
@@ -197,7 +198,7 @@ SIMPLE_JWT = {
     # Algorithme de signature
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
-    
+    'VERIFYING_KEY': None,
     # Headers
     'AUTH_HEADER_TYPES': ('Bearer',),                    # Authorization: Bearer <token>
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
