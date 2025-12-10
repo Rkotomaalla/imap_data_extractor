@@ -54,6 +54,8 @@ AUTHENTICATION_BACKENDS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # Real Time Monitorinf 
+    'daphne',  # Doit être en premier
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,8 +76,23 @@ INSTALLED_APPS = [
     'departments',
     'users',
     'bots',
-    'bot_filter'
+    'bot_filter',
+    
+    #Real Time Monitoring
+    'channels'
 ]
+
+
+ASGI_APPLICATION = 'imap_data_extractor_api.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
 
 # Backend d'authentification : LDAP en premier
 # AUTHENTICATION_BACKENDS = [
