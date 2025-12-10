@@ -5,11 +5,11 @@ logs/
 imap_data_extractor_api/logs/*.log
 
 # Python cache
-# __pycache__/
-# *.pyc
-# *.pyo
-# *.pyd
-# *.py[cod]
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
 
 # SQLite database
 *.sqlite3
