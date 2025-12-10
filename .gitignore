@@ -17,4 +17,3 @@ __pycache__/
 # Django collectstatic output
 staticfiles/
 media/
-
