@@ -1,5 +1,3 @@
-# Environment variables
-.env
 
 # Logs
 logs/
@@ -19,7 +17,3 @@ __pycache__/
 # Django collectstatic output
 staticfiles/
 media/
-
-# Virtual environments
-venv/
-env/
