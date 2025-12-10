@@ -26,7 +26,8 @@ MONGO_DB = MONGO_CLIENT.get_database('imap_data_extractor_db')
 MONGO_COLLECTIONS = {
     'bots' : MONGO_DB.get_collection('bot'),
     'fields' : MONGO_DB.get_collection('field'),
-    'operators' : MONGO_DB.get_collection('operator')
+    'operators' : MONGO_DB.get_collection('operator'),
+    'mails' : MONGO_DB.get_collection('mail')
 }  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,7 +45,7 @@ SECRET_KEY = config('SECRET_KEY',default='django-insecure-+rvpwf)+2y%4+py334pv(s
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.200.222.36']
+ALLOWED_HOSTS = ['*','host.docker.internal','localhost', '127.0.0.1', '10.200.222.36']
 
 AUTHENTICATION_BACKENDS = [
     'authentication.backends.LDAPAuthenticationBackend',
@@ -100,6 +101,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',         # Fallback pour admin
+        'bots.authentication.BotJWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',   
@@ -196,7 +198,7 @@ SIMPLE_JWT = {
     # Algorithme de signature
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
-    
+    'VERIFYING_KEY': None,
     # Headers
     'AUTH_HEADER_TYPES': ('Bearer',),                    # Authorization: Bearer <token>
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
