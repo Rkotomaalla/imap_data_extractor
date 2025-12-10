@@ -13,3 +13,7 @@ __pycache__/
 *.pyc
 >>>>>>> origin/imap_data_extractor_api
 *.sqlite3
+
+*.py[cod]
+*.pyo
+*.pyd
