@@ -79,17 +79,17 @@ INSTALLED_APPS = [
     'bot_filter',
     
     #Real Time Monitoring
-    'channels'
+    'channels',
+    'notifications'
 ]
 
 
-ASGI_APPLICATION = 'imap_data_extractor_api.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('redis', 6379)],
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }
@@ -255,6 +255,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'imap_data_extractor_api.wsgi.application'
+ASGI_APPLICATION = 'imap_data_extractor_api.asgi.application'
 
 
 # Database
