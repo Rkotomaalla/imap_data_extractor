@@ -45,7 +45,7 @@ SECRET_KEY = config('SECRET_KEY',default='django-insecure-+rvpwf)+2y%4+py334pv(s
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.200.222.36']
+ALLOWED_HOSTS = ['*','host.docker.internal','localhost', '127.0.0.1', '10.200.222.36']
 
 AUTHENTICATION_BACKENDS = [
     'authentication.backends.LDAPAuthenticationBackend',
