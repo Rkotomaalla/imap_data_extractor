@@ -29,6 +29,8 @@ urlpatterns = [
     
     path('fields/', include('bot_filter.urls')),
     
+    path('mail/',include('mail.urls')),
+    
     path('notification/',include('notifications.urls'))
         
 ]
