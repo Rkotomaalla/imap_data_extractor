@@ -1,18 +1,25 @@
-imap_data_extractor_api/.env
-<<<<<<< HEAD
-
-__pycache__/
-*.pyc
+# Environment variables
+.env
 
 # Logs
 logs/
-*.log   
-=======
+*.log
 imap_data_extractor_api/logs/*.log
+
+# Python cache
 __pycache__/
 *.pyc
->>>>>>> origin/imap_data_extractor_api
-*.sqlite3
-*.py[cod]
 *.pyo
 *.pyd
+*.py[cod]
+
+# SQLite database
+*.sqlite3
+
+# Django collectstatic output
+staticfiles/
+media/
+
+# Virtual environments
+venv/
+env/
