@@ -15,6 +15,9 @@ from datetime import datetime
 from .utils import serialize_mongo_doc, parse_object_id
 
 
+from .service import generate_bot_token
+from rest_framework.decorators import action
+
 logger = logging.getLogger(__name__)
 # # Create your views here.
 # class BotsView(APIView):
@@ -174,4 +177,54 @@ class BotViewSet(viewsets.ViewSet):
             return Response(
                  {'error': f'Erreur: {str(e)}'}, 
                 status=status.HTTP_400_BAD_REQUEST
+            )
+            
+            
+
+    @action(detail=True, methods=['get'], url_path="token", permission_classes=[IsAuthenticated])
+    def getToken(self, request, pk=None):
+        """
+        URLs Spécifique : GET /bots/<id>/token/
+        Génère un token JWT pour le bot spécifié
+        """
+        try:
+            # Récupérer le bot depuis MongoDB
+            bot = self.collection.find_one({
+                'bot_id': int(pk),
+                # 'assigned_user_id': request.user.uid_number  # Décommentez si nécessaire
+            })
+            
+            if not bot:
+                logger.warning(f"Bot non trouvé : bot_id={pk}")
+                return Response(
+                    {'error': f'Bot avec id {pk} non trouvé'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            # Sérialiser le bot
+            bot = serialize_mongo_doc(bot)
+            serializer = BotSerializer(bot)
+            bot_data = serializer.data
+            
+            # Générer le token
+            bot_id = bot_data.get('bot_id')  # ou 'id' selon votre modèle
+            token = generate_bot_token(bot_id)
+            
+            logger.info(f"✅ Token généré pour bot_id={bot_id}")
+            
+            return Response(
+                {
+                    "access": token,
+                    "bot_id": bot_id,
+                    "bot_name": bot_data.get('name', 'N/A'),
+                    "expires_in": "30 days"
+                },
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            logger.error(f"❌ Erreur lors de la génération du token: {str(e)}")
+            return Response(
+                {"error": f"Erreur lors de la génération du token: {str(e)}"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
