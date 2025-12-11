@@ -21,13 +21,17 @@ class IsBot(BasePermission):
         
         is_bot = token.get("is_bot", False)
         bot_id = token.get("bot_id", None)
-        
+        assigned_user_id = token.get("assigned_user_id",None)
         if not is_bot:
             logger.warning("Token sans claim 'is_bot'")
             return False
         
         if not bot_id:
             logger.warning("Token bot sans 'bot_id'")
+            return False
+        
+        if not assigned_user_id:
+            logger.warning("Token bot sans 'assigned_user_id'")
             return False
         
         logger.info(f"✅ Bot autorisé : {bot_id}")

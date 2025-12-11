@@ -208,7 +208,8 @@ class BotViewSet(viewsets.ViewSet):
             
             # Générer le token
             bot_id = bot_data.get('bot_id')  # ou 'id' selon votre modèle
-            token = generate_bot_token(bot_id)
+            assigned_user_id = bot_data.get('assigned_user_id')
+            token = generate_bot_token(bot_id,assigned_user_id)
             
             logger.info(f"✅ Token généré pour bot_id={bot_id}")
             

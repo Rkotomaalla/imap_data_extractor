@@ -78,6 +78,7 @@ def login_view(request):
                 'message': 'Données invalides',
                 'errors': serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+            
         email = serializer.validated_data['email']
         password = serializer.validated_data['password']
         

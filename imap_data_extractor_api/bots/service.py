@@ -2,7 +2,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from datetime import timedelta
 
 
-def generate_bot_token(bot_id):
+def generate_bot_token(bot_id,assigned_user_id):
     """
     Génère un token JWT spécial pour un bot
     """
@@ -12,6 +12,7 @@ def generate_bot_token(bot_id):
     # Claims personnalisés pour identifier le bot
     token["is_bot"] = True
     token["bot_id"] = str(bot_id)
+    token["assigned_user_id"] = str(assigned_user_id)
     token["type"] = "bot_access"
     
     # ⚠️ NE PAS ajouter user_id pour les bots

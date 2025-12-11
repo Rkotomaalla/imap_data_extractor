@@ -27,7 +27,8 @@ MONGO_COLLECTIONS = {
     'bots' : MONGO_DB.get_collection('bot'),
     'fields' : MONGO_DB.get_collection('field'),
     'operators' : MONGO_DB.get_collection('operator'),
-    'mails' : MONGO_DB.get_collection('mail')
+    'mails' : MONGO_DB.get_collection('mail'),
+    'notifications' : MONGO_DB.get_collection('notification')
 }  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
