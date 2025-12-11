@@ -14,12 +14,37 @@ class LDAPUser(AbstractUser):
         null=True,
         verbose_name="UID number LDAP",
         help_text="UID de l'utilisateur dans LDAP",
+        unique=True
         
+    )
+    username=models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="UserName en LDAP",
+    )
+    first_name=models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="First Name LDAP",
+    )
+    
+    last_name=models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Last Name LDAP",
+    )
+    full_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Full Name LDAP",
     )
     
     ldap_dn = models.CharField(
         max_length=255,
-        unique=True,
         blank=True,
         null=True,
         verbose_name="Distinguished Name LDAP",
@@ -28,21 +53,18 @@ class LDAPUser(AbstractUser):
     # Ajout du role indice 0 imap_data_extractor_api/logs/django.log    
     ldap_role = models.CharField(    
         max_length=255,
-        # unique=True,
         blank=True,
         null=True,
         verbose_name="Role LDAP",
         help_text="Le role d un utilisateur dans ldap"
     )
     
-
     ldap_cn=models.CharField(        
         max_length=255,
-        unique=True,
         blank=True,
         null=True,  
         verbose_name="Distinguished Name LDAP"
-    )
+    )   
     
 
     
@@ -51,6 +73,8 @@ class LDAPUser(AbstractUser):
         verbose_name="Dernière synchronisation LDAP"
     )
     
+    USERNAME_FIELD = 'uid_number'   # <--- Utiliser le champ unique comme identifiant
+    REQUIRED_FIELDS = ['username', 'email']
     class Meta:
         verbose_name = "Utilisateur LDAP"
         verbose_name_plural = "Utilisateurs LDAP"

@@ -98,7 +98,7 @@ def login_view(request):
                 'message': 'Compte désactivé'
             }, status=status.HTTP_403_FORBIDDEN)
         
-        # Créer la session Django
+        # # Créer la session Django
         login(request, user)
         
         # Générer les tokens JWT

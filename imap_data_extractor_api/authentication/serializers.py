@@ -14,15 +14,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         Ajoute des claims personnalisés au token.
         """
         token  = super().get_token(user)
-        
          # Claims standards
-        token[' '] = user.username
+        token['username'] = user.username
         token['email'] = user.email
-        token['first_name'] = user.first_name
-        token['last_name'] = user.last_name
         token['uid_number'] = user.uid_number
-        # Claims LDAP spécifiques
         token['ldap_dn'] = user.ldap_dn if hasattr(user, 'ldap_dn') else ''
+        
         
         # Rôles LDAP
         if hasattr(user, 'ldap_role'):
@@ -89,18 +86,16 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id',
+            'uid_number',
             'username',
             'email',
             'first_name',
             'last_name',
             'ldap_dn',
             'role',
-            'last_ldap_sync',
-            'date_joined',
             'is_active'
         ]
-        read_only_fields = ['id', 'date_joined', 'last_ldap_sync']
+        read_only_fields = ['uid_number']
 
 # fonction de get Role[0]
     def get_role(self,obj):

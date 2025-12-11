@@ -118,7 +118,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',         # Fallback pour admin
-        'bots.authentication.BotJWTAuthentication'
+        'bots.authentication.BotJWTAuthentication',
+        'authentication.authentication.CustomJWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',   

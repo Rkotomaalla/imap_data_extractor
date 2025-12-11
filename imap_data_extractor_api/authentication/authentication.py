@@ -9,7 +9,7 @@ class CustomJWTAuthentication(JWTAuthentication):
         """
         Authentifie l'utilisateur et ajoute le rôle LDAP à l'objet user.
         """
-        header= self.getHeader(request)
+        header= self.get_header(request)
         if header is None:
             return None
         
@@ -29,14 +29,16 @@ class CustomJWTAuthentication(JWTAuthentication):
         """
         from types import SimpleNamespace
         
-        user_id = validated_token.get('user_id')
-        email = validated_token.get('email', '')
-        role = validated_token.get('role', 'user')
         username = validated_token.get('username', '')
+        email = validated_token.get('email', '')
+        ldap_dn = validated_token.get('ldap_dn','')
+        uid_number = validated_token.get('uid_number')
+        role = validated_token.get('role', 'user')
         user = SimpleNamespace(
-            id=user_id,
+            uid_number=uid_number,
             email=email,
             username=username,
+            ldap_dn=ldap_dn,
             role=role,
             is_authenticated=True,
             is_active=True
