@@ -3,6 +3,7 @@ from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth import get_user_model
 from .services.ldap_service import LDAPService
 from django.db import IntegrityError
+from django.conf import settings
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
@@ -43,18 +44,21 @@ class LDAPAuthenticationBackend(BaseBackend):
                 'email': ldap_user_info.get('email', ''),
                 'first_name': ldap_user_info.get('first_name', ''),
                 'last_name': ldap_user_info.get('last_name', ''),
-                'uid_number' : ldap_user_info.get('uidNumber','')
+                'full_name' : ldap_user_info.get('full_name',''),
+                'uid_number' : ldap_user_info.get('uidNumber',''),
+                'username' : ldap_user_info.get('username')
             }
             # Ajouter les champs LDAP seulement s'ils existent dans le modèle
             if hasattr(User, 'ldap_dn'):
                 user_data['ldap_dn'] = ldap_user_info.get('dn', '')
             if hasattr(User,'ldap_role'):
                 user_data['ldap_role']=ldap_user_info.get('role','')
+                user_data['ldap_cn'] =f"cn={user_data['ldap_role']},{settings.LDAP_CONFIG['ROLE_BASE']}"
             # Créer ou récupérer l'utilisateur
             user, created = User.objects.get_or_create(
-                username=ldap_user_info['username'],
+                uid_number=user_data['uid_number'],
                 defaults=user_data
-            )
+            )   
             
             if not created:
                 # Mettre à jour les informations existantes
@@ -64,6 +68,7 @@ class LDAPAuthenticationBackend(BaseBackend):
             
             logger.info(f"Utilisateur Django {'créé' if created else 'mis à jour'}: {email}")
             return user
+        
         
         except IntegrityError as e:
             logger.error(f"❌ Erreur d'intégrité DB pour {email}: {e}")
