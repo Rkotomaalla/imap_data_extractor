@@ -67,8 +67,8 @@ class NotificationViewSet(viewsets.ViewSet):
         """
         result = self.collection.update_one(
             {
-                "notif_id": pk,
-                "assigned_user_id": str(request.user.id)   # sécurité : on vérifie que c'est bien à lui
+                "notif_id": int(pk),
+                "assigned_user_id": str(request.user.uid_number)   # sécurité : on vérifie que c'est bien à lui
             },
             {
                 "$set": {
@@ -77,7 +77,8 @@ class NotificationViewSet(viewsets.ViewSet):
                 }
             }
         )
-
+        print(f"===================================================\n{result}\n===============================================================")
+        
         if result.modified_count == 1:
             return Response({"status": "read"}, status=status.HTTP_200_OK)
         else:
