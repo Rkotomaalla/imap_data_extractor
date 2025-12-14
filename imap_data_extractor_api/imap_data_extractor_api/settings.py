@@ -18,6 +18,14 @@ from decouple import config
 import pymongo
 from pymongo import MongoClient
 
+
+# ================================================================
+# configuration a prendre ao amin ny variabel d environnement
+
+DEFAULT_MONGO_URI = 'mongodb://localhost:27017/'
+MONGO_CONFIG_URI = os.getenv('MONGO_CONFIG_URI', DEFAULT_MONGO_URI)
+
+# ================================================================
 # Connexion MongoDb via pimongo
 MONGO_URI = 'mongodb://localhost:27017/'
 MONGO_CLIENT = MongoClient(MONGO_URI)

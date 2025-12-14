@@ -18,6 +18,8 @@ from .utils import serialize_mongo_doc, parse_object_id
 from .service import generate_bot_token
 from rest_framework.decorators import action
 
+
+from configurations.services import  mongo_service
 logger = logging.getLogger(__name__)
 # # Create your views here.
 # class BotsView(APIView):
@@ -43,7 +45,7 @@ class BotViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
-        self.collection = settings.MONGO_COLLECTIONS['bots']   
+        self.collection = mongo_service.get_collection('bots')   
         
     def create(self,request):
         serializer=BotSerializer(data=request.data)

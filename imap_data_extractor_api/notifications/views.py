@@ -14,6 +14,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from authentication.authentication import CustomJWTAuthentication
+from configurations.services import mongo_service
 
 class NotificationViewSet(viewsets.ViewSet):
     "viewSet pour les Notifications"
@@ -22,7 +23,7 @@ class NotificationViewSet(viewsets.ViewSet):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.collection = settings.MONGO_COLLECTIONS['notifications']
+        self.collection = mongo_service.get_collection('notifications')
         
     def create(self,request):
         serializers=NotificationSerializer(data=request.data);
