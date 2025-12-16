@@ -7,7 +7,9 @@ from django.conf import settings
 import logging
 from rest_framework.decorators import action
 
-from bots.utils import serialize_mongo_doc
+from imap_data_extractor_api.utils import serialize_mongo_doc
+
+from configurations.services import mongo_service
 logger=logging.getLogger(__name__)
 # Create your views here.
 
@@ -19,8 +21,8 @@ class FieldViewSet(viewsets.ViewSet):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
-        self.collection = settings.MONGO_COLLECTIONS['fields']   
-        self.operator_collection =  settings.MONGO_COLLECTIONS['operators']
+        self.collection = mongo_service.get_collection('field')   
+        self.operator_collection =  mongo_service.get_collection('operator')
     
     def list(self,request):
         """GET /api/fields/ - Liste tous les fields de l'utilisateur connecté"""

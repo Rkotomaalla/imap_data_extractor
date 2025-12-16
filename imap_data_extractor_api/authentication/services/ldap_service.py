@@ -13,7 +13,7 @@ class LDAPService:
     def __init__(self):
         self.config = settings.LDAP_CONFIG
         self.server = Server(
-            self.config['SERVER'],
+            self.config['SERVER'],  
             get_info=ALL,
             connect_timeout=self.config['TIMEOUT']
         )    
