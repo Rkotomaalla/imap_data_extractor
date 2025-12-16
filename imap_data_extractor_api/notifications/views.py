@@ -23,7 +23,7 @@ class NotificationViewSet(viewsets.ViewSet):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.collection = mongo_service.get_collection('notifications')
+        self.collection = mongo_service.get_collection('notification')
         
     def create(self,request):
         serializers=NotificationSerializer(data=request.data);

@@ -31,6 +31,8 @@ urlpatterns = [
     
     path('mail/',include('mail.urls')),
     
-    path('notification/',include('notifications.urls'))
+    path('notification/',include('notifications.urls')),
         
+    path('configuration/',include('configurations.urls'))
 ]
+ 

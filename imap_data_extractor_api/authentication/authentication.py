@@ -39,7 +39,7 @@ class CustomJWTAuthentication(JWTAuthentication):
             email=email,
             username=username,
             ldap_dn=ldap_dn,
-            role=role,
+            ldap_role=role,
             is_authenticated=True,
             is_active=True
         )

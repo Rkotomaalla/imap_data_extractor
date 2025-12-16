@@ -6,7 +6,7 @@ from .serializer import MailSerializer
 from rest_framework.response import Response
 
 from datetime import datetime
-from .utils import get_next_sequence_value, serialize_mongo_doc
+from imap_data_extractor_api.utils  import get_next_sequence_value, serialize_mongo_doc
 from bots.permissions import IsBot
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from bots.authentication import BotJWTAuthentication
@@ -21,7 +21,7 @@ class MailViewSet(viewsets.ViewSet):
     # Creation des permission des Bots
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.collection = mongo_service.get_collection('mails')
+        self.collection = mongo_service.get_collection('mail')
     
     def create(self,request):
 

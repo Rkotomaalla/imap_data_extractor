@@ -6,13 +6,13 @@ from rest_framework import status
 from .serializer import BotSerializer
 import logging
 from django.db import transaction
-from .utils import get_next_sequence_value
+from imap_data_extractor_api.utils import get_next_sequence_value
 
 # les nouveaux import
 from rest_framework import viewsets, status
 from django.conf import settings
 from datetime import datetime
-from .utils import serialize_mongo_doc, parse_object_id
+from imap_data_extractor_api.utils import serialize_mongo_doc, parse_object_id
 
 
 from .service import generate_bot_token
@@ -45,7 +45,7 @@ class BotViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
-        self.collection = mongo_service.get_collection('bots')   
+        self.collection = mongo_service.get_collection('bot')   
         
     def create(self,request):
         serializer=BotSerializer(data=request.data)
@@ -83,7 +83,7 @@ class BotViewSet(viewsets.ViewSet):
             page_size = int(request.query_params.get('page_size', 10))
             skip = (page - 1) * page_size
 
-            # Filtres de base : uniquement les bots de l'utilisateur
+            # Filtres de base : uniquement les bots de l'utilisateu
             filters = {'assigned_user_id': request.user.uid_number}
             
             # Filtres optionnels
