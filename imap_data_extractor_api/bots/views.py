@@ -7,14 +7,14 @@ from .serializer import BotSerializer
 import logging
 from django.db import transaction
 from imap_data_extractor_api.utils import get_next_sequence_value
-
+from datetime import datetime, timedelta
 # les nouveaux import
 from rest_framework import viewsets, status
 from django.conf import settings
 from datetime import datetime
 from imap_data_extractor_api.utils import serialize_mongo_doc, parse_object_id
 
-
+from mail.serializer import MailSerializer
 from .service import generate_bot_token
 from rest_framework.decorators import action
 
@@ -76,7 +76,7 @@ class BotViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def list(self, request):
-        """GET /api/bots/ - Liste tous les bots de l'utilisateur connecté"""
+        """GET /bots/ - Liste tous les bots de l'utilisateur connecté"""
         try:
             # Récupération avec pagination
             page = int(request.query_params.get('page', 1))
@@ -229,5 +229,60 @@ class BotViewSet(viewsets.ViewSet):
             logger.error(f"❌ Erreur lors de la génération du token: {str(e)}")
             return Response(
                 {"error": f"Erreur lors de la génération du token: {str(e)}"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
+            
+    @action(detail= True , methods=['get'],url_path="mail", permission_classes=[IsAuthenticated])
+    def get_email_by_id_bot(self,request,pk=None):
+        """/GET /bot/{id}/mail"""        
+        try:
+            # Récupération avec pagination
+            page = int(request.query_params.get('page', 1))
+            page_size = int(request.query_params.get('page_size', 10))
+            skip = (page - 1) * page_size
+            
+            # Date par défaut pour end_date : aujourd'hui + 10 ans
+            default_end_date = (datetime.now() + timedelta(days=365 * 10))
+                        
+            start_date_str = request.query_params.get('start_date', "01/01/1900")
+            end_date_str = request.query_params.get('end_date')
+            try:
+                start_date = datetime.strptime(start_date_str, "%d/%m/%Y")
+            except ValueError:
+                start_date = datetime(1900, 1, 1)
+                
+            if end_date_str:
+                try:
+                    end_date = datetime.strptime(end_date_str, "%d/%m/%Y")
+                except ValueError:
+                    end_date = default_end_date
+            else:
+                end_date = default_end_date
+            mail_collection = mongo_service.get_collection("mail")
+            
+            filters = {
+                'date': {
+                    '$gte': start_date,
+                    '$lte': end_date
+                },
+                'bot_id': pk
+            }
+            
+            total = mail_collection.count_documents(filters)
+            mails = list(mail_collection.find(filters).skip(skip).limit(page_size))
+            
+            mails_data = [serialize_mongo_doc(mail) for mail in mails]
+            serializer =  MailSerializer(mails_data, many = True)
+            
+            return Response({
+                    'count': total,
+                    'page': page,
+                    'page_size': page_size,
+                    'results': serializer.data
+                })
+        except Exception as e:
+            return Response(
+                {'error': f'Erreur lors de la récupération: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
