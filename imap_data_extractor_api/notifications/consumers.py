@@ -4,8 +4,9 @@ import json
 from django.conf import settings
 from imap_data_extractor_api.utils import serialize_mongo_doc
 from .serializer import NotificationSerializer
+from configurations.services import mongo_service
 
-notif_collection = settings.MONGO_COLLECTIONS['notifications']
+notif_collection = mongo_service.get_collection('notification')
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         if self.scope["user"].is_anonymous:

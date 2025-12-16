@@ -7,6 +7,7 @@ ldap3==2.9.1
 passlib[argon2]>=1.7.4
 python-decouple==3.8
 python-dotenv>=1.0
+requests
 
 # MongoDB avec Beanie (le seul qui marche vraiment en 2025)
 beanie>=1.25

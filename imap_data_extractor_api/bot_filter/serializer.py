@@ -1,11 +1,11 @@
 from rest_framework import serializers
 # from .models import BotFilter,Field,Operator,BotRule
 from django.conf import settings
+from configurations.services import mongo_service
 
+from configurations.services import mongo_service
 
-
-
-
+from configurations.services import mongo_service
 
 class RuleSerializer(serializers.Serializer):
     field_id = serializers.IntegerField(min_value=1,required=True)
@@ -15,7 +15,7 @@ class RuleSerializer(serializers.Serializer):
     def validate_field_id(self, value):
         """valid si le field_existe Vraiment"""
         # Vefirication dans mongoDb
-        field_collection = settings.MONGO_COLLECTIONS.get('fields', settings.MONGO_DB['field'])
+        field_collection =mongo_service.get_collection('field')
         field_exists = field_collection.find_one({"field_id": int(value)})
         if not field_exists: 
             raise serializers.ValidationError(f"field_id {value} n'existe pas")
@@ -24,7 +24,7 @@ class RuleSerializer(serializers.Serializer):
 
     def validate_operator_id(self,value):
         """Verification si l operator existe vraiment"""
-        operator_collection = settings.MONGO_COLLECTIONS.get('operators', settings.MONGO_DB['operator'])
+        operator_collection = mongo_service.get_collection('operator')
         operator_exists = operator_collection.find_one({'operator_id' : int(value)})
         if not operator_exists:
             raise serializers.ValidationError(f"operator_id {value} n'existe pas") 
@@ -35,7 +35,7 @@ class RuleSerializer(serializers.Serializer):
         field_id= data.get('field_id')
         operator_id=data.get('operator_id')       
         
-        operator_collection = settings.MONGO_COLLECTIONS.get('operators', settings.MONGO_DB['operator'])
+        operator_collection = mongo_service.get_collection('operator')
         
         operator_doc = operator_collection.find_one({
             'operator_id': operator_id,
