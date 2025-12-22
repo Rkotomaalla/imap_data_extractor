@@ -5,7 +5,7 @@ from bot_filter.serializer import FilterSerializer
 from django.conf import settings
 
 
-
+    
 
 class BotSerializer(serializers.Serializer):
     bot_id = serializers.IntegerField(read_only=True)
@@ -60,6 +60,16 @@ class BotSerializer(serializers.Serializer):
         """Méthode pour mettre à jour (géré dans la vue)"""
         return validated_data
 
+
+
+class BotArchiveSerializer(serializers.Serializer):
+    id=serializers.CharField(read_only =True)
+    bot_archive_id = serializers.IntegerField(read_only = True)
+    deleted_by = serializers.IntegerField(read_only =  True)
+    deleted_at = serializers.DateTimeField(read_only = True)
+    bot_id=serializers.IntegerField(required=True)
+    bot = BotSerializer(required=True)
+    
 # class BotSerializer(serializers.ModelSerializer):
 #     filter=BotFilterSerializer()
 #     class Meta:

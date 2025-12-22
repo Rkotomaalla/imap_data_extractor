@@ -58,7 +58,7 @@ class UserSerializer(serializers.Serializer):
     
     departement = serializers.CharField(
         max_length=100,
-        required=True,
+        required=True,  
         error_messages={
             'required': 'Le département est obligatoire',
             'blank': 'Le département ne peut pas être vide'

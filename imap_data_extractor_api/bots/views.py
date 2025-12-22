@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from authentication.permissions import IsAdmin
 from rest_framework.response import Response
 from rest_framework import status
 from .serializer import BotSerializer
@@ -15,10 +16,10 @@ from datetime import datetime
 from imap_data_extractor_api.utils import serialize_mongo_doc, parse_object_id
 
 from mail.serializer import MailSerializer
-from .service import generate_bot_token
+from .service import bot_service
 from rest_framework.decorators import action
 
-
+# generate_bot_token, is_bot_owner, stop_bot,delete_bot
 from configurations.services import  mongo_service
 logger = logging.getLogger(__name__)
 # # Create your views here.
@@ -46,7 +47,8 @@ class BotViewSet(viewsets.ViewSet):
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
         self.collection = mongo_service.get_collection('bot')   
-        
+    
+#CREATION D UN BOT======================================================================================================================================================    
     def create(self,request):
         serializer=BotSerializer(data=request.data)
         
@@ -75,6 +77,8 @@ class BotViewSet(viewsets.ViewSet):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+#LISTE DE TOUT LES BOTS========================================================================================================
     def list(self, request):
         """GET /bots/ - Liste tous les bots de l'utilisateur connecté"""
         try:
@@ -111,7 +115,10 @@ class BotViewSet(viewsets.ViewSet):
                 {'error': f'Erreur lors de la récupération: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-            
+           
+           
+           
+#RECUPERATION D UN BOT PAR SON ID ================================================================================================================ 
     def retrieve(self, request, pk=None):
         """GET /api/bots/{id}/ - Récupère un bot spécifique (vérifie ownership)"""
         try:
@@ -136,6 +143,7 @@ class BotViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
             
+#MODIFICATION D'UN BOT====================================================================================================================
     def partial_update(self,request,pk=None):
         """PATCH  /bots/{id} => modiffier un Bot"""
         try:
@@ -181,8 +189,134 @@ class BotViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
             
+#Activation du bot================================================================================================================================================            
+    @action(detail=True, methods=['post'], url_path="token",permission_classes=[IsAuthenticated, IsAdmin])
+    def activate_bot(self, request , pk=None):
+        """Activer un bot POST /bots/[id]/activate"""
+        try:
+            bot_id = int(pk)
+            user_id = int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                {'detail': 'Identifiants invalides.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user_role =  request.user.ldap_role
+        try:
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                 return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            bot = bot_service.get_by_id(bot_id)
+            if not bot:
+                return Response(
+                    {'detail': 'Bot introuvable.'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if bot.get("status") == 1:
+                return Response(
+                    {'error' : 'Bot est en cours d\'execution '},
+                    status=status.HTTP_409_CONFLICT
+                )
+            created_task = bot_service.activate_bot(bot_id, user_id)
+            return Response(
+                {
+                    'message' : f'Le bot avec l\'identifiant {bot_id} est activé',
+                    'status' : "success",
+                    'created_task' : created_task    
+                },
+                status = status.HTTP_200_OK
+            )
+        except Exception as e:
+            return Response(
+                {'error' : f'erreur lors de l\'activaion du bot : {str(e)}'},
+                status =  status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+#Pause du bot======================================================s==========================================================================================            
+# Arret Du bot  ================================================================================================
+    @action(detail=True, methods = ['post'] , url_path="stop", permission_classes=[IsAuthenticated,IsAdmin])
+    def stop_bot(self,request,pk=None):
+        """POST /bots/{id}/stop"""
+        try:
+            bot_id = int(pk)
+            user_id = int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                {'detail': 'Identifiants invalides.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user_role =  request.user.ldap_role
+        try:
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            bot = bot_service.get_by_id(bot_id)
+            if not bot:
+                return Response(
+                    {'detail': 'Bot introuvable.'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if bot and bot.get("status") == 0:
+                return Response(
+                    {'error': 'Le bot deja en etat d\'arret.'},
+                    status=status.HTTP_409_CONFLICT
+                )
+            bot_service.stop_bot(bot_id)
+            return Response(
+                {
+                    'message': f'Le bot avec l\'identifiant {bot_id} a été arrêté avec succès.',
+                    'status' : 'success'
+                },
+                status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return Response(
+                {'error' : f'Erreur lors de l\'arrêt du bot: {str(e)}'},
+                status = status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+#SUPPRESSION DU BOT ======================================================================================================================================
+    @action(detail=True, methods=['delete'], permission_classes=[IsAuthenticated, IsAdmin])  
+    def delete_bot(self, request, pk=None):
+        """DELETE /bots/{id}/ - Supprimer un bot (vérifie ownership)"""
+        try:
+            bot_id = int(pk)
+            user_id = int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                {'detail': 'Identifiants invalides.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user_role =  request.user.ldap_role
+        try:
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            
+            bot = bot_service.get_by_id(bot_id)
+            if bot and bot.get("status") == 1 : 
+                bot_service.stop_bot(bot_id)
+            # changer le status du bot par effacer
+            bot_service.delete_bot(bot_id,user_id)
+            return Response(
+                {
+                    'message': f'Le bot avec l\'identifiant {bot_id} a été supprimé avec succès.',
+                    'status' : 'success'
+                },
+                status=status.HTTP_204_NO_CONTENT
+            )
+        except Exception as e : 
+            return Response(
+                {'error' : f'Erreur lors de la suppression: {str(e)}'},
+                status = status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
             
 
+#GENERATION D'UN TOKEN POUR UN BOT================================================================================================================
     @action(detail=True, methods=['get'], url_path="token", permission_classes=[IsAuthenticated])
     def getToken(self, request, pk=None):
         """
@@ -211,7 +345,7 @@ class BotViewSet(viewsets.ViewSet):
             # Générer le token
             bot_id = bot_data.get('bot_id')  # ou 'id' selon votre modèle
             assigned_user_id = bot_data.get('assigned_user_id')
-            token = generate_bot_token(bot_id,assigned_user_id)
+            token = bot_service.generate_bot_token(bot_id, assigned_user_id)
             
             logger.info(f"✅ Token généré pour bot_id={bot_id}")
             
@@ -233,6 +367,7 @@ class BotViewSet(viewsets.ViewSet):
             )
             
             
+#EMAIL PAR ID BOT================================================================================================================================================            
     @action(detail= True , methods=['get'],url_path="mail", permission_classes=[IsAuthenticated])
     def get_email_by_id_bot(self,request,pk=None):
         """/GET /bot/{id}/mail"""        
