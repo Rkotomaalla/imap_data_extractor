@@ -24,6 +24,15 @@ from enum import Enum
 from typing import List, Dict, Optional
 from datetime import datetime
 
+
+class EmailFilterSerializer(serializers.Serializer):
+    has_attachments= serializers.BooleanField()
+    received_date =  serializers.DateTimeField()
+    date =  serializers.DateTimeField()
+    status = serializers.ChoiceField(
+        choices = ["read", "unread"]
+    )
+    
 # Définis les énumérations (à placer dans un fichier séparé si nécessaire)
 class EmailPriority(Enum):
     URGENT = "urgent"
