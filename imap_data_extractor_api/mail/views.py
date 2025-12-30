@@ -15,22 +15,37 @@ from configurations.services import mongo_service
 from authentication.permissions import IsAdmin
 from rest_framework.decorators import action
 from .serializer import EmailFilterSerializer , EmailListSerializer
+
 # Create your views here.
 logger=logging.getLogger(__name__)
 
 class MailViewSet(viewsets.ViewSet):
     """ViewSet Crud des email avec pymongo"""
-    authentication_classes = [BotJWTAuthentication]
-    permission_classes = [IsBot]
+    # authentication_classes = [BotJWTAuthentication]
+    # permission_classes = [IsBot]
     # Creation des permission des Bots
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.collection = mongo_service.get_collection('mail')
     
+    def get_permissions(self):
+        """Permissions différentes selon l'action"""
+        if self.request.method == 'GET':
+            return [IsAdmin()]
+        elif self.request.method == 'POST':
+            return [IsBot()]
+        return [IsAuthenticated()]
+    
+    def get_authenticators(self):
+        """Authentication différente selon l'action"""
+        if self.request.method == 'GET':
+            return [CustomJWTAuthentication()]
+        elif self.request.method == 'POST':
+            return [BotJWTAuthentication()]
+        return [CustomJWTAuthentication()]
+    
     def create(self,request):
-
         serializers=MailSerializer(data=request.data)
-        
         if serializers.is_valid():
             try:
                 mail_data=serializers.validated_data
@@ -53,10 +68,10 @@ class MailViewSet(viewsets.ViewSet):
                 )
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
-
-    @action(detail = False, methods = ['get'],authentication_classes = [CustomJWTAuthentication] , permission_classes=[IsAdmin])
-    def list_email(self,request):
+    def list(self,request):
         """GET /page"""
+        # self.authentication_classes = [CustomJWTAuthentication]
+        # self.permission_classes = [IsAdmin]
         try:
             ESSENTIAL_FIELDS = {
                 "_id": 0,
@@ -80,15 +95,16 @@ class MailViewSet(viewsets.ViewSet):
             if not serializer.is_valid():
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             filter_data=serializer.validated_data
-            if filter_data["has_attachements"] is None:
-                filter_data.pop('has_attachements', None)
-            if filter_data["received_date"] is None:
-                filter_data.pop('received_date', None)
-            if filter_data["date"] is None:
-                filter_data.pop('date', None)
-            if filter_data["status"] is None:
-                filter_data.pop('status', None)
-
+            # if filter_data["has_attachment"] is None:
+            #     filter_data.pop('has_attachment', None)
+            # if filter_data["received_date"] is None:
+            #     filter_data.pop('received_date', None)
+            # if filter_data["date"] is None:
+            #     filter_data.pop('date', None)
+            # if filter_data["status"] is None:
+            #     filter_data.pop('status', None)
+            # Nettoyer tous les champs None en une seule ligne
+            filter_data = {k: v for k, v in filter_data.items() if v is not None}
             total =  self.collection.count_documents(filter_data)
             emails =  list(
                 self.collection
@@ -96,8 +112,10 @@ class MailViewSet(viewsets.ViewSet):
                         .skip(skip)
                         .limit(page_size)
             )
-            #Serialization des Donnes trouves
+
+             #Serialization des Donnes trouves
             emails_data  = [serialize_mongo_doc(email) for email in emails]
+            
             serializer = EmailListSerializer(emails_data, many = True)                                        
             return Response({
                 'count': total,

@@ -28,14 +28,24 @@ from datetime import datetime
 
 
     
+# class EmailFilterSerializer(serializers.Serializer):
+#     has_attachment= serializers.BooleanField(required=False)
+#     received_date=serializers.DateTimeField(required=False,default = None)
+#     date =  serializers.DateTimeField(required=False)
+#     status = serializers.ChoiceField(
+#         required=False,
+#         choices = ["read", "unread"]
+#     )
 class EmailFilterSerializer(serializers.Serializer):
-    has_attachments= serializers.BooleanField()
-    received_date =  serializers.DateTimeField()
-    date =  serializers.DateTimeField()
+    has_attachment = serializers.BooleanField(required=False, allow_null=True, default=None)
+    received_date = serializers.DateTimeField(required=False, allow_null=True, default=None)
+    date = serializers.DateTimeField(required=False, allow_null=True, default=None)
     status = serializers.ChoiceField(
-        choices = ["read", "unread"]
+        required=False,
+        allow_null=True,
+        default=None,
+        choices=["read", "unread"]
     )
-    
 # Définis les énumérations (à placer dans un fichier séparé si nécessaire)
 class EmailPriority(Enum):
     URGENT = "urgent"
@@ -141,19 +151,12 @@ class MailSerializer(serializers.Serializer):
 
 
 class EmailListSerializer(serializers.Serializer):
-    id = serializers.CharField()
     mail_id =  serializers.IntegerField()
     subject = serializers.CharField()
     from_name = serializers.CharField()
     from_email = serializers.EmailField()
     received_date = serializers.DateTimeField()
-    status  =  serializers.ChoiceField(
-        choices=[(tag.value, tag.name) for tag in EmailStatus],
-        default=EmailStatus.UNREAD.value
-    )
-    is_unread = serializers.BooleanField(default=True)
-    has_attachment =  serializers.BooleanField(default=False)
-    priority =     priority = serializers.ChoiceField(
-        choices=[(tag.value, tag.name) for tag in EmailPriority],
-        default=EmailPriority.NORMAL.value
-    )
+    status  =  serializers.CharField()
+    is_unread = serializers.BooleanField()
+    has_attachment =  serializers.BooleanField()
+    priority =     priority = serializers.CharField()

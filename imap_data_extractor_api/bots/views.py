@@ -278,7 +278,7 @@ class BotViewSet(viewsets.ViewSet):
                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 #SUPPRESSION DU BOT ======================================================================================================================================
-    @action(detail=True, methods=['delete'], permission_classes=[IsAuthenticated, IsAdmin])  
+    @action(detail=True, methods=['delete'],url_path="delete", permission_classes=[IsAuthenticated, IsAdmin])  
     def delete_bot(self, request, pk=None):
         """DELETE /bots/{id}/ - Supprimer un bot (vérifie ownership)"""
         try:
@@ -317,7 +317,7 @@ class BotViewSet(viewsets.ViewSet):
             
 
 #GENERATION D'UN TOKEN POUR UN BOT================================================================================================================
-    @action(detail=True, methods=['get'], url_path="token", permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['get'], url_path="tokens", permission_classes=[IsAuthenticated])
     def getToken(self, request, pk=None):
         """
         URLs Spécifique : GET /bots/<id>/token/
@@ -419,5 +419,18 @@ class BotViewSet(viewsets.ViewSet):
         except Exception as e:
             return Response(
                 {'error': f'Erreur lors de la récupération: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
+            
+#Compte des bots
+    @action(detail = False, methods=['get'],url_path="count" , permission_classes=[IsAdmin])
+    def count_bot(self, request):
+        try:
+            counted_bot = bot_service.get_count()
+            return Response({"data": counted_bot}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
