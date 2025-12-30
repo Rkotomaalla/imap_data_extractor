@@ -11,7 +11,12 @@ class BotService:
     def __init__(self):
        self.collection =  mongo_service.get_collection('bot') 
        self.archive_collection = mongo_service.get_collection('bot_archive')
-
+       self.STATUS_LABELS = {
+            0: "Pause",
+            1: "Marche",
+            2: "Arrêté",
+            3: "Supprimé"
+        }
     def get_by_id(self, bot_id):
         try:
             bot_result = self.collection.find_one({"bot_id": bot_id})
@@ -37,20 +42,23 @@ class BotService:
         
         return str(token)   
     
-    def is_bot_owner(self, id_bot, id_user):
+    def is_bot_owner(self, id_bot, id_user,user_role):
         try:
             id_bot = int(id_bot)
             id_user = int(id_user)
         except ValueError:
             raise ValueError("IDs and id_user must be integers")
         try:
+            if user_role == "admin":
+                return True
             bot = self.collection.find_one(
                 {
                     'bot_id':id_bot,
                     'assigned_user_id': id_user
-                }
+                }   
             )
             return bot is not None
+                
         except Exception as e:
             raise Exception(f"Erreur lors de la vérification de la propriété du bot: {str(e)}")            
 
@@ -123,20 +131,23 @@ class BotService:
             bot_doc = self.get_by_id(bot_id)
             updated_bot_serializer = BotSerializer(bot_doc)
             archive_data={
-                "deleted_at" : now,
-                "deleted_by" : user_id,
                 "bot_id" : bot_id,
                 "bot" : updated_bot_serializer.data
             }
+            
             serializer =  BotArchiveSerializer(data=archive_data)
             if serializer.is_valid(raise_exception=True):
                 archive_data_to_insert = serializer.validated_data
                 archive_data_to_insert["bot_archive_id"] = get_next_sequence_value ("bot_archive_id")
+                archive_data_to_insert["deleted_at"] = now
+                archive_data_to_insert["deleted_by"] = user_id
+                print(f'\n=====================================================\n{archive_data_to_insert}\n=============================================================')
+
                 result = self.archive_collection.insert_one(archive_data_to_insert)
-                if result.inserted_id:
-                    self.collection.delete_one({"bot_id" : bot_id})
+                # if result.inserted_id:
+                    # self.collection.delete_one({"bot_id" : bot_id})
         except Exception as e:
-            raise Exception (f"Erreur est survenue lors de la suppression du bot service.delete_bot . Detail {str(e)}")
+            raise Exception (f"Erreur est survenue lors de la suppression du bot service.delete_bot  {str(e)}")
 
     def stop_bot(self, bot_id):
         """
@@ -159,6 +170,25 @@ class BotService:
         except Exception as e:
             raise Exception(f"Erreur lors de l'arrêt du bot: {str(e)}")
 
-
+    def get_count_by_status(self, status):
+        try:
+            return self.collection.count_documents({"status": int(status)})
+        except Exception as e:
+            raise Exception(
+                f"Erreur lors du count pour le status {status} : {str(e)}"
+            )
+            
+    def get_count(self):
+        try:
+            count_bots= []
+            for status, libelle in self.STATUS_LABELS.items():
+                item = {
+                    "total" :  self.get_count_by_status(status),
+                    "libelle" : libelle
+                }
+                count_bots.append(item)
+            return count_bots
+        except Exception as e:
+            raise Exception (f'Une erreur est survenue lors du traitement de la  fonction getCount : {str(e)}')
 
 bot_service = BotService()

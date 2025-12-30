@@ -11,7 +11,7 @@ class BotSerializer(serializers.Serializer):
     bot_id = serializers.IntegerField(read_only=True)
     id = serializers.CharField(read_only = True)
     name = serializers.CharField(max_length = 200 , required = False)    
-    status = serializers.IntegerField(min_value=0, max_value =  2 , default= 0)
+    status = serializers.IntegerField(min_value=0, max_value =  3 , default= 0)
     description = serializers.CharField(
         max_length = 1000,
         allow_blank= True, 
@@ -47,7 +47,7 @@ class BotSerializer(serializers.Serializer):
     
     def validate_status(self, value):
         """Valide le statut (0=inactif, 1=actif, 2=pause)"""
-        valid_statuses = [0, 1, 2]
+        valid_statuses = [0, 1, 2,3]
         if value not in valid_statuses:
             raise serializers.ValidationError(f"Status doit être parmi {valid_statuses}")
         return value

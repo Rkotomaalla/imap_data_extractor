@@ -24,6 +24,28 @@ from enum import Enum
 from typing import List, Dict, Optional
 from datetime import datetime
 
+
+
+
+    
+# class EmailFilterSerializer(serializers.Serializer):
+#     has_attachment= serializers.BooleanField(required=False)
+#     received_date=serializers.DateTimeField(required=False,default = None)
+#     date =  serializers.DateTimeField(required=False)
+#     status = serializers.ChoiceField(
+#         required=False,
+#         choices = ["read", "unread"]
+#     )
+class EmailFilterSerializer(serializers.Serializer):
+    has_attachment = serializers.BooleanField(required=False, allow_null=True, default=None)
+    received_date = serializers.DateTimeField(required=False, allow_null=True, default=None)
+    date = serializers.DateTimeField(required=False, allow_null=True, default=None)
+    status = serializers.ChoiceField(
+        required=False,
+        allow_null=True,
+        default=None,
+        choices=["read", "unread"]
+    )
 # Définis les énumérations (à placer dans un fichier séparé si nécessaire)
 class EmailPriority(Enum):
     URGENT = "urgent"
@@ -43,25 +65,14 @@ class EmailStatus(Enum):
 class EmailAddressSerializer(serializers.Serializer):
     email = serializers.EmailField()
     name = serializers.CharField(required=False, allow_null=True)
-
-    # def to_representation(self, instance):
-    #     return {
-    #         "email": instance.email,
-    #         "name": instance.name
-    #     }
-    # def to_internal_value(self, data):
-    #     # Utilisé pour la désérialisation (JSON → objet)
-    #     return {
-    #         "email": data.get("email"),
-    #         "name": data.get("name")
-    #     }
-
+    
 # Sérialiseur pour EmailAttachment
 class EmailAttachmentSerializer(serializers.Serializer):
     filename = serializers.CharField(required=False, allow_null=True)
     content_type = serializers.CharField(required=False, allow_null=True)
     size = serializers.IntegerField(required=False, allow_null=True)
     attachment_id = serializers.CharField(required=False, allow_null=True)
+
 
 # Sérialiseur principal pour EmailEvent
 class MailSerializer(serializers.Serializer):
@@ -137,3 +148,15 @@ class MailSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         # Logique de mise à jour si nécessaire
         pass
+
+
+class EmailListSerializer(serializers.Serializer):
+    mail_id =  serializers.IntegerField()
+    subject = serializers.CharField()
+    from_name = serializers.CharField()
+    from_email = serializers.EmailField()
+    received_date = serializers.DateTimeField()
+    status  =  serializers.CharField()
+    is_unread = serializers.BooleanField()
+    has_attachment =  serializers.BooleanField()
+    priority =     priority = serializers.CharField()
