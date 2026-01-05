@@ -4,6 +4,7 @@ logs/
 *.log
 imap_data_extractor_api/logs/*.log
 
+.env
 # Python cache
 __pycache__/
 *.pyc
