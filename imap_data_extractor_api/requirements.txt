@@ -13,3 +13,9 @@ requests
 beanie>=1.25
 motor>=3.5
 pydantic[email]>=2.8
+
+
+django-auth-adfs
+msal
+requests
+django-fernet-fields

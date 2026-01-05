@@ -14,10 +14,19 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
-
+from dotenv import load_dotenv
 import pymongo
 from pymongo import MongoClient
 
+# CONFIGURATIOIN DE AZURE
+#+++++++++++
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
+AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
+AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
+AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
+AZURE_REDIRECT_URI = os.getenv("AZURE_REDIRECT_URI")
 
 # ================================================================
 # configuration a prendre ao amin ny variabel d environnement
@@ -90,7 +99,10 @@ INSTALLED_APPS = [
     
     #Real Time Monitoring
     'channels',
-    'notifications'
+    'notifications',
+    
+    # Azure configuratioin
+    'django_auth_adfs'
 ]
 
 
