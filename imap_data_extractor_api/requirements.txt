@@ -19,3 +19,4 @@ django-auth-adfs
 msal
 requests
 django-fernet-fields
+celery

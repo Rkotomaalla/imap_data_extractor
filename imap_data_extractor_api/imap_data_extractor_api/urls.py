@@ -33,6 +33,8 @@ urlpatterns = [
     
     path('notification/',include('notifications.urls')),
         
-    path('configuration/',include('configurations.urls'))
+    path('configuration/',include('configurations.urls')),
+    
+    path('outlook/',include('outlook_integration.urls'))
 ]
  

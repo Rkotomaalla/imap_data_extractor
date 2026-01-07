@@ -19,15 +19,19 @@ import pymongo
 from pymongo import MongoClient
 
 # CONFIGURATIOIN DE AZURE
-#+++++++++++
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / '.env')
+load_dotenv(BASE_DIR / ".env")
+
 AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
 AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
 AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
 AZURE_REDIRECT_URI = os.getenv("AZURE_REDIRECT_URI")
+AZURE_AUTHORITY = f"https://login.microsoftonline.com/{AZURE_TENANT_ID}"
 
+# outlook subscription config 
+SUBSCRIPTION_URL="https://graph.microsoft.com/v1.0/subscriptions"
+# WEBHOOK_URL="http://localhost:8000/outlook/webhook/"
+WEBHOOK_URL="https://finger-unintellectually-seymour.ngrok-free.dev/outlook/webhook/"
 # ================================================================
 # configuration a prendre ao amin ny variabel d environnement
 
@@ -45,7 +49,8 @@ MONGO_COLLECTIONS = {
     'fields' : MONGO_DB.get_collection('field'),
     'operators' : MONGO_DB.get_collection('operator'),
     'mails' : MONGO_DB.get_collection('mail'),
-    'notifications' : MONGO_DB.get_collection('notification')
+    'notifications' : MONGO_DB.get_collection('notification'),
+    'outlook_tokens' : MONGO_DB.get_collection('outlook_token'),
 }  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -102,7 +107,8 @@ INSTALLED_APPS = [
     'notifications',
     
     # Azure configuratioin
-    'django_auth_adfs'
+    'django_auth_adfs',
+    'celery'
 ]
 
 
