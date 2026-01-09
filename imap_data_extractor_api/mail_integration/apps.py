@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class OutlookIntegrationConfig(AppConfig):
+class MailIntegrationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'outlook_integration'
+    name = 'mail_integration'

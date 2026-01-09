@@ -1,11 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import(
-    OutlookIntegrationView,
+    MailIntegratioinView,
 )
 
 router = DefaultRouter()
-router.register(r'', OutlookIntegrationView, basename='outlook_integration')
+router.register(r'', MailIntegratioinView, basename='mail_integration')
 urlpatterns = [
     path('', include(router.urls)),
 ]

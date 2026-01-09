@@ -8,6 +8,8 @@ from datetime import datetime
 from .serializer import BotSerializer , BotArchiveSerializer
 from imap_data_extractor_api.utils import get_next_sequence_value
 from outlook_integration.utils import outlook_utils
+from mail_integration.services import gmail_service
+
 class BotService:   
     def __init__(self):
        self.collection =  mongo_service.get_collection('bot') 
@@ -94,31 +96,48 @@ class BotService:
     def activate_bot(self,bot_id):
         """Activation du bot"""
         try:
+            print(f"1______________________________________________________________________\nActivation bot\n______________________________________________________________________\n")
             bot = self.get_by_id (bot_id)
-            
             if not bot : 
                 raise ValueError("bot non existant")
             
             user_id = bot["assigned_user_id"]
-            outlook_collection  =  mongo_service.get_collection("outlook_token")
             
-            # Récupérer le document Outlook de l'utilisateur
-            token_doc = outlook_collection.find_one({"user_id" : user_id})
-            if not token_doc or not token_doc.get("refresh_token"):
-                raise Exception("Compte Outlook non connecté")            
-            # count = collection.count_documents({"value": })
-            if not token_doc.get("subscription_id"):
-                subscription_id = outlook_utils.create_graph_subscription(user_id)
-                if subscription_id:
-                    outlook_collection.update_one(
-                        {"user_id": user_id},
-                        {"$set": {
-                            "subscription_id": subscription_id,
-                            "subscription_expires_at": datetime.utcnow() + timedelta(days=2, hours=23),  # max ~3 jours
-                            "updated_at": datetime.utcnow()
-                        }}
-                    )     
 
+            if bot.get("status") == 3:
+                raise ValueError("Le bot a deja ete suprimé")
+            elif bot.get("status") in {0,1}:
+                raise ValueError("Le bot est déja en cours d'execution") 
+            
+            print(f"2______________________________________________________________________\nInscription dans gmail\n______________________________________________________________________\n")    
+            
+            count = self.collection.count_documents({
+                "status": 1,
+                "assigned_user_id": user_id
+            })
+            print(f"2 _> COUNT BOT =>{count}______________________________________________________________________\nInscription dans gmail\n______________________________________________________________________\n")    
+            
+            if count == 0:
+                print(f"3______________________________________________________________________\ncount bot = 0\n______________________________________________________________________\n")  
+                service = gmail_service.get_gmail_service(user_id)
+                topic_name = "projects/imapdataapiextractor/topics/GmailNotifications"
+                response = service.users().watch(
+                    userId='me',
+                    body={"labelIds": ["INBOX"], "topicName": topic_name}
+                ).execute()
+                prev_history_id = response['historyId']
+                """
+                ETO SI LE GMAIL TOKEN CONTIENT DEJA LE PREV_HISTORY_ON NE TOUCHE PAS SINON ON LE CREE """
+                print(f"====prev_history_id=={prev_history_id}")
+                gmail_token_collection = mongo_service.get_collection("gmail_token")
+                gmail_token_collection.update_one(
+                    {"user_id": user_id},
+                    {"$set": {
+                        "prev_history_id" : int(prev_history_id) 
+                    }}
+                )
+                
+                print("Watch Gmail activé:", response)
             # if result.get('success'):
             self.update_status_bot(bot_id,1)
             created_task=task_service.create_task(bot_id,user_id)
@@ -185,22 +204,15 @@ class BotService:
             if not token_doc or not token_doc.get("refresh_token"):
                 raise Exception("Compte Outlook non connecté")     
             
-            if bot.get("status") in (0, 1):
+            if bot.get("status") in (0, 1):     
                 self.update_status_bot(bot_id, 2 )
-                count = outlook_collection.count_documents({
-                    "value": {"$in": [1, 0]}
+                count = self.collection.count_documents({
+                    "status": {"$in": [1, 0]},
+                    "assigned_user_id" : user_id
                 })
                 if count == 0:
-                    if token_doc.get("subscription_id"):
-                        outlook_utils.delete_graph_subscription(token_doc["subscription_id"])
-                    outlook_collection.update_one(
-                        {"user_id": user_id},
-                        {"$set": {
-                            "subscription_id": None,
-                            "subscription_expires_at": None,
-                            "updated_at": datetime.utcnow()
-                        }}
-                    )
+                    service = gmail_service.get_gmail_service(user_id)
+                    service.users().stop(userId='me').execute()  # stop Gmail watch
                 task_service.stop_task(bot_id)            
             else:
                 raise Exception("Le bot est déjà arrêté")

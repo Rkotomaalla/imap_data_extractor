@@ -35,6 +35,8 @@ urlpatterns = [
         
     path('configuration/',include('configurations.urls')),
     
-    path('outlook/',include('outlook_integration.urls'))
+    # path('outlook/',include('outlook_integration.urls')),
+    
+    path('gmail/',include('mail_integration.urls'))
 ]
  
