@@ -190,7 +190,7 @@ class BotViewSet(viewsets.ViewSet):
             )
             
 #Activation du bot================================================================================================================================================            
-    @action(detail=True, methods=['post'], url_path="token",permission_classes=[IsAuthenticated, IsAdmin])
+    @action(detail=True, methods=['post'], url_path="activate",permission_classes=[IsAuthenticated, IsAdmin])
     def activate_bot(self, request , pk=None):
         """Activer un bot POST /bots/[id]/activate"""
         try:
@@ -214,12 +214,12 @@ class BotViewSet(viewsets.ViewSet):
                     {'detail': 'Bot introuvable.'},
                     status=status.HTTP_404_NOT_FOUND
                 )
-            if bot.get("status") == 1:
+            if bot.get("status") in (0, 1):
                 return Response(
                     {'error' : 'Bot est en cours d\'execution '},
                     status=status.HTTP_409_CONFLICT
                 )
-            created_task = bot_service.activate_bot(bot_id, user_id)
+            created_task = bot_service.activate_bot(bot_id)
             return Response(
                 {
                     'message' : f'Le bot avec l\'identifiant {bot_id} est activé',
@@ -259,7 +259,7 @@ class BotViewSet(viewsets.ViewSet):
                     {'detail': 'Bot introuvable.'},
                     status=status.HTTP_404_NOT_FOUND
                 )
-            if bot and bot.get("status") == 0:
+            if bot and bot.get("status") == 2:
                 return Response(
                     {'error': 'Le bot deja en etat d\'arret.'},
                     status=status.HTTP_409_CONFLICT
