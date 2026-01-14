@@ -7,7 +7,6 @@ from task.services import task_service
 from datetime import datetime
 from .serializer import BotSerializer , BotArchiveSerializer
 from imap_data_extractor_api.utils import get_next_sequence_value
-from outlook_integration.utils import outlook_utils
 from mail_integration.services import gmail_service
 
 class BotService:   
@@ -240,4 +239,6 @@ class BotService:
         except Exception as e:
             raise Exception (f'Une erreur est survenue lors du traitement de la  fonction getCount : {str(e)}')
 
+
 bot_service = BotService()
+

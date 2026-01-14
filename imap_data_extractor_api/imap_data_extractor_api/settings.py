@@ -126,7 +126,9 @@ INSTALLED_APPS = [
     
     # Azure configuratioin
     'django_auth_adfs',
-    'celery'
+    'celery',
+    
+    'typing'
 ]
 
 

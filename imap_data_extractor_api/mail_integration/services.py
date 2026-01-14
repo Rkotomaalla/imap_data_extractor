@@ -7,14 +7,58 @@ import base64
 import os
 from django.conf import settings
 from datetime import datetime
-
+import logging
 from configurations.services import mongo_service
+
+logger = logging.getLogger(__name__)
 
 class GmailServices:
     def __init__(self):
         self.gmail_collection = mongo_service.get_collection('gmail_token')
         self.attachment_collection = mongo_service.get_collection('attachment_email')
-    def  extract_attachments(self,service, user_id, message_id ,payload):
+    
+    def sort_rules_by_indexed_priority(self,rules,indexed_map):
+        def get_priority(rule):
+            is_indexed = indexed_map.get(f"{rule["field_id"]}", False)
+            logger.info(f"regles  = {rule}")
+            return 0 if is_indexed else 1          # 0 = prioritaire, 1 = après
+        priorities = [get_priority(r) for r in rules]
+        return {
+            "result" : sorted(rules, key=get_priority),
+            "true" : priorities.count(0),
+            "false" : priorities.count(1)
+        }
+        
+        
+        
+    def extract_attachments(self, payload):
+        attachments = []
+        def walk_parts(parts):
+            for part in parts:
+                filename = part.get("filename")
+                body = part.get("body", {})
+
+                # pièce jointe réelle (non inline)
+                if (
+                    filename
+                    and body.get("attachmentId")
+                    and body.get("size", 0) > 0
+                ):
+                    attachments.append({
+                        "filename": filename,
+                        "mime_type": part.get("mimeType"),
+                        "size": body.get("size", 0)
+                    })
+
+                if part.get("parts"):
+                    walk_parts(part["parts"])
+
+        walk_parts(payload.get("parts", []))
+        return attachments
+         
+         
+                    
+    def  extract_and_save_attachments(self,service, user_id, message_id ,payload):
         attachments =  []
         def walk_parts(parts):
             for part in parts:
@@ -47,7 +91,6 @@ class GmailServices:
             mail_folder = f"mail_{message_id}"
             save_dir = os.path.join(settings.BASE_MEDIA_PATH, user_folder, mail_folder)
             os.makedirs(save_dir, exist_ok=True)
-            
             for att in attachments:
                 file_path = os.path.join(save_dir, att["filename"])
                 with open(file_path, "wb") as f:
