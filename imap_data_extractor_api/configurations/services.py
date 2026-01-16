@@ -1,5 +1,5 @@
 import os
-from pymongo import MongoClient
+from pymongo import MongoClient , ASCENDING
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
 from pymongo.errors import ConnectionFailure, OperationFailure, ConfigurationError
@@ -37,8 +37,84 @@ class MongoDBService:
          """Récupère dynamiquement une collection de la base réelle."""
          return self.db.get_collection(name)
      
-     
-     
+    def init_indexes(self):
+        try:
+            # ===== Piece jointes =====
+            self.db.attachment_email.create_index(
+                [("attachment_id", ASCENDING)],
+                unique=True,
+                name="unique_attachment_id"
+            )
+            logger.info("Index unique 'attachment_id' créé pour filtered_emails")
+
+            #============Bot
+            self.db.bot.create_index(
+                    [("bot_id", ASCENDING)],
+                    unique=True,
+                    name="unique_bot_id"
+                )
+            logger.info("Index unique 'bot_id' créé pour filtered_emails")
+
+            #============bot_archive_id
+            self.db.bot_archive.create_index(
+                    [("bot_archive_id", ASCENDING)],
+                    unique=True,
+                    name="unique_bot_archive_id"
+                )
+            logger.info("Index unique 'bot_archive_id' créé pour filtered_emails")
+            
+            #===========field
+            self.db.fields.create_index(
+                    [("field_id", ASCENDING)],
+                    unique=True,
+                    name="unique_bot_archive_id"
+                )
+            logger.info("Index unique 'bot_archive_id' créé pour filtered_emails")
+
+            #===========Filtered_email
+            self.db.filtered_emails.create_index(
+                    [("gmail_message_id", ASCENDING)],
+                    unique=True,
+                    name="unique_gmail_message_id"
+                )
+            logger.info("Index unique 'gmail_message_id' créé pour filtered_emails")
+
+            #===========gmail_token
+            self.db.gmail_token.create_index(
+                    [("user_id", ASCENDING)],
+                    unique=True,
+                    name="unique_user_id_gmail_token"
+                )
+            logger.info("Index unique 'user_id' créé pour filtered_emails")
+
+            #===========operators
+            self.db.operators.create_index(
+                    [("operator_id", ASCENDING)],
+                    unique=True,
+                    name="unique_operator_id"
+                )
+            logger.info("Index unique 'operator_id' créé pour filtered_emails")
+            
+            #================raw email 
+            self.db.raw_emails.create_index(
+                    [("gmail_message_id", ASCENDING)],
+                    unique=True,
+                    name="unique_gmail_message_id_raw_email"
+                )
+            logger.info("Index unique 'gmail_message_id_raw_email' créé pour filtered_emails")
+            
+            #================task 
+            self.db.task.create_index(
+                    [("task_id", ASCENDING)],
+                    unique=True,
+                    name="unique_task_id"
+                )
+            logger.info("Index unique 'task_id' créé pour filtered_emails")
+            
+        except OperationFailure as e:
+            logger.error(f"Erreur lors de l'initialisation des indexes MongoDB : {e}")
+        except Exception as e:
+            logger.error(f"Erreur inattendue lors de l'init indexes MongoDB : {e}")
     #  mila REPLICA IZANY 
     
     # def add_config(self, data):

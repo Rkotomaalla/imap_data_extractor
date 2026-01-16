@@ -55,7 +55,7 @@ WEBHOOK_URL="https://finger-unintellectually-seymour.ngrok-free.dev/outlook/webh
 DEFAULT_MONGO_URI = 'mongodb://localhost:27017/'
 MONGO_CONFIG_URI = os.getenv('MONGO_CONFIG_URI', DEFAULT_MONGO_URI)
 
-# ================================================================
+# ============================= ===================================
 # Connexion MongoDb via pimongo
 MONGO_URI = 'mongodb://localhost:27017/'
 MONGO_CLIENT = MongoClient(MONGO_URI)
@@ -97,6 +97,7 @@ AUTHENTICATION_BACKENDS = [
 
 INSTALLED_APPS = [
     # Real Time Monitorinf 
+    "configurations.apps.ConfigurationsConfig",
     'daphne',  # Doit être en premier
     'django.contrib.admin',
     'django.contrib.auth',
@@ -128,7 +129,8 @@ INSTALLED_APPS = [
     'django_auth_adfs',
     'celery',
     
-    'typing'
+    'typing',
+    "drf-spectacular",
 ]
 
 
@@ -162,6 +164,7 @@ CHANNEL_LAYERS = {
 # )
 # Configuration DRF et JWT
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',         # Fallback pour admin
