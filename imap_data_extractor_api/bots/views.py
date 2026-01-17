@@ -59,6 +59,7 @@ class BotViewSet(viewsets.ViewSet):
                 bot_data['killed_date'] =  None
                 bot_data['assigned_user_id'] = request.user.uid_number
                 bot_data['bot_id'] = get_next_sequence_value('bot_id') 
+                
                 #  insertion dans mongoDb
                 result=self.collection.insert_one(bot_data)   
                 

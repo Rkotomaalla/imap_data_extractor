@@ -55,7 +55,7 @@ WEBHOOK_URL="https://finger-unintellectually-seymour.ngrok-free.dev/outlook/webh
 DEFAULT_MONGO_URI = 'mongodb://localhost:27017/'
 MONGO_CONFIG_URI = os.getenv('MONGO_CONFIG_URI', DEFAULT_MONGO_URI)
 
-# ================================================================
+# ============================= ===================================
 # Connexion MongoDb via pimongo
 MONGO_URI = 'mongodb://localhost:27017/'
 MONGO_CLIENT = MongoClient(MONGO_URI)
@@ -97,6 +97,7 @@ AUTHENTICATION_BACKENDS = [
 
 INSTALLED_APPS = [
     # Real Time Monitorinf 
+    "configurations.apps.ConfigurationsConfig",
     'daphne',  # Doit être en premier
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,7 +127,10 @@ INSTALLED_APPS = [
     
     # Azure configuratioin
     'django_auth_adfs',
-    'celery'
+    'celery',
+    
+    'typing',
+    "drf_spectacular",
 ]
 
 
@@ -178,6 +182,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
 }
 
