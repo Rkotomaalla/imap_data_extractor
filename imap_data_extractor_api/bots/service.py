@@ -8,7 +8,7 @@ from datetime import datetime
 from .serializer import BotSerializer , BotArchiveSerializer
 from imap_data_extractor_api.utils import get_next_sequence_value
 from mail_integration.services import gmail_service
-
+from rest_framework.exceptions import APIException
 class BotService:   
     def __init__(self):
        self.collection =  mongo_service.get_collection('bot') 
@@ -141,6 +141,10 @@ class BotService:
             self.update_status_bot(bot_id,1)
             created_task=task_service.create_task(bot_id,user_id)
             return created_task
+        
+        except APIException as e:
+            # Laisse DRF gérer le status (409, 400, etc.)
+            raise e
         except Exception as e:
             raise Exception (f"Une erreur est survenue lors de l activation du bot acitvate_bot => {str(e)}")
 

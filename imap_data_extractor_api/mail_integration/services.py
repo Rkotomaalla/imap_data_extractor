@@ -390,7 +390,7 @@ class GmailServices:
         """Récupère le service Gmail pour un utilisateur, avec refresh automatique."""
         user_doc = self.gmail_collection.find_one({"user_id": user_id})
         if not user_doc:
-            raise Exception("Utilisateur non connecté à Gmail")
+            raise GmailNotConnectedException()
 
         access_token = user_doc.get("access_token")
         refresh_token = user_doc.get("refresh_token")
@@ -432,3 +432,12 @@ class GmailServices:
 
             
 gmail_service = GmailServices()
+
+
+from rest_framework.exceptions import APIException
+from rest_framework import status
+
+class GmailNotConnectedException(APIException):
+    status_code = status.HTTP_409_CONFLICT
+    default_detail = "Utilisateur non connecté à Gmail"
+    default_code = "gmail_not_connected"

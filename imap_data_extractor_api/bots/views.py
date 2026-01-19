@@ -19,6 +19,7 @@ from mail.serializer import MailSerializer
 from .service import bot_service
 from rest_framework.decorators import action
 
+from rest_framework.exceptions import APIException
 # generate_bot_token, is_bot_owner, stop_bot,delete_bot
 from configurations.services import  mongo_service
 logger = logging.getLogger(__name__)
@@ -231,6 +232,10 @@ class BotViewSet(viewsets.ViewSet):
                 },
                 status = status.HTTP_200_OK
             )
+        except APIException as e:
+            # Laisse DRF gérer le status (409, 400, etc.)
+            raise e
+
         except Exception as e:
             return Response(
                 {'error' : f'erreur lors de l\'activaion du bot : {str(e)}'},
@@ -275,6 +280,8 @@ class BotViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_200_OK
             )
+            
+
         except Exception as e:
             return Response(
                 {'error' : f'Erreur lors de l\'arrêt du bot: {str(e)}'},
