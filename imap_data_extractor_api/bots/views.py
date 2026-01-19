@@ -191,7 +191,7 @@ class BotViewSet(viewsets.ViewSet):
             )
             
 #Activation du bot================================================================================================================================================            
-    @action(detail=True, methods=['post'], url_path="activate",permission_classes=[IsAuthenticated, IsAdmin])
+    @action(detail=True, methods=['post'], url_path="activate",permission_classes=[IsAuthenticated])
     def activate_bot(self, request , pk=None):
         """Activer un bot POST /bots/[id]/activate"""
         try:
@@ -203,6 +203,8 @@ class BotViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         user_role =  request.user.ldap_role
+        print("Tonga eto am Activate Bot==============================")
+
         try:
             if not bot_service.is_bot_owner(bot_id,user_id,user_role):
                  return Response(
