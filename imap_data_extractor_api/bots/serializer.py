@@ -11,7 +11,7 @@ class BotSerializer(serializers.Serializer):
     bot_id = serializers.IntegerField(read_only=True)
     id = serializers.CharField(read_only = True)
     name = serializers.CharField(max_length = 200 , required = False)    
-    status = serializers.IntegerField(min_value=0, max_value =  3 , default= 0)
+    status = serializers.IntegerField(min_value=0, max_value =  3 , default= 2)
     description = serializers.CharField(
         max_length = 1000,
         allow_blank= True, 
