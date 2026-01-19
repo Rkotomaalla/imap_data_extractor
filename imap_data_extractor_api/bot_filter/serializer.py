@@ -92,6 +92,7 @@ class FieldsSerializer(serializers.Serializer):
     is_indexed = serializers.BooleanField(required=True)
     operators  = serializers.ListField(
         child=serializers.IntegerField(),     # par défaut
+        allow_null = True
     )
 
 class OperatorsSerializer(serializers.Serializer):

@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from imap_data_extractor_api.utils  import get_next_sequence_value, serialize_mongo_doc
+from configurations.services import  mongo_service
 
 # Create your views here.
 from rest_framework.response import Response
@@ -8,7 +10,8 @@ from .serializers import UserSerializer,UserUpdateSerializer
 from  .user_services import user_service
 from authentication.permissions import IsAdmin
 from rest_framework.views import APIView
-
+from rest_framework.decorators import action
+from mail.serializer import EmailFilterSerializer
 import logging
 logger = logging.getLogger(__name__)
 
@@ -207,3 +210,72 @@ class UserLdapDetailView(APIView):
                 'message': str(e),
                 'error': str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+             
+class UserMailView(APIView):
+    permission_classes = [IsAuthenticated]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.collection = mongo_service.get_collection('filtered_emails')   
+    def get(self,request, pk=None):
+        """
+        Docstring for get_user_mail
+        GET users/{pk}/mail
+        """
+        try:
+            
+            try:
+                user_id = int(pk)
+            except (TypeError, ValueError):
+                return Response({"detail": "L'identifiant de l'utilisateur doit être un entier"}, status=status.HTTP_400_BAD_REQUEST)
+                
+            ESSENTIAL_FIELDS = {
+                "_id": 0,
+               "gmail_message_id" : 1,
+                "subject" : 1,
+                "from" : 1,
+                "received_at" : 1,
+                "date" : 1,
+                "has_attachment" : 1
+            }
+            
+            # Recuperation avec pagination
+            page = int(request.query_params.get('page', 1))
+            page_size = int(request.query_params.get('page_size', 10))
+            skip = (page - 1) * page_size
+            
+            #filtres
+            serializer = EmailFilterSerializer(data = request.query_params)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            filter_data=serializer.validated_data
+            
+            filter_data["user_id"] = user_id
+            filter_data = {k: v for k, v in filter_data.items() if v is not None}
+            
+            total =  self.collection.count_documents(filter_data)
+            emails =  list(
+                self.collection
+                        .find(filter_data,ESSENTIAL_FIELDS)
+                        .skip(skip)
+                        .limit(page_size)
+            )
+            #Serialization des Donnes trouves
+            emails_data  = [serialize_mongo_doc(email) for email in emails]
+            # serializer = EmailListSerializer(emails_data, many = True)                                        
+            return Response({
+                'count': total,
+                'page': page,
+                'page_size': page_size,
+                'results': emails_data
+            })
+        except ValueError:
+            return Response(
+                {"detail": "L'identifiant du field doit être un entier"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        except Exception as e:
+            return Response(
+                {"detail": f"Erreur lors de la récupération : {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

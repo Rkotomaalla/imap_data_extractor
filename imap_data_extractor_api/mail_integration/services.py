@@ -65,6 +65,7 @@ class GmailServices:
             "internal_date": datetime.fromtimestamp(
                 int(message.get("internalDate")) / 1000
             ),
+            "received_at": datetime.utcnow(),
             "has_attachment": has_attachment,
             "body_text": None,
             "body_html": None

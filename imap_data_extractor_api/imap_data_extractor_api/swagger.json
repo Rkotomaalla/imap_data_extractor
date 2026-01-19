@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Fields API",
+    "version": "1.0.0",
+    "description": "API permettant de récupérer les fields et leurs opérateurs."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Serveur local"
+    }
+  ],
+  "paths": {
+    "/fields/": {
+      "get": {
+        "tags": ["Fields"],
+        "summary": "Lister les fields",
+        "operationId": "listFields",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des fields",
+            "content": {
+              "application/json": {
+                "example": {
+                  "count": 8,
+                  "page": null,
+                  "page_size": null,
+                  "results": [
+                    { "field_id": 1, "field_name": "has_attachment" },
+                    { "field_id": 2, "field_name": "sent_date" },
+                    { "field_id": 3, "field_name": "from_email" }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/fields/{field_id}/operators": {
+      "get": {
+        "tags": ["Fields"],
+        "summary": "Récupérer les opérateurs pour un field",
+        "operationId": "listFieldOperators",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "field_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 2
+            },
+            "description": "L'identifiant du field dont on veut récupérer les opérateurs"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des opérateurs pour le field",
+            "content": {
+              "application/json": {
+                "example": {
+                  "count": 4,
+                  "missing_operator_ids": [],
+                  "results": [
+                    { "operator_id": 3, "description": "égal(e) à" },
+                    { "operator_id": 4, "description": "Entre" },
+                    { "operator_id": 5, "description": "inferieur à" },
+                    { "operator_id": 6, "description": "superieur à" }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Field non trouvé ou aucun opérateur"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
