@@ -41,6 +41,7 @@ urlpatterns = [
     
     path('gmail/',include('mail_integration.urls')),
 
+    path('stats/',include('stats.urls')),
     #paht pour les swaggers 
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),  # fichier OpenAPI JSON
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # interface Swagger UI    

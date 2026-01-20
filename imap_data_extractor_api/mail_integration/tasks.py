@@ -168,13 +168,9 @@ def dispatch_mail_to_bots(user_id, gmail_message_id):
     bot_collection =  mongo_service.get_collection("bot")
     fields_collection = mongo_service.get_collection("fields")
     bots = list(bot_collection.find({
-        "assigned_user_id": user_id
+        "assigned_user_id": user_id,
+        "status" : 1
     }))
-    print(
-        f"\nReto ny bots+++++++++++++++++++++++++++++++++++\n"
-        f"{bots}\n"
-        f"+++++++++++++++++++++++++++++++++++++++++++++++++++"
-    )
     fields_dict  = fields_collection.find()
     indexed_map = {int(f["field_id"]): f["is_indexed"] for f in fields_dict}
     print(f"RETO NY INDEX\n{indexed_map}\n========================================================")

@@ -33,3 +33,4 @@ drf-spectacular
 
 daphne
 channels
+billiard

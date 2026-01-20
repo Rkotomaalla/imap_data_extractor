@@ -127,7 +127,7 @@ class BotViewSet(viewsets.ViewSet):
             # object_id = parse_object_id(pk)
             bot = self.collection.find_one({
                 'bot_id': int(pk),
-                'assigned_user_id': request.user.uid_number  # ← Sécurité : vérifie l'ownership
+                'assigned_user_id': d_number  # ← Sécurité : vérifie l'ownership
             })
             print(bot)
             if not bot:
@@ -236,14 +236,118 @@ class BotViewSet(viewsets.ViewSet):
             # Laisse DRF gérer le status (409, 400, etc.)
             raise e
 
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             return Response(
                 {'error' : f'erreur lors de l\'activaion du bot : {str(e)}'},
                 status =  status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
+        
+#Restart bot======================================================s==========================================================================================            
+    @action(detail  = True,methods=["post"],url_path = "start" , permission_classes=[IsAuthenticated])
+    def start_bot(self,request,pk=None):
+        """POST bots/{id}/pause"""
+        try:
+            bot_id = int(pk)
+            user_id =  int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                 {'detail' : 'identifiants invalides.'},
+                 status = status.HTTP_400_BAD_REQUEST
+            ) 
+        try:
+            user_role =  request.user.ldap_role
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            bot = bot_service.get_by_id(bot_id)
+            if not bot:
+                return Response(
+                    {'detail': 'Bot introuvable.'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if bot and bot.get("status") == 1:
+                return Response(
+                    {'error': 'Le bot deja en etat de marche.'},
+                    status=status.HTTP_409_CONFLICT
+                )
+            bot_service.start_bot(bot_id)
+            return Response(
+                {
+                    "status": "succes",
+                    "message": f"bot {bot_id} mise en marche avec succes "
+                }
+            )
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except RuntimeError as e:
+            return Response({"error": str(e)}, status=status.HTTP_409)
+        except Exception as e:
+            return Response(
+                {'error' : f'erreur lors dela mis en pause du bot : {str(e)}'},
+                status =  status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 #Pause du bot======================================================s==========================================================================================            
+    @action(detail  = True,methods=["post"],url_path = "pause" , permission_classes=[IsAuthenticated])
+    def pause_bot(self,request,pk=None):
+        """POST bots/{id}/pause"""
+        try:
+            bot_id = int(pk)
+            user_id =  int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                 {'detail' : 'identifiants invalides.'},
+                 status = status.HTTP_400_BAD_REQUEST
+            ) 
+        try:
+            user_role =  request.user.ldap_role
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            bot = bot_service.get_by_id(bot_id)
+            if not bot:
+                return Response(
+                    {'detail': 'Bot introuvable.'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if bot and bot.get("status") == 0:
+                return Response(
+                    {'error': 'Le bot deja en etat de pause.'},
+                    status=status.HTTP_409_CONFLICT
+                )
+            bot_service.pause_bot(bot_id)
+            return Response(
+                {
+                    "status": "succes",
+                    "message": f"bot {bot_id} mise en pause avec succes "
+                }
+            )
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except RuntimeError as e:
+            return Response({"error": str(e)}, status=status.HTTP_409)
+        except Exception as e:
+            return Response(
+                {'error' : f'erreur lors dela mis en pause du bot : {str(e)}'},
+                status =  status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 # Arret Du bot  ================================================================================================
-    @action(detail=True, methods = ['post'] , url_path="stop", permission_classes=[IsAuthenticated,IsAdmin])
+    @action(detail=True, methods = ['post'] , url_path="stop", permission_classes=[IsAuthenticated])
     def stop_bot(self,request,pk=None):
         """POST /bots/{id}/stop"""
         try:
@@ -281,7 +385,11 @@ class BotViewSet(viewsets.ViewSet):
                 status=status.HTTP_200_OK
             )
             
-
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             return Response(
                 {'error' : f'Erreur lors de l\'arrêt du bot: {str(e)}'},
@@ -318,6 +426,11 @@ class BotViewSet(viewsets.ViewSet):
                     'status' : 'success'
                 },
                 status=status.HTTP_204_NO_CONTENT
+            )
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
             )
         except Exception as e : 
             return Response(
