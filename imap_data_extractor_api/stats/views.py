@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 from configurations.services import mongo_service
- 
+from bots.service import bot_service
 # Create your views here.
 class StatsViewSet(viewsets.ViewSet):
     "View set pour tout les statistiques"
@@ -15,8 +15,61 @@ class StatsViewSet(viewsets.ViewSet):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        
-        
+    @action(
+        detail = False,
+        methods=["get"],
+        url_path = "bot/status/count"
+    )
+    def bot_status_count(self,request):
+        try:
+            bot_collection =  mongo_service.get_collection("bot")
+            
+            own_bot = bool(request.query_params.get("own_bot"))
+            
+            user_role = getattr(request.user, 'ldap_role', None)
+            user_id = getattr(request.user,'uid_number',None)
+
+            match_stage = {}
+            
+            if user_role == "admin":
+                if own_bot:
+                    match_stage = {
+                        "assigned_user_id" : user_id 
+                    }     
+            else:
+                match_stage = {
+                    "assigned_user_id" : user_id 
+                }
+            pipeline = [
+                {
+                    "$match" : match_stage    
+                },
+                {
+                    "$group" : 
+                        {
+                            "_id" : "$status",
+                            "count" : {"$sum" : 1}
+                        }
+                }
+            ]
+            results =  bot_collection.aggregate(pipeline)
+            formatted_results = [
+                {
+                    "status": r["_id"],
+                    "label" : bot_service.STATUS_LABELS.get(r["_id"]),
+                    "count": r["count"]
+                }
+                for r in results
+            ]
+            return Response(
+                formatted_results , status=status.HTTP_200_OK
+            )
+            
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
     @action(
         detail = False,
         methods=["get"],
@@ -59,7 +112,11 @@ class StatsViewSet(viewsets.ViewSet):
             
             if  user_role == 'user':
                 match_stage["user_id"] = user_id
-                
+            else:
+                own_mail = bool(request.query_params.get("own_mail"))
+                if own_mail:
+                    match_stage["user_id"] = user_id
+
             pipeline = [ {
                                             "$match": match_stage
                                     },

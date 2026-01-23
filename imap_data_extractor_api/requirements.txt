@@ -34,3 +34,7 @@ drf-spectacular
 daphne
 channels
 billiard
+channels-redis>=4.3,<5.0
+channels>=4.2,<5.0
+redis>=4.6
+

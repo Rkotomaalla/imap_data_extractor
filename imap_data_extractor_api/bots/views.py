@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from authentication.permissions import IsAdmin
 from rest_framework.response import Response
 from rest_framework import status
+from mail.serializer import EmailFilterSerializer , EmailListSerializer
+
 from .serializer import BotSerializer
 import logging
 from django.db import transaction
@@ -85,8 +87,8 @@ class BotViewSet(viewsets.ViewSet):
         """GET /bots/ - Liste tous les bots de l'utilisateur connecté"""
         try:
             # Récupération avec pagination
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 10))
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
 
             # Filtres de base : uniquement les bots de l'utilisateu
@@ -395,9 +397,10 @@ class BotViewSet(viewsets.ViewSet):
                 {'error' : f'Erreur lors de l\'arrêt du bot: {str(e)}'},
                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
 #SUPPRESSION DU BOT ======================================================================================================================================
-    @action(detail=True, methods=['delete'],url_path="delete", permission_classes=[IsAuthenticated, IsAdmin])  
-    def delete_bot(self, request, pk=None):
+    @action(detail=True, methods=['delete'] ,url_path = "delete_bot",permission_classes=[IsAuthenticated])  
+    def delete_bot(self, request, pk=None): 
         """DELETE /bots/{id}/ - Supprimer un bot (vérifie ownership)"""
         try:
             bot_id = int(pk)
@@ -425,7 +428,7 @@ class BotViewSet(viewsets.ViewSet):
                     'message': f'Le bot avec l\'identifiant {bot_id} a été supprimé avec succès.',
                     'status' : 'success'
                 },
-                status=status.HTTP_204_NO_CONTENT
+                status=status.HTTP_200_OK
             )
         except ValueError as e:
             return Response(
@@ -496,48 +499,50 @@ class BotViewSet(viewsets.ViewSet):
         """/GET /bot/{id}/mail"""        
         try:
             # Récupération avec pagination
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 10))
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
             
-            # Date par défaut pour end_date : aujourd'hui + 10 ans
-            default_end_date = (datetime.now() + timedelta(days=365 * 10))
-                        
-            start_date_str = request.query_params.get('start_date', "01/01/1900")
-            end_date_str = request.query_params.get('end_date')
-            try:
-                start_date = datetime.strptime(start_date_str, "%d/%m/%Y")
-            except ValueError:
-                start_date = datetime(1900, 1, 1)
-                
-            if end_date_str:
-                try:
-                    end_date = datetime.strptime(end_date_str, "%d/%m/%Y")
-                except ValueError:
-                    end_date = default_end_date
-            else:
-                end_date = default_end_date
-            mail_collection = mongo_service.get_collection("mail")
-            
-            filters = {
-                'date': {
-                    '$gte': start_date,
-                    '$lte': end_date
-                },
-                'bot_id': pk
+            ESSENTIAL_FIELDS = {
+                "_id": 0,
+               "gmail_message_id" : 1,
+                "subject" : 1,
+                "from" : 1,
+                "received_at" : 1,
+                "date" : 1,
+                "has_attachment" : 1
             }
+                        
+            # Date par défaut pour end_date : aujourd'hui + 10 ans
+            serializer = EmailFilterSerializer(data = request.query_params)           
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-            total = mail_collection.count_documents(filters)
-            mails = list(mail_collection.find(filters).skip(skip).limit(page_size))
+            filter_data=serializer.validated_data
+            filter_data = {k: v for k, v in filter_data.items() if v is not None}
+            filter_data["bot_id"] = int(pk)
             
-            mails_data = [serialize_mongo_doc(mail) for mail in mails]
-            serializer =  MailSerializer(mails_data, many = True)
+            mail_collection = mongo_service.get_collection("filtered_emails")
+            
+
+            
+            total = mail_collection.count_documents(filter_data)
+            mails = list(mail_collection.find(filter_data).skip(skip).limit(page_size))
+            
+            emails =  list(
+                mail_collection
+                        .find(filter_data,ESSENTIAL_FIELDS)
+                        .skip(skip)
+                        .limit(page_size)
+            )
+            #Serialization des Donnes trouves
+            emails_data  = [serialize_mongo_doc(email) for email in emails]
             
             return Response({
                     'count': total,
                     'page': page,
                     'page_size': page_size,
-                    'results': serializer.data
+                    'results': emails_data
                 })
         except Exception as e:
             return Response(

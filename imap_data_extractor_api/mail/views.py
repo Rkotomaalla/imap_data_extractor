@@ -60,8 +60,8 @@ class MailViewSet(viewsets.ViewSet):
                 "has_attachment" : 1
             }
             # Recuperation avec pagination
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 10))
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
             
             #filtres

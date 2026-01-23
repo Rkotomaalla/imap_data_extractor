@@ -88,11 +88,19 @@ class UserLdapView(APIView):
         Lister tous les utilisateurs depuis LDAP
         """
         try:
-            users=user_service.list_users()
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
+            skip = (page - 1) * page_size
+            
+            role = request.query_params.get('role') or None
+            departement =request.query_params.get('departement') or None
+            print(f"role={role}, departement = {departement}")
+            users=user_service.list_users(role,departement)
+            paginated_users = users[skip:skip + page_size]  # Sous-liste pour la page demandée
             return Response({
                 'success': True,
                 'count': len(users),
-                'data': users
+                'data': paginated_users
             })
         
         except Exception as e:
@@ -239,10 +247,10 @@ class UserMailView(APIView):
             }
             
             # Recuperation avec pagination
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 10))
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
-            
+                
             #filtres
             serializer = EmailFilterSerializer(data = request.query_params)
             if not serializer.is_valid():
