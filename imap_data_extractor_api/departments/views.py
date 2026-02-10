@@ -32,7 +32,7 @@ def get_all_department(request):
         "message": "Erreur lors de la récupération des départements"
     }
     """
-    try:
+    try:        
         ldap_service = LDAPService()
         departments = ldap_service.get_all()
         department_list = [{'name': dept} for dept in departments]

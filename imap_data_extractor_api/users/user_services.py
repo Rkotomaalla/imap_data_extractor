@@ -237,14 +237,15 @@ class UserService:
             self._connect()
             
             
-            search_filter = '(objectClass=inetOrgPerson)'
-            if role:
-                search_filter = f"(&(objectClass=inetOrgPerson)(description={role}))"
-            if department:
-                search_filter = f"(&(objectClass=inetOrgPerson)(ou={department}))"
-            if role and department:
+            search_filter = "(objectClass=inetOrgPerson)"
+
+            if role is not None and department is not None:
                 search_filter = f"(&(objectClass=inetOrgPerson)(description={role})(ou={department}))"
-                
+            elif role is not None:
+                search_filter = f"(&(objectClass=inetOrgPerson)(description={role}))"
+            elif department is not None:
+                search_filter = f"(&(objectClass=inetOrgPerson)(ou={department}))"
+
             # Rechercher les utilisateurs
             self.connection.search(
                 search_base=f"{self.ldap_department_base}",
@@ -252,7 +253,6 @@ class UserService:
                 search_scope=SUBTREE,
                 attributes=['uid', 'cn', 'mail', 'givenName', 'sn', 'ou', 'description', 'uidNumber','gidNumber']
             )
-            
             users = []
             for entry in self.connection.entries:
                 users.append({
@@ -273,6 +273,9 @@ class UserService:
         except LDAPException as e:
             self._disconnect()
             raise Exception(f"Erreur lors de la recherche: {str(e)}")
+    
+    
+    
     def delete_user(self,user_id):
         """
         Supprimer un utilisateur de LDAP

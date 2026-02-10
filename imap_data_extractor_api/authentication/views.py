@@ -70,6 +70,7 @@ def login_view(request):
             "message": "Compte désactivé"
         }
         """
+        print(f"données recus  {request.data}")
         serializer = LoginSerializer(data=request.data)
         if not serializer.is_valid():
             logger.warning(f"Données de login invalides: {serializer.errors}")

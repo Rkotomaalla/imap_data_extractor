@@ -9,7 +9,7 @@ from email.utils import parseaddr
 from imap_data_extractor_api.utils import serialize_mongo_doc, get_next_sequence_value
 import logging
 import base64
-
+from notifications.services import notification
 logger = logging.getLogger(__name__)
 
     
@@ -39,7 +39,9 @@ def apply_bot_filter(user_id, gmail_message_id,bot,indexed_map):
         "gmail_message_id": gmail_message_id
     })
     if not mongo_message:
-        logger.error(f"Message introuvable : {gmail_message_id}")
+        error_message = f"Message introuvable : {gmail_message_id}" 
+        logger.error(error_message)
+        notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,error_message,5)
         return False
     
     filter_data = bot.get("filter", {})
@@ -47,7 +49,10 @@ def apply_bot_filter(user_id, gmail_message_id,bot,indexed_map):
     rules =  filter_data.get("rules",[])
     
     if not rules:
-        logger.warning("Aucune règle définie pour ce bot")
+        warning_message = "règle définie pour ce bot"
+        logger.warning(warning_message)
+        notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,warning_message,0)
+        
         return False
         
     priorities_data = gmail_service.sort_rules_by_indexed_priority(
@@ -65,12 +70,17 @@ def apply_bot_filter(user_id, gmail_message_id,bot,indexed_map):
     
     attachments = []
     
+    message = "application des règles"
     for i, bot_rule in enumerate(bot_rules, start=1):
        
         field_id = bot_rule.get("field_id")
+
         if field_id is None:
-            logger.error("field_id manquant dans la règle")
+            message = "field_id manquant dans la règle"
+            logger.error(message)
+            notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,5)            
             continue
+
         field_id = int(field_id)
         
         field_doc = field_collection.find_one({
@@ -78,21 +88,33 @@ def apply_bot_filter(user_id, gmail_message_id,bot,indexed_map):
         })
         
         if not field_doc:
-            logger.error(f"Field introuvable : {field_id}")
+            message = f"Field introuvable : {field_id}"
+            logger.error(message)
+            notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,5)            
+            
             continue
+        message =  f"Traitement du bot par un règle"
         logger.info(
             f"Traitement règle | field_id={field_id} | bot_rule={bot_rule}"
         )
+        notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,2)            
+        
         is_rule_valid = False
         need_attachment = field_doc.get("need_attachment", False)
         
         value = bot_rule.get("value")
         if value is None:
-            logger.error("value manquante dans la règle")
+            message = "value manquante dans la règle"
+            logger.error(message)
+            notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,5)            
+            
             continue
         #chargment si necessaire des pieces jointes
         if need_attachment:
             if gmail_data is None:
+                message = "extractions des pieces jointes"
+                notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,2)            
+                
                 gmail_data =  get_message_att(user_id,gmail_message_id) or {}
                 logger.info(
                     f"Données pièces jointes : {gmail_data.get('attachments', [])}"
@@ -119,6 +141,8 @@ def apply_bot_filter(user_id, gmail_message_id,bot,indexed_map):
                 is_mail_valid = True
                 continue
             else:
+                message ="Règle validée enregistrement du mail en cours"
+                notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,2)            
                 logger.info("Règle validée, required_all=False → arrêt")
                 is_mail_valid= True
                 break
@@ -154,10 +178,12 @@ def apply_bot_filter(user_id, gmail_message_id,bot,indexed_map):
     result =  gmail_service.save_email_and_attachments(service,user_id,gmail_message_id,mail_extracted,attachments)
     
     if not result:
-      
+        message = "erreur lors de l enregistrement du mail"
+        notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,5)            
         
         return False
-    
+    message = f"Mail enregistrer avec succes: id_mail : {gmail_message_id}"
+    notification.notify_email_process(user_id, bot.get("bot_id"),gmail_message_id,message,4)            
     logger.info(f"Un mail est enregistter , id mail {gmail_message_id} par l'utilisateur {user_id}")
     return True    
         
@@ -168,21 +194,20 @@ def dispatch_mail_to_bots(user_id, gmail_message_id):
     bot_collection =  mongo_service.get_collection("bot")
     fields_collection = mongo_service.get_collection("fields")
     bots = list(bot_collection.find({
-        "assigned_user_id": user_id
+        "assigned_user_id": user_id,
+        "status" : 1
     }))
-    print(
-        f"\nReto ny bots+++++++++++++++++++++++++++++++++++\n"
-        f"{bots}\n"
-        f"+++++++++++++++++++++++++++++++++++++++++++++++++++"
-    )
     fields_dict  = fields_collection.find()
     indexed_map = {int(f["field_id"]): f["is_indexed"] for f in fields_dict}
-    print(f"RETO NY INDEX\n{indexed_map}\n========================================================")
-    for bot in bots:
-        print(f"Mandalo eto am boucle========================================================")    
+
+    for bot in bots:            
         bot_result = serialize_mongo_doc(bot)
         bot_result = BotSerializer(bot_result)
-        print(f"boucle\n{bot_result.data}\n========================================================")    
+        
+        # envoi de la notification de reception des mails
+        notification_message = f"Un nouveaux mail {gmail_message_id} en cours de traitement"
+        notification.notify_email_process(user_id, bot_result.get("bot_id"),gmail_message_id,notification_message,1)
+
         apply_bot_filter.delay(
             user_id = user_id,
             gmail_message_id = gmail_message_id,
@@ -217,9 +242,9 @@ def process_gmail_message(user_id, message_id):
     logger.info(f"valeur de message reçu {message}")
     logger.info(f"valeur du payload reçu {message["payload"]}")
 
-    from_name , from_email = parseaddr(headers.get("From"))
-     
+    from_name , from_email = parseaddr(headers.get("From")) 
     raw_emails_id =  get_next_sequence_value("raw_emails")    
+    
     mail_data = {
         "user_id": user_id,
         "gmail_message_id": message.get("id"),
@@ -233,7 +258,7 @@ def process_gmail_message(user_id, message_id):
         "label_ids": message.get("labelIds", []),
         "received_at": datetime.utcnow()
     }   
-    logger.info(f"\nito ilay mail\n{mail_data}\n")
+    
     messages_collection.update_one(
         {"raw_emails_id": raw_emails_id},
         {"$setOnInsert": mail_data},

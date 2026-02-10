@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from authentication.permissions import IsAdmin
 from rest_framework.response import Response
 from rest_framework import status
+from mail.serializer import EmailFilterSerializer , EmailListSerializer
+
 from .serializer import BotSerializer
 import logging
 from django.db import transaction
@@ -19,6 +21,7 @@ from mail.serializer import MailSerializer
 from .service import bot_service
 from rest_framework.decorators import action
 
+from rest_framework.exceptions import APIException
 # generate_bot_token, is_bot_owner, stop_bot,delete_bot
 from configurations.services import  mongo_service
 logger = logging.getLogger(__name__)
@@ -84,8 +87,8 @@ class BotViewSet(viewsets.ViewSet):
         """GET /bots/ - Liste tous les bots de l'utilisateur connecté"""
         try:
             # Récupération avec pagination
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 10))
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
 
             # Filtres de base : uniquement les bots de l'utilisateu
@@ -126,7 +129,7 @@ class BotViewSet(viewsets.ViewSet):
             # object_id = parse_object_id(pk)
             bot = self.collection.find_one({
                 'bot_id': int(pk),
-                'assigned_user_id': request.user.uid_number  # ← Sécurité : vérifie l'ownership
+                'assigned_user_id': d_number  # ← Sécurité : vérifie l'ownership
             })
             print(bot)
             if not bot:
@@ -191,7 +194,7 @@ class BotViewSet(viewsets.ViewSet):
             )
             
 #Activation du bot================================================================================================================================================            
-    @action(detail=True, methods=['post'], url_path="activate",permission_classes=[IsAuthenticated, IsAdmin])
+    @action(detail=True, methods=['post'], url_path="activate",permission_classes=[IsAuthenticated])
     def activate_bot(self, request , pk=None):
         """Activer un bot POST /bots/[id]/activate"""
         try:
@@ -203,6 +206,8 @@ class BotViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         user_role =  request.user.ldap_role
+        print("Tonga eto am Activate Bot==============================")
+
         try:
             if not bot_service.is_bot_owner(bot_id,user_id,user_role):
                  return Response(
@@ -229,14 +234,122 @@ class BotViewSet(viewsets.ViewSet):
                 },
                 status = status.HTTP_200_OK
             )
+        except APIException as e:
+            # Laisse DRF gérer le status (409, 400, etc.)
+            raise e
+
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             return Response(
                 {'error' : f'erreur lors de l\'activaion du bot : {str(e)}'},
                 status =  status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
+        
+#Restart bot======================================================s==========================================================================================            
+    @action(detail  = True,methods=["post"],url_path = "start" , permission_classes=[IsAuthenticated])
+    def start_bot(self,request,pk=None):
+        """POST bots/{id}/pause"""
+        try:
+            bot_id = int(pk)
+            user_id =  int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                 {'detail' : 'identifiants invalides.'},
+                 status = status.HTTP_400_BAD_REQUEST
+            ) 
+        try:
+            user_role =  request.user.ldap_role
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            bot = bot_service.get_by_id(bot_id)
+            if not bot:
+                return Response(
+                    {'detail': 'Bot introuvable.'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if bot and bot.get("status") == 1:
+                return Response(
+                    {'error': 'Le bot deja en etat de marche.'},
+                    status=status.HTTP_409_CONFLICT
+                )
+            bot_service.start_bot(bot_id)
+            return Response(
+                {
+                    "status": "succes",
+                    "message": f"bot {bot_id} mise en marche avec succes "
+                }
+            )
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except RuntimeError as e:
+            return Response({"error": str(e)}, status=status.HTTP_409)
+        except Exception as e:
+            return Response(
+                {'error' : f'erreur lors dela mis en pause du bot : {str(e)}'},
+                status =  status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 #Pause du bot======================================================s==========================================================================================            
+    @action(detail  = True,methods=["post"],url_path = "pause" , permission_classes=[IsAuthenticated])
+    def pause_bot(self,request,pk=None):
+        """POST bots/{id}/pause"""
+        try:
+            bot_id = int(pk)
+            user_id =  int(request.user.uid_number)
+        except (TypeError, ValueError):
+            return Response(
+                 {'detail' : 'identifiants invalides.'},
+                 status = status.HTTP_400_BAD_REQUEST
+            ) 
+        try:
+            user_role =  request.user.ldap_role
+            if not bot_service.is_bot_owner(bot_id,user_id,user_role):
+                return Response(
+                    {'error': 'Accès refusé. Ce bot ne vous appartient pas.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            bot = bot_service.get_by_id(bot_id)
+            if not bot:
+                return Response(
+                    {'detail': 'Bot introuvable.'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            if bot and bot.get("status") == 0:
+                return Response(
+                    {'error': 'Le bot deja en etat de pause.'},
+                    status=status.HTTP_409_CONFLICT
+                )
+            bot_service.pause_bot(bot_id)
+            return Response(
+                {
+                    "status": "succes",
+                    "message": f"bot {bot_id} mise en pause avec succes "
+                }
+            )
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except RuntimeError as e:
+            return Response({"error": str(e)}, status=status.HTTP_409)
+        except Exception as e:
+            return Response(
+                {'error' : f'erreur lors dela mis en pause du bot : {str(e)}'},
+                status =  status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 # Arret Du bot  ================================================================================================
-    @action(detail=True, methods = ['post'] , url_path="stop", permission_classes=[IsAuthenticated,IsAdmin])
+    @action(detail=True, methods = ['post'] , url_path="stop", permission_classes=[IsAuthenticated])
     def stop_bot(self,request,pk=None):
         """POST /bots/{id}/stop"""
         try:
@@ -273,14 +386,21 @@ class BotViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_200_OK
             )
+            
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             return Response(
                 {'error' : f'Erreur lors de l\'arrêt du bot: {str(e)}'},
                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
 #SUPPRESSION DU BOT ======================================================================================================================================
-    @action(detail=True, methods=['delete'],url_path="delete", permission_classes=[IsAuthenticated, IsAdmin])  
-    def delete_bot(self, request, pk=None):
+    @action(detail=True, methods=['delete'] ,url_path = "delete_bot",permission_classes=[IsAuthenticated])  
+    def delete_bot(self, request, pk=None): 
         """DELETE /bots/{id}/ - Supprimer un bot (vérifie ownership)"""
         try:
             bot_id = int(pk)
@@ -308,7 +428,12 @@ class BotViewSet(viewsets.ViewSet):
                     'message': f'Le bot avec l\'identifiant {bot_id} a été supprimé avec succès.',
                     'status' : 'success'
                 },
-                status=status.HTTP_204_NO_CONTENT
+                status=status.HTTP_200_OK
+            )
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
             )
         except Exception as e : 
             return Response(
@@ -374,48 +499,50 @@ class BotViewSet(viewsets.ViewSet):
         """/GET /bot/{id}/mail"""        
         try:
             # Récupération avec pagination
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 10))
+            page = max(1, int(request.query_params.get('page', 1)))
+            page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
             
-            # Date par défaut pour end_date : aujourd'hui + 10 ans
-            default_end_date = (datetime.now() + timedelta(days=365 * 10))
-                        
-            start_date_str = request.query_params.get('start_date', "01/01/1900")
-            end_date_str = request.query_params.get('end_date')
-            try:
-                start_date = datetime.strptime(start_date_str, "%d/%m/%Y")
-            except ValueError:
-                start_date = datetime(1900, 1, 1)
-                
-            if end_date_str:
-                try:
-                    end_date = datetime.strptime(end_date_str, "%d/%m/%Y")
-                except ValueError:
-                    end_date = default_end_date
-            else:
-                end_date = default_end_date
-            mail_collection = mongo_service.get_collection("mail")
-            
-            filters = {
-                'date': {
-                    '$gte': start_date,
-                    '$lte': end_date
-                },
-                'bot_id': pk
+            ESSENTIAL_FIELDS = {
+                "_id": 0,
+               "gmail_message_id" : 1,
+                "subject" : 1,
+                "from" : 1,
+                "received_at" : 1,
+                "date" : 1,
+                "has_attachment" : 1
             }
+                        
+            # Date par défaut pour end_date : aujourd'hui + 10 ans
+            serializer = EmailFilterSerializer(data = request.query_params)           
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-            total = mail_collection.count_documents(filters)
-            mails = list(mail_collection.find(filters).skip(skip).limit(page_size))
+            filter_data=serializer.validated_data
+            filter_data = {k: v for k, v in filter_data.items() if v is not None}
+            filter_data["bot_id"] = int(pk)
             
-            mails_data = [serialize_mongo_doc(mail) for mail in mails]
-            serializer =  MailSerializer(mails_data, many = True)
+            mail_collection = mongo_service.get_collection("filtered_emails")
+            
+
+            
+            total = mail_collection.count_documents(filter_data)
+            mails = list(mail_collection.find(filter_data).skip(skip).limit(page_size))
+            
+            emails =  list(
+                mail_collection
+                        .find(filter_data,ESSENTIAL_FIELDS)
+                        .skip(skip)
+                        .limit(page_size)
+            )
+            #Serialization des Donnes trouves
+            emails_data  = [serialize_mongo_doc(email) for email in emails]
             
             return Response({
                     'count': total,
                     'page': page,
                     'page_size': page_size,
-                    'results': serializer.data
+                    'results': emails_data
                 })
         except Exception as e:
             return Response(
