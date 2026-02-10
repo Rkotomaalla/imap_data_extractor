@@ -41,13 +41,13 @@ class FieldViewSet(viewsets.ViewSet):
                 skip = (page - 1) * page_size
                 fields =   list(self. fields_collection.find(
                         {},
-                        {"_id":0 , "field_id" : 1 , "field_name" : 1,"description":1,"is_indexed": 1}
+                        {"_id":0 , "field_id" : 1 , "field_name" : 1,"description":1,"is_indexed": 1,"type" : 1}
                     ).skip(skip).limit(page_size))
             
             else:
                 fields =   list(self. fields_collection.find(
                     {},
-                    {"_id":0 , "field_id" : 1 , "field_name" : 1,"description":1,"is_indexed": 1}
+                    {"_id":0 , "field_id" : 1 , "field_name" : 1,"description":1,"is_indexed": 1,"type" : 1}
                 ))
                 
             fields_data= [serialize_mongo_doc(field) for field in fields]
@@ -103,7 +103,7 @@ class FieldViewSet(viewsets.ViewSet):
             for operator_id in operators_ids:
                 operator_doc = self.operator_collection.find_one(
                     {"operator_id": operator_id},
-                    {"_id": 0, "operator_id": 1, "description": 1}
+                    {"_id": 0, "operator_id": 1, "description": 1 , "many" : 1}
                 )
 
                 if operator_doc:
