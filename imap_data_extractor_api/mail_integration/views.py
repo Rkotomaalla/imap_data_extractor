@@ -154,7 +154,7 @@ class MailIntegratioinView(ViewSet):
             )
         # --- Fin récupération email ---
             # Redirection vers le frontend succès
-            return HttpResponseRedirect("http://localhost:3000/outlook-success")
+            return HttpResponseRedirect("http://localhost:3001/management/bot/list")
         
         except Exception as e:
             return Response(

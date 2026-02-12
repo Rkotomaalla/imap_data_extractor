@@ -212,7 +212,7 @@ class FilterSerializer(serializers.Serializer):
     """Filter Principal"""
     name = serializers.CharField(max_length=255,required=True)
     required_all = serializers.BooleanField(default=True)
-    action = serializers.IntegerField(min_value=0 , max_value= 10)
+    action = serializers.IntegerField(min_value=0 , max_value= 10,required = False,default = 1)
     rules = RulesSerializer(many=True,allow_empty=False)
     
     def validate_rules(self , value) :
