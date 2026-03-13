@@ -98,6 +98,7 @@ class UserUpdateSerializer(serializers.Serializer):
         required=False,
         style={'input_type': 'password'},
     )
+    
     new_password = serializers.CharField(
         allow_null=True,
         write_only=True,

@@ -39,6 +39,9 @@ class MongoDBService:
      
     def init_indexes(self):
         try:
+            # self.db.filtered_emails.drop_indexes()
+            # self.db.raw_emails.drop_indexes()
+            
             # ===== Piece jointes =====
             self.db.attachment_email.create_index(
                 [("attachment_id", ASCENDING)],
@@ -63,6 +66,7 @@ class MongoDBService:
                 )
             logger.info("Index unique 'bot_archive_id' créé pour filtered_emails")
             
+            
             #===========field
             self.db.fields.create_index(
                     [("field_id", ASCENDING)],
@@ -73,7 +77,7 @@ class MongoDBService:
 
             #===========Filtered_email
             self.db.filtered_emails.create_index(
-                    [("gmail_message_id", ASCENDING)],
+                    [("filtered_emails_id", ASCENDING)],
                     unique=True,
                     name="unique_gmail_message_id"
                 )
@@ -97,7 +101,7 @@ class MongoDBService:
             
             #================raw email 
             self.db.raw_emails.create_index(
-                    [("gmail_message_id", ASCENDING)],
+                    [("raw_emails_id", ASCENDING)],
                     unique=True,
                     name="unique_gmail_message_id_raw_email"
                 )
@@ -186,15 +190,22 @@ class MongoDBService:
             return True
         except ConnectionFailure as e:
             logger.error(f"Échec de la connexion à MongoDB : {e}")
-            raise ValueError(f"Échec de la connexion à MongoDB : {e}")
+            return False
+            # raise ValueError(f"Échec de la connexion à MongoDB : {e}")
         except OperationFailure as e:
             logger.error(f"Échec de l'opération sur MongoDB : {e}")
-            raise ValueError(f"Échec de l'opération sur MongoDB : {e}")
+            return False
+            
+            # raise ValueError(f"Échec de l'opération sur MongoDB : {e}")
         except ConfigurationError as e:
-           logger.error(f"Configuration MongoDB invalide : {e}")
-           raise ValueError(f"Configuration MongoDB invalide : {e}")
+            logger.error(f"Configuration MongoDB invalide : {e}")
+            return False
+           
+        #    raise ValueError(f"Configuration MongoDB invalide : {e}")
         except Exception as e:
             logger.error(f"Erreur inattendue : {e}")
-            raise ValueError(f"Erreur inattendue : {e}")
+            return False
+            # raise ValueError(f"Erreur inattendue : {e}")
+
 # genelral
 mongo_service = MongoDBService()

@@ -9,6 +9,7 @@ from .serializer import BotSerializer , BotArchiveSerializer
 from imap_data_extractor_api.utils import get_next_sequence_value
 from mail_integration.services import gmail_service
 from rest_framework.exceptions import APIException
+from django.conf import settings 
 class BotService:   
     def __init__(self):
        self.collection =  mongo_service.get_collection('bot') 
@@ -118,7 +119,7 @@ class BotService:
         if count == 0:
             print(f"3______________________________________________________________________\ncount bot = 0\n______________________________________________________________________\n")  
             service = gmail_service.get_gmail_service(user_id)
-            topic_name = "projects/imapdataapiextractor/topics/GmailNotifications"
+            topic_name = f"projects/{settings.GMAIL_PROJECT_ID}/topics/new_email_notification"
             response = service.users().watch(
                 userId='me',
                 body={"labelIds": ["INBOX"], "topicName": topic_name}
@@ -187,7 +188,7 @@ class BotService:
             raise ValueError("bot non existant")
         
         user_id = bot["assigned_user_id"]
-        gmail_collection  =  mongo_service.get_collection("gmail_collection")
+        gmail_collection  =  mongo_service.get_collection("gmail_token")
         
         # Récupérer le document gmail de l'utilisateur
         token_doc = gmail_collection.find_one({"user_id" : user_id})
@@ -207,9 +208,12 @@ class BotService:
         else:
             raise Exception("Le bot est déjà arrêté")
     
-    def get_count_by_status(self, status):
+    def get_count_by_status(self, status,uid_number : int | None):
         try:
-            return self.collection.count_documents({"status": int(status)})
+            if(uid_number is not None): 
+                return self.collection.count_documents({"status": int(status),"assigned_user_id" : uid_number})
+            else : 
+                return self.collection.count_documents({"status": int(status)})
         except Exception as e:
             raise Exception(
                 f"Erreur lors du count pour le status {status} : {str(e)}"
@@ -262,6 +266,20 @@ class BotService:
         except Exception as e:
             raise Exception (f'Une erreur est survenue lors du traitement de la  fonction getCount : {str(e)}')
 
+    def get_own_bot_count(self, uid_number: int):
+        try:
+            count_bot = []
+            for status, libelle in self.STATUS_LABELS.items():
+                item = {
+                    "status" : status,
+                    "total" : self.get_count_by_status(status,uid_number),
+                    "libele" : libelle
+                }
+                count_bot.append(item)
+                
+            return count_bot
+        except Exception as e:
+            raise Exception (f'Une erreur est survenue lors du traitement de la  fonction getCount : {str(e)}')
 
 bot_service = BotService()
 

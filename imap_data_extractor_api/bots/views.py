@@ -580,3 +580,16 @@ class BotViewSet(viewsets.ViewSet):
                 {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
+    @action(detail = False, methods=['get'],url_path="count_own" , permission_classes=[IsAdmin])
+    def count_bot(self, request):
+        try:
+            uid_number = int(request.user.uid_number)
+            counted_bot = bot_service.get_own_bot_count(uid_number)
+            return Response({"data": counted_bot}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+         
