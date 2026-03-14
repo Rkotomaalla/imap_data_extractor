@@ -44,7 +44,7 @@ class MongoConfigViewSet(ViewSet):
                     {"error": "La configuration MongoDB est invalide ou la connexion a échoué."},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
+            # modification des chose
             # Ajouter la configuration
             result = mongo_service.add_config(data)
             if not hasattr(result, 'inserted_id'):
