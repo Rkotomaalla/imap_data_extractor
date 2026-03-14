@@ -332,3 +332,161 @@ class StatsViewSet(viewsets.ViewSet):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(
+        detail = False,
+        methods=["get"],
+        url_path = "email/all"
+    )
+    def get_all_mail (self,request):
+        try:
+            user_id = request.user.uid_number
+            all = request.query_params.get("all")
+            role = request.user.ldap_role
+            collection = mongo_service.get_collection("filtered_emails")
+            if all == True and role == "admin":
+                count_unique = len(collection.distinct("gmail_message_id"))
+            else:
+                count_unique = len(collection.distinct("gmail_message_id", {"user_id": user_id}))
+
+            return Response({"count": count_unique}, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    
+    
+    @action(
+        detail = False,
+        methods=["get"],
+        url_path = "raw_email/all"
+    )
+    def get_all_raw_emails (self,request):
+        try:
+            user_id = request.user.uid_number
+            all = request.query_params.get("all")
+            role = request.user.ldap_role
+            collection = mongo_service.get_collection("raw_emails")
+            if all == True and role == "admin":
+                count_unique = len(collection.distinct("gmail_message_id"))
+            else:
+                count_unique = len(collection.distinct("gmail_message_id", {"user_id": user_id}))
+
+            return Response({"count": count_unique}, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="task/active"
+    )
+    def get_active_task_count(self, request):
+        try:
+            user_id = request.user.uid_number
+            role = request.user.ldap_role
+
+            # convertir query param en bool
+            all_param = request.query_params.get("all", "false").lower() in ["true", "1", "yes"]
+
+            collection = mongo_service.get_collection("task")
+
+            if all_param and role == "admin":
+                query = {"date_ended": None}
+            else:
+                query = {"started_by": user_id, "date_ended": None}
+
+            count_unique = collection.count_documents(query)
+
+            return Response({"count": count_unique}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    
+    @action(
+        detail = False,
+        methods = ["get"],
+        url_path = "bot/ranking"
+    )
+    def get_bot_ranking(self, request):
+        try:
+            user_id = request.user.uid_number  # Exemple : 11004
+            role = request.user.ldap_role
+            all_param = request.query_params.get("all", "false").lower() in ["true", "1", "yes"]
+
+            # Récupère les collections MongoDB
+            collection_emails = mongo_service.get_collection("filtered_emails")
+            collection_bots = mongo_service.get_collection("bot")
+
+            # Filtre pour les mails : user_id = 11004 (sauf si admin et all_param=True)
+            match_emails = {"user_id": user_id}
+            if all_param and role == "admin":
+                match_emails = {}  # Pas de filtre si admin et all_param=True
+
+            # Filtre pour les bots : assigned_user_id = user_id (sauf si admin et all_param=True)
+            match_bots = {"assigned_user_id": user_id}
+            if all_param and role == "admin":
+                match_bots = {}  # Pas de filtre si admin et all_param=True
+
+            # --- Étape 1 : Récupère tous les bots du user_id ---
+            all_bots = list(collection_bots.find(match_bots, {"bot_id": 1, "name": 1, "_id": 0}))
+
+            # --- Étape 2 : Récupère le nombre de mails par bot_id ---
+            emails_by_bot = list(collection_emails.aggregate([
+                {"$match": match_emails},
+                {"$group": {"_id": "$bot_id", "count": {"$sum": 1}}}
+            ]))
+
+            # --- Étape 3 : Fusionne les résultats ---
+            bot_dict = {bot["bot_id"]: bot for bot in all_bots}
+            for email in emails_by_bot:
+                bot_id = email["_id"]
+                if bot_id in bot_dict:
+                    bot_dict[bot_id]["count"] = email["count"]
+
+            # --- Étape 4 : Ajoute count=0 pour les bots sans mails ---
+            for bot in bot_dict.values():
+                bot.setdefault("count", 0)
+
+            # --- Étape 5 : Convertit en liste et trie ---
+            result = sorted(bot_dict.values(), key=lambda x: x["count"], reverse=True)
+
+            # Retourne le résultat
+            return Response(result, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+            
+    @action(
+        detail = False,
+        methods = ["get"],
+        url_path = "task"
+    )
+    def get_all_task(self,request):
+        try:
+            user_id = request.user.uid_number  # Exemple : 11004
+            role = request.user.ldap_role 
+            
+            # convertir query param en bool
+            all_param = request.query_params.get("all", "false").lower() in ["true", "1", "yes"]
+            if all_param and role == "admin":
+                query = {}
+            else:
+                query = {"started_by": user_id}
+            collection = mongo_service.get_collection("task")
+            count_unique = collection.count_documents(query)
+
+            return Response(count_unique, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        

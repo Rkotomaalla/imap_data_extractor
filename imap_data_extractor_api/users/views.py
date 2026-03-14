@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from imap_data_extractor_api.utils  import get_next_sequence_value, serialize_mongo_doc
 from configurations.services import  mongo_service
-
+from datetime import datetime
 # Create your views here.
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , AllowAny
 from .serializers import UserSerializer,UserUpdateSerializer
 from  .user_services import user_service
 from authentication.permissions import IsAdmin
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from mail.serializer import EmailFilterSerializer
+from authentication.services.ldap_service import LDAPService
 import logging
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,8 @@ class UserLdapView(APIView):
             self.request.method,
             [IsAuthenticated()]  # default
         )
+     
+            
     def post(self, request):
         """
         Créer un nouvel utilisateur LDAP
@@ -88,15 +91,20 @@ class UserLdapView(APIView):
         Lister tous les utilisateurs depuis LDAP
         """
         try:
+            
+            print(request.query_params)
             page = max(1, int(request.query_params.get('page', 1)))
             page_size = max(1, min(100, int(request.query_params.get('page_size', 10))))
             skip = (page - 1) * page_size
             
             role = request.query_params.get('role') or None
             departement =request.query_params.get('departement') or None
-            print(f"role={role}, departement = {departement}")
-            users=user_service.list_users(role,departement)
+            email =request.query_params.get('email') or None
+            cn =request.query_params.get('name') or None
+            
+            users=user_service.list_users(role, departement, email, cn)
             paginated_users = users[skip:skip + page_size]  # Sous-liste pour la page demandée
+            
             return Response({
                 'success': True,
                 'count': len(users),
@@ -156,34 +164,187 @@ class UserLdapDetailView(APIView):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
             
+    # def delete(self, request, user_id):
+    #     """
+    #     Supprimer un utilisateur LDAP par son nom d'utilisateur
+    #     """
+    #     try:
+    #         motif  = request.query_params.get("motif")
+    #         user_uid = request.user.uid_number
+    #         if not motif:
+    #             return Response(
+    #                 {
+    #                     'message' : 'Motif obligatoire.',
+    #                     'success' : False
+    #                 },
+    #                 status = status.HTTP_400_BAD_REQUEST
+    #             )
+                
+    #         bot_collection = mongo_service.get_collection('bot')
+            
+    #         filter = {'assigned_user_id': user_id}            
+    #         active_bots = list(bot_collection.find(filter, {'_id': 0, 'bot_id': 1}))
+    #         if active_bots:
+    #             bot_ids = [bot['bot_id'] for bot in active_bots]
+    #             return Response({
+    #                 'success': False,
+    #                 'message': "Impossible de supprimer l'utilisateur : l'utilisateur possedes encore de bots ou des bots sont encore actifs.",
+    #                 'data': {
+    #                     'active_bots': bot_ids
+    #                 }
+    #             }, status=status.HTTP_409_CONFLICT)
+
+    #         user_archive_collection = mongo_service.get_collection("user_archive")
+            
+    #         user =  user_service.get_user_by_id(user_id)
+    #         user_archive = user
+
+    #         user_archive["motif"] = motif
+    #         user_archive["deleted_at"] = datetime.utcnow()
+    #         user_archive["deleted_by"] = user_uid
+    #         user_archive["user_archive_id"] = get_next_sequence_value("user_archive_id")
+            
+    #         user_archive_collection.insert_one(user_archive)
+            
+    #         success = user_service.delete_user(user_id)
+            
+    #         if not success:
+    #             return Response({
+    #                 'success': False,
+    #                 'message': 'Utilisateur non trouvé ou erreur lors de la suppression'
+    #             }, status=status.HTTP_404_NOT_FOUND)
+            
+    #         return Response({
+    #             'success': True,
+    #             'message': 'Utilisateur supprimé avec succès'
+    #         })
+    #     except Exception as e:
+    #         return Response({
+    #             'success': False,
+    #             'message': str(e),
+    #             'error': str(e)
+    #         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, user_id):
         """
-        Supprimer un utilisateur LDAP par son nom d'utilisateur
+        Supprimer un utilisateur LDAP par son ID utilisateur.
+
+        Args:
+            request: Objet Request DRF
+            user_id: ID de l'utilisateur à supprimer
+
+        Returns:
+            Response: Réponse HTTP avec statut et données appropriés
         """
         try:
-            success = user_service.delete_user(user_id)
-            
-            if not success:
+            # 1. Vérification du motif
+            motif = request.query_params.get("motif")
+            if not motif:
+                return Response(
+                    {
+                        'success': False,
+                        'message': 'Le motif de suppression est obligatoire.',
+                        'error_code': 'MISSING_MOTIF'
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # 2. Vérification des bots actifs
+            bot_collection = mongo_service.get_collection('bot')
+            active_bots = list(bot_collection.find(
+                {
+                    'assigned_user_id': user_id,
+                    'status': {'$ne': 3}  # Ajoute cette condition pour exclure les bots avec status = 3
+                },
+                {'_id': 0, 'bot_id': 1}  # Ajout du nom pour plus d'informations
+            ))
+
+            if active_bots:
+                bot_details = [{
+                    bot['bot_id'],
+                } for bot in active_bots]
+
                 return Response({
                     'success': False,
-                    'message': 'Utilisateur non trouvé ou erreur lors de la suppression'
+                    'message': "Impossible de supprimer l'utilisateur car des bots sont encore actifs.",
+                    'data': {
+                        'active_bots': bot_details,
+                        'count': len(active_bots)
+                    },
+                    'error_code': 'ACTIVE_BOTS_EXIST'
+                }, status=status.HTTP_409_CONFLICT)
+
+            # 3. Archivage de l'utilisateur
+            user_archive_collection = mongo_service.get_collection("user_archive")
+            user = user_service.get_user_by_id(user_id)
+
+            if not user:
+                return Response({
+                    'success': False,
+                    'message': 'Utilisateur non trouvé.',
+                    'error_code': 'USER_NOT_FOUND'
                 }, status=status.HTTP_404_NOT_FOUND)
-            
-            return Response({
-                'success': True,
-                'message': 'Utilisateur supprimé avec succès'
-            })
+
+            # Préparation des données d'archivage
+            user_archive = {
+                **user,
+                'motif': motif,
+                'deleted_at': datetime.utcnow(),
+                'deleted_by': request.user.uid_number,
+                'user_archive_id': get_next_sequence_value("user_archive_id")
+            }
+
+            # 4. Archivage et suppression
+            try:
+                # Archivage
+                user_archive_collection.insert_one(user_archive)
+
+                # Suppression
+                success = user_service.delete_user(user_id)
+
+                if not success:
+                    # En cas d'échec de suppression, on pourrait aussi supprimer l'entrée d'archive
+                    # mais c'est une décision de design à prendre
+                    return Response({
+                        'success': False,
+                        'message': 'Échec de la suppression de l\'utilisateur.',
+                        'error_code': 'DELETION_FAILED'
+                    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+                return Response({
+                    'success': True,
+                    'message': 'Utilisateur supprimé avec succès.',
+                    'data': {
+                        'user_id': user_id,
+                        'archive_id': user_archive['user_archive_id'],
+                        'deleted_at': user_archive['deleted_at'].isoformat()
+                    }
+                })
+
+            except Exception as archive_error:
+                # En cas d'erreur pendant l'archivage ou la suppression
+                return Response({
+                    'success': False,
+                    'message': f"Erreur lors de l'archivage ou de la suppression: {str(archive_error)}",
+                    'error_code': 'ARCHIVE_DELETION_ERROR'
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         except Exception as e:
+            # Gestion des erreurs générales
             return Response({
                 'success': False,
-                'message': str(e),
-                'error': str(e)
+                'message': 'Une erreur interne est survenue.',
+                'error': str(e),
+                'error_code': 'INTERNAL_SERVER_ERROR'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
+        
     def put(self,request,user_id):
         """
             modification des Utilisateurs
         """
+        print(f"Donne recus=======================================\n")
+        print(f"{request.data}")
+        print("=======================================\n")
         serializer=UserUpdateSerializer(data=request.data)
         if not serializer.is_valid():
          return Response({
@@ -287,3 +448,38 @@ class UserMailView(APIView):
                 {"detail": f"Erreur lors de la récupération : {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+from rest_framework import viewsets, status    
+class UserSimpleAuth(APIView):
+    permission_classes = [AllowAny] 
+    def post(self,request):
+        try:
+            email =  request.data.get("email")
+            password =  request.data.get("password")
+            if not email or not password:
+                return Response({
+                    'success': False,
+                    'message': 'Email ou Mot de Passe vide'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            ldap_service = LDAPService()
+            print(f"=============================================\n")
+            print(f"{email} + {password}")
+            print(f"\n=============================================\n")
+            user_info = ldap_service.authenticate_user(email,password)
+            if not user_info:
+                return Response({
+                    'success': False,
+                    'message': 'Mot de passe ou email incorrect'
+                }, status=status.HTTP_200_OK)
+            
+            return Response({
+                'success':True,
+                'message': 'Authetification validée',
+            }, status=status.HTTP_200_OK)      
+        except Exception as e:
+            return Response({
+                'success': False,
+                'message': 'Erreur lors de l\'authentification de l\'utilisateur',
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            

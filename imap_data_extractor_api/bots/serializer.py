@@ -69,7 +69,7 @@ class BotArchiveSerializer(serializers.Serializer):
     deleted_at = serializers.DateTimeField(read_only = True)
     bot_id=serializers.IntegerField(required=True)
     bot = BotSerializer(required=True)
-    
+    delete_reason = serializers.CharField(required = False)
 # class BotSerializer(serializers.ModelSerializer):
 #     filter=BotFilterSerializer()
 #     class Meta:

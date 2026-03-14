@@ -43,3 +43,18 @@ class NotificationSerializer(serializers.Serializer):
             'required': "Le categorie  de notification est obligatoire.",
         }
     )
+
+
+class MailNotificationSerializer(serializers.Serializer):
+    id = serializers.CharField(read_only = True)
+    mail_notification_id = serializers.IntegerField( read_only = True)
+    user_id = serializers.IntegerField(required = True)
+    bot_ids = serializers.ListField(
+                child=serializers.IntegerField(),
+                required=True
+            )       
+    message_id  =  serializers.CharField(required = True)
+    message =  serializers.CharField(required = True)
+    is_read = serializers.BooleanField(default = False)
+    created_at = serializers.DateTimeField(read_only = True)
+    

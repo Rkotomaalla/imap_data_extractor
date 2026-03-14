@@ -29,6 +29,7 @@ load_dotenv(BASE_DIR / ".env")
 # configuration des GMAIL
 GMAIL_CLIENT_ID = os.getenv("GMAIL_CLIENT_ID")
 GMAIL_CLIENT_SECRET = os.getenv("GMAIL_CLIENT_SECRET")
+GMAIL_PROJECT_ID = os.getenv("GMAIL_PROJECT_ID")
 GMAIL_REDIRECT_URI = "http://localhost:8000/gmail/callback/"
 GMAIL_SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly"
@@ -188,10 +189,11 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 # CORS Configuration
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Remplace par l'URL de ton frontend React
+    "http://127.0.0.1:3000",
+]
+
 MONGODB_SETTINGS = {
     'host': config('MONGO_HOST', default='localhost'),
     'port': int(config('MONGO_PORT', default=27017)),
@@ -201,6 +203,10 @@ MONGODB_SETTINGS = {
 }
 
 CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_SAMESITE = 'None'  # Autoriser l'envoi des cookies entre domaines
+SESSION_COOKIE_SECURE = False     # Mettre à True en production (si HTTPS)
+CSRF_COOKIE_SAMESITE = 'None'     # Pour les requêtes cross-domain
 
 AUTH_USER_MODEL = 'authentication.LDAPUser'
 

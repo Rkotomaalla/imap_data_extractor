@@ -1,45 +1,41 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-import json
-from django.conf import settings
 from imap_data_extractor_api.utils import serialize_mongo_doc
 from .serializer import NotificationSerializer
 from configurations.services import mongo_service
-
-notif_collection = mongo_service.get_collection('notification')
-
-class NotificationConsumer(AsyncWebsocketConsumer):
+from urllib.parse import parse_qs  # Import correct
+class BaseConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        user = self.scope["user"]
-        
-        if user.is_anonymous:
-            await self.close(code=4001)  # Code personnalisé pour "non authentifié"
+        query_string = self.scope.get("query_string", b"").decode()
+        query_params = parse_qs(query_string)
+        uid_number = query_params.get("user", [None])[0]
+
+        if not uid_number or not uid_number.strip():
+            await self.close(code=4001)
             return
-        
-        self.user_id = str(user.id)
-        self.group_name = f"user_{self.user_id}"
-        
-        # Ajouter au groupe
-        await self.channel_layer.group_add(self.group_name, self.channel_name)
-        
-        # Accepter la connexion
+
+        self.user_id = uid_number
+        self.user_group_name = f"user_{self.user_id}"
+
+        await self.channel_layer.group_add(self.user_group_name, self.channel_name)
         await self.accept()
-        
-        # Envoyer un message de connexion réussie (optionnel)
+
         await self.send(text_data=json.dumps({
             "type": "connection_established",
-            "message": "Connexion WebSocket établie"
+            "message": f"Connexion WebSocket établie pour l'utilisateur {self.user_id}"
         }))
-    
+
     async def disconnect(self, close_code):
-        # Vérifier si group_name existe avant de l'utiliser
-        if hasattr(self, 'group_name') and self.group_name:
-            await self.channel_layer.group_discard(self.group_name, self.channel_name)
-    
+        if hasattr(self, 'user_group_name') and self.user_group_name:
+            await self.channel_layer.group_discard(self.user_group_name, self.channel_name)
+
     async def notify(self, event):
-        """
-        Méthode appelée par `notify_user`.
-        Envoie les données de notification au WebSocket.
-        """
-        await self.send(text_data=json.dumps(event["data"]))
-            
+        data = event.get("data", {})
+        serialized_data = serialize_mongo_doc(data) if hasattr(data, '_id') else data
+        await self.send(text_data=json.dumps(serialized_data))
+
+class NotificationConsumer(BaseConsumer):
+    pass
+
+class ConsoleConsumer(BaseConsumer):
+    pass

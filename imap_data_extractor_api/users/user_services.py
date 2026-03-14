@@ -78,6 +78,9 @@ class UserService:
         """
         try:
             user=self.get_user_by_id(user_id)
+            print(f"UTILISATEUR trouvé=======================================\n")
+            print(f"{user}")
+            print("=======================================\n")
             user_dn=user['dn']
             changes={}
             if 'email' in update_data:
@@ -221,7 +224,7 @@ class UserService:
             raise Exception(f"Erreur lors de la recherche par ID: {str(e)}")
 
 
-    def list_users(self,role=None,department=None):
+    def list_users(self,role=None,department=None,email=None, cn=None   ):
         """
         Lister les utilisateurs depuis LDAP
         
@@ -236,22 +239,36 @@ class UserService:
         try: 
             self._connect()
             
-            
             search_filter = "(objectClass=inetOrgPerson)"
 
-            if role is not None and department is not None:
-                search_filter = f"(&(objectClass=inetOrgPerson)(description={role})(ou={department}))"
-            elif role is not None:
-                search_filter = f"(&(objectClass=inetOrgPerson)(description={role}))"
-            elif department is not None:
-                search_filter = f"(&(objectClass=inetOrgPerson)(ou={department}))"
+            # Construction dynamique du filtre
+            filters = ["(objectClass=inetOrgPerson)"]
+
+            if role is not None:
+                filters.append(f"(description={role})")
+
+            if department is not None:
+                filters.append(f"(ou={department})")
+
+            if email is not None:
+                filters.append(f"(mail=*{email}*)")  
+
+            if cn is not None:
+                filters.append(f"(cn=*{cn}*)")
+
+            # Combiner tous les filtres avec AND
+            if len(filters) > 1:
+                search_filter = f"(&{''.join(filters)})"
+            else:
+                search_filter = filters[0]
 
             # Rechercher les utilisateurs
             self.connection.search(
                 search_base=f"{self.ldap_department_base}",
                 search_filter=search_filter,
                 search_scope=SUBTREE,
-                attributes=['uid', 'cn', 'mail', 'givenName', 'sn', 'ou', 'description', 'uidNumber','gidNumber']
+                attributes=['uid', 'cn', 'mail', 'givenName', 'sn', 'ou', 'description', 'uidNumber', 'gidNumber']
+                #                        ^^^^^ Aussi mettre Email ici avec majuscule
             )
             users = []
             for entry in self.connection.entries:
@@ -449,5 +466,5 @@ class UserService:
         except Exception:
             self._disconnect()
             return False
-# Créer une instance globale du service
+# Créer une instance globale du servicez
 user_service =UserService()

@@ -105,9 +105,15 @@ class LDAPService:
             logger.error(f"Erreur LDAP lors de l'authentification: {e}")
             return None
         finally:
-            if admin_conn.bound:
+            # if admin_conn.bound:
+            #     admin_conn.unbind()
+            if 'admin_conn' in locals() and admin_conn.bound:
                 admin_conn.unbind()
+            if 'user_conn' in locals() and user_conn.bound:  # Vérifie si user_conn existe et est lié
+                user_conn.unbind()
+    
                 
+                    
     def get_user_roles(self,conn, user_dn):
         """
         Récupère les rôles d'un utilisateur.

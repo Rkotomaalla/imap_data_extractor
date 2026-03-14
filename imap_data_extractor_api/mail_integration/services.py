@@ -10,9 +10,13 @@ from datetime import datetime
 import logging
 from configurations.services import mongo_service
 from pymongo.errors import DuplicateKeyError
+from notifications.services import notification,mail_notification
 from imap_data_extractor_api.utils import get_next_sequence_value
+from notifications.services import ConsoleNotification,mail_notification
+
 logger = logging.getLogger(__name__)
 
+from email.utils import parseaddr   
 class GmailServices:
     def __init__(self):
         self.gmail_collection = mongo_service.get_collection('gmail_token')
@@ -207,6 +211,26 @@ class GmailServices:
                 upsert=True
             )
             logger.info(f"Email enregistré : {mail_data['gmail_message_id']}")
+            
+            mail_subject = mail_data["subject"]
+            mail_id = mail_data["gmail_message_id"]  # Assurez-vous que message_id est défini
+            user_id = mail_data["user_id"]  # Assurez-vous que user_id est défini
+            
+            email_string = mail_data["from"]
+            from_email = email_string.strip('<>').split()[-1]
+
+            from_name, from_email = parseaddr(email_string)
+            
+            # Préparation des données pour la notification
+            bot_id = mail_data.get("bot_id")
+            
+            message = f"Mail enregistré avec succès: id_mail : {mail_id}"
+
+            # Envoi de la notification
+            mail_notification.send_new_mail_notif(user_id, bot_id, mail_id , mail_subject,from_email,from_name, message)
+
+            logger.info(f"\nUn mail a été enregistré, id mail {mail_id} par l'utilisateur {user_id}\n")      
+            
             return True
         except DuplicateKeyError:
             # Efa misy ilay Email
@@ -225,45 +249,44 @@ class GmailServices:
             )
         }
     
-    def save_email_and_attachments(self,service,user_id,message_id: int,mail_extracted_data: dict,attachment_extracted_data:dict)->bool:
-        """
-            Sauvegarde ATTACHMENT + MAIL => si echoue => ROLLBACK.
-            Retourne True SI SUCCES, False sinon.
-        """
+    def save_email_and_attachments(self, service, user_id, message_id, mail_extracted_data, attachment_extracted_data) -> bool:
         try:
-            # sauvegrade Email
+            # Sauvegarde Email
             try:
                 saving_mail_result = self.save_email(mail_extracted_data)
                 if not saving_mail_result:
+                    message =  f"Echec sauvegarde email : {message_id}"
                     logger.error(f"Echec sauvegarde email : {message_id}")
+                    ConsoleNotification.send_console_notif(user_id,mail_extracted_data.get("bot_id"),message,2)        
+                    
                     return False
+                message =  f"Nouveau mail enregistré : {message_id}"
+                ConsoleNotification.send_console_notif(user_id,mail_extracted_data.get("bot_id"),message,1)        
+                
             except Exception as e:
                 logger.error(f"Exception save_email : {e}")
                 return False
+
+            # Sauvegarde Attachments
             if attachment_extracted_data:
                 try:
                     saving_att_result = self.save_attachments(
-                        service,user_id, message_id, attachment_extracted_data
-                    )       
-                    if not saving_att_result:
-                        # rollback si attachments échouent
-                        self.delete_email_rollback(message_id)
-                        logger.error(
-                            f"Rollback : échec insertion attachments pour email {message_id}"
-                        )
-                    return False
-                except Exception as e:
-                    # rollback sur exception
-                    gmail_service.delete_email_rollback(message_id)
-                    logger.error(
-                        f"Rollback exception attachments email {message_id} : {e}"
+                        service, user_id, message_id, attachment_extracted_data
                     )
-                return False
+                    if not saving_att_result:
+                        self.delete_email_rollback(message_id)
+                        logger.error(f"Rollback : échec insertion attachments pour email {message_id}")
+                        return False  # ✅ Seulement si échec
+                except Exception as e:
+                    self.delete_email_rollback(message_id)
+                    logger.error(f"Rollback exception attachments email {message_id} : {e}")
+                    return False
+
+            return True  # ✅ Ce return manquait complètement
+
         except Exception as e:
-            # catch global pour éviter que la task Celery plante sans log
             logger.error(f"Erreur inattendue save_email_and_attachments {message_id}: {e}")
             return False
-        
         
         
     # def delete_email_rollback(self): 
@@ -441,3 +464,9 @@ class GmailNotConnectedException(APIException):
     status_code = status.HTTP_409_CONFLICT
     default_detail = "Utilisateur non connecté à Gmail"
     default_code = "gmail_not_connected"
+            
+# ===================================================================================================================
+# Views inscirption dans  outlook
+# class OutlookConfServices:
+#     def save_conf()
+# outlook_conf_service = OutlookConfServices()

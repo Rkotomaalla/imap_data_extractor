@@ -99,10 +99,27 @@ class BotViewSet(viewsets.ViewSet):
                 filters['status'] = int(request.query_params['status'])
             if 'name' in request.query_params:
                 filters['name'] = {'$regex': request.query_params['name'], '$options': 'i'}
+            
+            if 'date' in request.query_params:
+                # Récupérer la date depuis la query string
+                date_str = request.query_params['date']  # ex: "2026-02-11"
+
+                # Convertir en objet datetime
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+
+                # Filtre MongoDB pour matcher exactement ce jour
+                # Ici on utilise $gte / $lt pour couvrir toute la journée
+                filters['created_date'] = {
+                    "$gte": date_obj,
+                    "$lt": date_obj.replace(hour=23, minute=59, second=59, microsecond=999999)
+                }
+                
+            # Tri
+            sort_order = 1 if request.query_params.get('dateSort', '0') == '0' else -1
 
             # Requête MongoDB
             total = self.collection.count_documents(filters)
-            bots = list(self.collection.find(filters).skip(skip).limit(page_size))
+            bots = list(self.collection.find(filters).skip(skip).limit(page_size).sort("created_date", sort_order))
             
             # Sérialisation avec contexte utilisateur
             bots_data = [serialize_mongo_doc(bot) for bot in bots]
@@ -127,9 +144,10 @@ class BotViewSet(viewsets.ViewSet):
         """GET /api/bots/{id}/ - Récupère un bot spécifique (vérifie ownership)"""
         try:
             # object_id = parse_object_id(pk)
+            uid_number = request.user.uid_number
             bot = self.collection.find_one({
                 'bot_id': int(pk),
-                'assigned_user_id': d_number  # ← Sécurité : vérifie l'ownership
+                'assigned_user_id': uid_number  # ← Sécurité : vérifie l'ownership
             })
             print(bot)
             if not bot:
@@ -562,3 +580,16 @@ class BotViewSet(viewsets.ViewSet):
                 {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
+    @action(detail = False, methods=['get'],url_path="count_own" , permission_classes=[IsAdmin])
+    def count_bot(self, request):
+        try:
+            uid_number = int(request.user.uid_number)
+            counted_bot = bot_service.get_own_bot_count(uid_number)
+            return Response({"data": counted_bot}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+         
