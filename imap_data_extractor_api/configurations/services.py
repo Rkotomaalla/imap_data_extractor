@@ -113,6 +113,14 @@ class MongoDBService:
                     unique=True,
                     name="unique_task_id"
                 )
+            #================raw email 
+            self.db.actions.create_index(
+                    [("action_id", ASCENDING)],
+                    unique=True,
+                    name="unique_action_id"
+                )
+            logger.info("Index unique 'gmail_message_id_raw_email' créé pour filtered_emails")
+            
             logger.info("Index unique 'task_id' créé pour filtered_emails")
             
         except OperationFailure as e:

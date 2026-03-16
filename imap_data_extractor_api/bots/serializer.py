@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.db import transaction
 from bot_filter.serializer import FilterSerializer
 from django.conf import settings
-
+from bot_action.serializer import BotActionSerializers
 
     
 
@@ -18,6 +18,7 @@ class BotSerializer(serializers.Serializer):
         required = False,
     ) 
     filter = FilterSerializer(required=False)
+    actions = BotActionSerializers(many=True,allow_empty=False)
     created_date=serializers.DateTimeField(read_only=True)
     killed_date=serializers.DateTimeField(read_only=True)
     assigned_user_id=serializers.IntegerField(read_only=True)

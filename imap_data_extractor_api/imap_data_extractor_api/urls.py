@@ -30,6 +30,8 @@ urlpatterns = [
     path('bots/', include('bots.urls')),
     
     path('fields/', include('bot_filter.urls')),
+
+    path('actions/',include('bot_action.urls')),
     
     path('mail/',include('mail.urls')),
     
