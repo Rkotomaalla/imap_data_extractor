@@ -18,3 +18,4 @@ __pycache__/
 # Django collectstatic output
 staticfiles/
 media/
+imap_data_extractor_api/db.sqlite3
