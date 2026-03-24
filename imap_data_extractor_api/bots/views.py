@@ -54,6 +54,7 @@ class BotViewSet(viewsets.ViewSet):
 #CREATION D UN BOT======================================================================================================================================================    
     def create(self,request):
         serializer=BotSerializer(data=request.data)
+        # Fonction ajout les validation des datas actions
         
         if serializer.is_valid():
             try:

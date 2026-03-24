@@ -1,14 +1,17 @@
 from rest_framework import serializers
 class ActionSerializer(serializers.Serializer):
-    action_id = serializers.IntegerField(required = True)
-    id = serializers.CharField(read_only =  True)
-    action_label = serializers.CharField(required =True)
-    need_value = serializers.BooleanField(required = True)
-    need_attachment = serializers.BooleanField(required = True)
-    
+    action_id = serializers.IntegerField(required=True)
+    id = serializers.CharField(read_only=True)
+    action_label = serializers.CharField(required=True)
+    need_attachment = serializers.BooleanField(required=True)
+    child_action = serializers.ListField(
+        child=serializers.IntegerField(),
+        required=False,
+        allow_empty = True
+    )
 class BotActionSerializers(serializers.Serializer):
     action_id = serializers.IntegerField(required=True)
-    value = serializers.CharField(required=False)
+    value = serializers.JSONField(required=False)
     sub_action = serializers.JSONField(required=False)  # Accepte n'importe quel JSON valide
 
     def validate(self, attrs):
