@@ -13,8 +13,54 @@ from configurations.services import mongo_service
 logger=logging.getLogger(__name__)
 # Create your views here.
 
+class OperatorViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.fields_collection = mongo_service.get_collection('fields')   
+        self.operator_collection =  mongo_service.get_collection('operators')
+
+    def list(self, request):
+        try:
+            page = request.query_params.get('page')
+            page_size =request.query_params.get('page_size')
 
 
+            total =  self.operator_collection.count_documents({})
+             
+            if page and page_size: 
+                page=int(page)
+                page_size=int(page_size)
+                            
+                skip = (page - 1) * page_size
+                operators =   list(self.operator_collection.find(
+                        {},
+                        {"_id":0 , "operator_id" : 1 , "description" : 1}
+                    ).skip(skip).limit(page_size))
+            
+            else:
+                operators =   list(self.operator_collection.find(
+                    {},
+                    {"_id":0 , "operator_id" : 1 ,"description":1}
+                ))
+                
+            operators_data= [serialize_mongo_doc(operator) for operator in operators]
+            
+            serializer_data=operators_data
+            
+            return Response({
+                'count': total,
+                'page': page,
+                'page_size': page_size,
+                'results': serializer_data
+            })
+            
+        except Exception as e:
+            return Response(
+                {'error': f'Erreur lors de la récupération: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 class FieldViewSet(viewsets.ViewSet):
     """View pour les Fields"""
     permission_classes = [IsAuthenticated]
@@ -67,9 +113,7 @@ class FieldViewSet(viewsets.ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
-    
-    
-    
+
     @action(
         detail=True,
         methods=["get"],

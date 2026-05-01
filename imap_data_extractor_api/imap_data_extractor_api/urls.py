@@ -29,13 +29,15 @@ urlpatterns = [
     
     path('bots/', include('bots.urls')),
     
+    
+    path('operators/',include('bot_filter.operator_urls')), 
     path('fields/', include('bot_filter.urls')),
 
     path('actions/',include('bot_action.urls')),
     
     path('mail/',include('mail.urls')),
+    path('notification/',include('notifications.urls')),
     
-        
     path('configuration/',include('configurations.urls')),
     
     # path('outlook/',include('outlook_integration.urls')),

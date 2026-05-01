@@ -22,6 +22,7 @@ class BotSerializer(serializers.Serializer):
     created_date=serializers.DateTimeField(read_only=True)
     killed_date=serializers.DateTimeField(read_only=True)
     assigned_user_id=serializers.IntegerField(read_only=True)
+    processed_mail=serializers.IntegerField(required = False, default = 0)
     
     
     def validate(self, attrs):

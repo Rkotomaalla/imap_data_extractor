@@ -135,6 +135,7 @@ class UserLdapDetailView(APIView):
     'PUT': [IsAuthenticated()],
     'DELETE': [IsAuthenticated(), IsAdmin()],
     }
+    
     def get_permissions(self):
         return self.permission_classes_by_method.get(
             self.request.method,

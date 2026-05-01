@@ -31,6 +31,7 @@ GMAIL_CLIENT_ID = os.getenv("GMAIL_CLIENT_ID")
 GMAIL_CLIENT_SECRET = os.getenv("GMAIL_CLIENT_SECRET")
 GMAIL_PROJECT_ID = os.getenv("GMAIL_PROJECT_ID")
 GMAIL_REDIRECT_URI = "http://localhost:8000/gmail/callback/"
+# GMAIL_REDIRECT_URI = "https://finger-unintellectually-seymour.ngrok-free.dev/gmail/callback/"
 GMAIL_SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly"
 ]
@@ -40,16 +41,16 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 
 
-AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
-AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
-AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
-AZURE_REDIRECT_URI = os.getenv("AZURE_REDIRECT_URI")
-AZURE_AUTHORITY = f"https://login.microsoftonline.com/{AZURE_TENANT_ID}"
+# AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
+# AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
+# AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
+# AZURE_REDIRECT_URI = os.getenv("AZURE_REDIRECT_URI")
+# AZURE_AUTHORITY = f"https://login.microsoftonline.com/{AZURE_TENANT_ID}"
 
-# outlook subscription config 
-SUBSCRIPTION_URL="https://graph.microsoft.com/v1.0/subscriptions"
-# WEBHOOK_URL="http://localhost:8000/outlook/webhook/"
-WEBHOOK_URL="https://finger-unintellectually-seymour.ngrok-free.dev/outlook/webhook/"
+# # outlook subscription config 
+# SUBSCRIPTION_URL="https://graph.microsoft.com/v1.0/subscriptions"
+# # WEBHOOK_URL="http://localhost:8000/outlook/webhook/"
+# WEBHOOK_URL="https://finger-unintellectually-seymour.ngrok-free.dev/outlook/webhook/"
 # ================================================================
 # configuration a prendre ao amin ny variabel d environnement
 

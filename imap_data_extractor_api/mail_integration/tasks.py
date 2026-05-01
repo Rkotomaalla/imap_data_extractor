@@ -8,13 +8,14 @@ from bots.tasks import bot_task
 from bots.serializer import BotSerializer
 from email.utils import parseaddr
 from imap_data_extractor_api.utils import serialize_mongo_doc, get_next_sequence_value
+
 import logging
 import base64
-from notifications.services import ConsoleNotification,mail_notification
+
+from notifications.services import console_notification, mail_notification
 
 logger = logging.getLogger(__name__)
 
-    
 def get_message_att(user_id, gmail_message_id):
     service = gmail_service.get_gmail_service(user_id)
     message = service.users().messages().get(
@@ -36,7 +37,8 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
     messages_collection = mongo_service.get_collection("raw_emails")
     field_collection = mongo_service.get_collection("fields")
     
-    ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),f"Traitement du nouveau mail {gmail_message_id} par le bot",0)        
+    
+    console_notification.send_console_notif(user_id,bot.get("bot_id"),f"Traitement du nouveau mail {gmail_message_id} par le bot",0)        
     
     # recuperation du message 
     mongo_message = messages_collection.find_one({
@@ -45,7 +47,7 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
     if not mongo_message:
         error_message = f"Message introuvable : {gmail_message_id}" 
         logger.error(error_message)
-        ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),error_message,2)        
+        console_notification.send_console_notif(user_id,bot.get("bot_id"),error_message,2)        
         return False
 
     filter_data = bot.get("filter", {})
@@ -55,10 +57,10 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
     if not rules:
         warning_message = "règle définie pour ce bot"
         logger.warning(warning_message)
-        ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),warning_message,3)        
+        console_notification.send_console_notif(user_id,bot.get("bot_id"),warning_message,3)        
         return False
     
-    ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),f"Verificationd des regles du bot mail : {gmail_message_id}" ,3)        
+    console_notification.send_console_notif(user_id,bot.get("bot_id"),f"Verificationd des regles du bot mail : {gmail_message_id}" ,3)        
         
     priorities_data = gmail_service.sort_rules_by_indexed_priority(rules, indexed_map)
     bot_rules = priorities_data.get("result", [])
@@ -70,14 +72,14 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
     attachments = []
     
     message = "application des règles"
-    ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),f"Application des regles sur le nouveau mail {gmail_message_id} par le bot",0)        
+    console_notification.send_console_notif(user_id,bot.get("bot_id"),f"Application des regles sur le nouveau mail {gmail_message_id} par le bot",0)        
     for i, bot_rule in enumerate(bot_rules, start=1):
         field_id = bot_rule.get("field_id")
 
         if field_id is None:
             message = "field_id manquant dans la règle"
             logger.error(message)
-            ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),f"field_id manquant dans la règle : mail {gmail_message_id}",2)        
+            console_notification.send_console_notif(user_id,bot.get("bot_id"),f"field_id manquant dans la règle : mail {gmail_message_id}",2)        
             continue
 
         field_id = int(field_id)
@@ -87,12 +89,12 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
         if not field_doc:
             message = f"Field introuvable : {field_id}"
             logger.error(message)
-            ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),message,2)        
+            console_notification.send_console_notif(user_id,bot.get("bot_id"),message,2)        
             continue
             
         message = f"Traitement du bot par un règle"
         logger.info(f"Traitement règle | field_id={field_id} | bot_rule={bot_rule}")
-        ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),f"Filtrage du mail par les regles mail {gmail_message_id}",0)        
+        console_notification.send_console_notif(user_id,bot.get("bot_id"),f"Filtrage du mail par les regles mail {gmail_message_id}",0)        
 
         is_rule_valid = False
         need_attachment = field_doc.get("need_attachment", False)
@@ -101,14 +103,14 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
         if value is None:
             message = "value manquante dans la règle"
             logger.error(message)    
-            ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),message,2)        
+            console_notification.send_console_notif(user_id,bot.get("bot_id"),message,2)        
             continue
             
         # chargement si necessaire des pieces jointes
         if need_attachment:
             if gmail_data is None:
                 message = "extractions des pieces jointes"
-                ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),message,0)        
+                console_notification.send_console_notif(user_id,bot.get("bot_id"),message,0)        
                 gmail_data = get_message_att(user_id, gmail_message_id) or {}
                 logger.info(f"Données pièces jointes : {gmail_data.get('attachments', [])}")
                 attachments = gmail_data.get("attachments", [])
@@ -134,7 +136,7 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
                 continue
             else:
                 message = f"Règle validée enregistrement du mail {gmail_message_id} en cours"
-                ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),message,1)        
+                console_notification.send_console_notif(user_id,bot.get("bot_id"),message,1)        
                 logger.info("Règle validée, required_all=False → arrêt")
                 is_mail_valid = True
                 break
@@ -171,7 +173,7 @@ def apply_bot_filter(user_id, gmail_message_id, bot, indexed_map):
     
     if not result:
         message = f"erreur lors de l enregistrement du mail {gmail_message_id}"
-        ConsoleNotification.send_console_notif(user_id,bot.get("bot_id"),message,2)        
+        console_notification.send_console_notif(user_id,bot.get("bot_id"),message,2)        
         return False
     return True    
 
@@ -207,7 +209,7 @@ def dispatch_mail_to_bots(user_id, gmail_message_id):
         
         # envoi de la notification de reception des mails
         notification_message = f"Un nouveaux mail {gmail_message_id} en cours de traitement"
-        ConsoleNotification.send_console_notif(user_id,bot_serializer.data.get("bot_id"),notification_message,0)
+        console_notification.send_console_notif(user_id,bot_serializer.data.get("bot_id"),notification_message,0)
 
         res =  apply_bot_filter.delay(
             user_id=user_id,
@@ -215,6 +217,7 @@ def dispatch_mail_to_bots(user_id, gmail_message_id):
             bot=bot_serializer.data,
             indexed_map=indexed_map
         )
+        add_processed_mail.delay(bot.get("bot_id"))
     #     result = res.get()
     #     if result == True:
     #         matched_id_bot.append(bot_serializer.data.get("bot_id"))
@@ -309,3 +312,21 @@ def process_gmail_message(self, user_id, message_id):
 
     # ✅ APPEL ASYNCHRONE
     dispatch_mail_to_bots.delay(user_id, gmail_message_id)
+    
+# focntion pour compter le nombre de mail traite par le bot 
+@shared_task
+def add_processed_mail(bot_id: int):
+    collection = mongo_service.get_collection("bot")
+
+    try:
+        result = collection.update_one(
+            {"bot_id": bot_id},
+            {"$inc": {"processed_mail": 1}}
+        )
+    except Exception as e:
+        raise Exception(
+            f"Erreur lors de la mise à jour du bot {bot_id} : {str(e)}"
+        ) from e
+    
+    if result.matched_count == 0:
+        raise ValueError(f"Bot introuvable (bot_id={bot_id})")

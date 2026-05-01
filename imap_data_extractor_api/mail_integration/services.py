@@ -6,13 +6,13 @@ from google.auth.transport.requests import Request
 import base64
 import os
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 from configurations.services import mongo_service
 from pymongo.errors import DuplicateKeyError
-from notifications.services import notification,mail_notification
+from notifications.services import notification,mail_notification,console_notification
 from imap_data_extractor_api.utils import get_next_sequence_value
-from notifications.services import ConsoleNotification,mail_notification
+from email.utils import parsedate_to_datetime
 
 logger = logging.getLogger(__name__)
 
@@ -253,15 +253,18 @@ class GmailServices:
         try:
             # Sauvegarde Email
             try:
+                date = mail_extracted_data['date']
+                date_obj = parsedate_to_datetime(date).astimezone(timezone.utc)
+                mail_extracted_data['date'] = date_obj  
                 saving_mail_result = self.save_email(mail_extracted_data)
                 if not saving_mail_result:
                     message =  f"Echec sauvegarde email : {message_id}"
                     logger.error(f"Echec sauvegarde email : {message_id}")
-                    ConsoleNotification.send_console_notif(user_id,mail_extracted_data.get("bot_id"),message,2)        
+                    console_notification.send_console_notif(user_id,mail_extracted_data.get("bot_id"),message,2)        
                     
                     return False
                 message =  f"Nouveau mail enregistré : {message_id}"
-                ConsoleNotification.send_console_notif(user_id,mail_extracted_data.get("bot_id"),message,1)        
+                console_notification.send_console_notif(user_id,mail_extracted_data.get("bot_id"),message,1)        
                 
             except Exception as e:
                 logger.error(f"Exception save_email : {e}")
@@ -357,6 +360,9 @@ class GmailServices:
             Génère l'URL d'autorisation OAuth Gmail pour un utilisateur.
             user_id : identifiant interne de ton utilisateur dans MongoDB/Django
         """
+        user_doc = self.gmail_collection.find_one({"user_id": user_id})
+        already_connected = user_doc and user_doc.get("refresh_token")
+        
         flow = Flow.from_client_config(
             {
                 "web"  : {
@@ -377,9 +383,9 @@ class GmailServices:
             access_type="offline",   # permet d'obtenir un refresh_token
             include_granted_scopes="true",
             state=f"user_{user_id}",
-            prompt="select_account consent"
+            prompt="select_account" if already_connected else "select_account consent"
         )
-        return auth_url, state
+        return auth_url, state  
     
     
     
@@ -403,15 +409,16 @@ class GmailServices:
         credentials = flow.credentials
         return {
             "access_token": credentials.token,
-            "refresh_token": credentials.refresh_token,
+            "refresh_token": credentials.refresh_token or None,
             "expires_at": credentials.expiry  # datetime object
         }
         
         
         
+
     def get_gmail_service(self, user_id):
-        """Récupère le service Gmail pour un utilisateur, avec refresh automatique."""
         user_doc = self.gmail_collection.find_one({"user_id": user_id})
+        already_connected = user_doc and user_doc.get("refresh_token")
         if not user_doc:
             raise GmailNotConnectedException()
 
@@ -419,11 +426,15 @@ class GmailServices:
         refresh_token = user_doc.get("refresh_token")
         expires_at = user_doc.get("expires_at")
 
-        # convertir expires_at si besoin
+        if not refresh_token:
+            raise Exception("Refresh token manquant, l'utilisateur doit réautoriser l'app")
+
+        # Normaliser expires_at en datetime aware UTC
         if isinstance(expires_at, str):
             expires_at = datetime.fromisoformat(expires_at)
+        if expires_at is not None and expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
 
-        # Rafraîchir si nécessaire
         creds = Credentials(
             token=access_token,
             refresh_token=refresh_token,
@@ -432,27 +443,37 @@ class GmailServices:
             token_uri="https://oauth2.googleapis.com/token"
         )
 
-        if expires_at is None or datetime.utcnow() >= expires_at:
-            if not refresh_token:
-                raise Exception("Refresh token manquant, l'utilisateur doit réautoriser l'app")
+        # Rafraîchir si expiré ou inconnu
+        now = datetime.now(timezone.utc)
+        if expires_at is None or now >= expires_at:
             try:
                 creds.refresh(Request())
             except Exception as e:
                 raise Exception(f"Impossible de rafraîchir le token : {e}")
 
-            # Mettre à jour MongoDB
+            # Sauvegarder TOUS les champs mis à jour
             self.gmail_collection.update_one(
                 {"user_id": user_id},
                 {"$set": {
                     "access_token": creds.token,
+                    "refresh_token": creds.refresh_token or refresh_token,   # ← ne pas oublier
                     "expires_at": creds.expiry,
-                    "updated_at": datetime.utcnow()
+                    "updated_at": datetime.now(timezone.utc)
                 }}
             )
 
         service = build('gmail', 'v1', credentials=creds)
         return service
-
+    
+    def handle_token_error(user_id):
+        # Supprimer ou marquer comme non connecté
+        self.gmail_collection.update_one(
+            {"user_id": user_id},
+            {"$set": {"connected": False}}
+        )
+        # Générer une nouvelle URL d'autorisation
+        auth_url, state = get_gmail_auth_url(user_id)
+        return auth_url, state
             
 gmail_service = GmailServices()
 

@@ -10,6 +10,7 @@ from imap_data_extractor_api.utils import get_next_sequence_value
 from mail_integration.services import gmail_service
 from rest_framework.exceptions import APIException
 from django.conf import settings 
+from celery import shared_task
 class BotService:   
     def __init__(self):
        self.collection =  mongo_service.get_collection('bot') 
@@ -222,7 +223,7 @@ class BotService:
     def pause_bot(self ,bot_id : int): 
         if not bot_id:
             raise ValueError("Bot id ne doit pas entre vide")
-        bot = self.get_by_id(bot_id)
+        bot = self.get_by_id(bot_id)        
         if not bot:
             raise ValueError("Bot introuvable")
         if bot.get("status") == 0:
@@ -258,6 +259,7 @@ class BotService:
             count_bots= []
             for status, libelle in self.STATUS_LABELS.items():
                 item = {
+                    "status" : status,
                     "total" :  self.get_count_by_status(status),
                     "libelle" : libelle
                 }
@@ -280,6 +282,7 @@ class BotService:
             return count_bot
         except Exception as e:
             raise Exception (f'Une erreur est survenue lors du traitement de la  fonction getCount : {str(e)}')
+
 
 bot_service = BotService()
 

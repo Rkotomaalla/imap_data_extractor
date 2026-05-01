@@ -361,7 +361,7 @@ class BotViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         except RuntimeError as e:
-            return Response({"error": str(e)}, status=status.HTTP_409)
+            return Response({"error": str(e)}, status=status.HTTP_409_CONFLICT)
         except Exception as e:
             return Response(
                 {'error' : f'erreur lors dela mis en pause du bot : {str(e)}'},
@@ -578,19 +578,84 @@ class BotViewSet(viewsets.ViewSet):
             return Response({"data": counted_bot}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
-                {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
+                {'success':False,'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
             
-    @action(detail = False, methods=['get'],url_path="count_own" , permission_classes=[IsAdmin])
-    def count_bot(self, request):
+    @action(detail = False, methods=['get'],url_path="count_own" , permission_classes=[IsAuthenticated])
+    def count_own_bot(self, request):
         try:
-            uid_number = int(request.user.uid_number)
-            counted_bot = bot_service.get_own_bot_count(uid_number)
+            try:
+                id_user = int(request.query_params.get('user_id') or request.user.uid_number)
+            except (ValueError, TypeError):
+                return Response({"success": False, "error": "user_id invalide"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            counted_bot = bot_service.get_own_bot_count(id_user)
             return Response({"data": counted_bot}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
-                {'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
+                {'success':False,'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+            
+#Foonction poiur prendre le nombre total du bot d un utilisateur   
+    @action(detail = False, methods=['get'],url_path="total_count" , permission_classes=[IsAuthenticated])   
+    def count_user_bot(self,request):
+        try:
+            try:
+                id_user = int(request.query_params.get('user_id') or request.user.uid_number)
+            except (ValueError, TypeError):
+                return Response({"success": False, "error": "user_id invalide"}, status=status.HTTP_400_BAD_REQUEST)
+            query_filter = {
+                "assigned_user_id" : id_user
+            }
+            count = self.collection.count_documents(query_filter)
+            return Response({
+                'success' : True,
+                'count': count},
+                status = status.HTTP_200_OK
+            )   
+        except Exception as e:
+            return Response(
+                {'success':False,'error': f'Erreur lors de la récupération des comptes des bots: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    
+#Statistique des details du bot        
+    @action(detail=True, methods=['get'], url_path="stats/filtered_mail", permission_classes=[IsAuthenticated])
+    def count_filtered_mail(self, request, pk=None):
+        try:
+            id_bot = int(pk)
+            if not id_bot:
+                return Response(
+                    {'error': 'L\'identifiant du bot est invalide ou manquant.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            all_count = request.query_params.get('all_count', '1')
+            query = {'bot_id': id_bot}
+
+            filtered_collection = mongo_service.get_collection('filtered_emails')
+
+            if not all_count or all_count == '0':
+                # La date doit être entre aujourd'hui et le mois dernier à compter d'aujourd'hui
+                now = datetime.utcnow()
+                one_month_ago = now - timedelta(days=30)
+                query['date'] = {
+                    '$gte': one_month_ago,
+                    '$lte': now
+                }
+            total = filtered_collection.count_documents(query)
+            return Response(
+                {'count': total},
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {'success':False,'error': f'Erreur lors de la récupération du nombre de mails filtrés: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+         
          

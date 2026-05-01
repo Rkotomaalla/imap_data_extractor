@@ -485,7 +485,7 @@ class StatsViewSet(viewsets.ViewSet):
             collection = mongo_service.get_collection("task")
             count_unique = collection.count_documents(query)
 
-            return Response(count_unique, status=status.HTTP_200_OK)
+            return Response({count_unique}, status=status.HTTP_200_OK)
             
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

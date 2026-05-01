@@ -9,24 +9,19 @@ class ActionSerializer(serializers.Serializer):
         required=False,
         allow_empty = True
     )
+    
 class BotActionSerializers(serializers.Serializer):
     action_id = serializers.IntegerField(required=True)
     value = serializers.JSONField(required=False)
-    sub_action = serializers.JSONField(required=False)  # Accepte n'importe quel JSON valide
 
-    def validate(self, attrs):
-
-        sub_act = attrs.get("sub_action")
-
-        if sub_act:
-
-            if not isinstance(sub_act, dict):
-                raise serializers.ValidationError({
-                    "sub_action": "sub_action doit être un objet JSON."
-                })
-
-            ser = BotActionSerializers(data=sub_act)
-            ser.is_valid(raise_exception=True)
-
-        return attrs
+    def __init__(self, *args, **kwargs):
+        # ✅ Flag pour éviter la récursion infinie
+        is_child = kwargs.pop('_is_child', False)
+        super().__init__(*args, **kwargs)
         
+        if not is_child:
+            self.fields['sub_action'] = BotActionSerializers(
+                many=True, 
+                required=False, 
+                _is_child=True  # ✅ Le child ne recrée pas sub_action
+            )

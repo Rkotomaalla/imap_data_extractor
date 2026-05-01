@@ -147,17 +147,22 @@ class MailIntegrationView(ViewSet):
             
             # Stockage dans MongoDB
             gmail_collection = mongo_service.get_collection('gmail_token')
+            
+            updated_fields = {
+                "user_id": user_id,
+                "access_token": tokens["access_token"],
+                "expires_at": tokens["expires_at"],
+                "connected": True,
+                "updated_at": datetime.utcnow()
+            }
+            # N'écraser le refresh_token QUE s'il est présent dans la réponse Google
+            if tokens.get("refresh_token"):
+                updated_fields["refresh_token"] = tokens["refresh_token"]
+                
             gmail_collection.update_one(
                 {"user_id": user_id},
                 {
-                    "$set": {
-                        "user_id": user_id,
-                        "access_token": tokens["access_token"],
-                        "refresh_token": tokens["refresh_token"],
-                        "expires_at": tokens["expires_at"],
-                        "connected": True,
-                        "updated_at": datetime.utcnow()
-                    }
+                    "$set": updated_fields       
                 },
                 upsert=True
             )
